@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="@color/white2"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- Scrollable view here -->
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme"
+        android:elevation="2dp"
+        tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:id="@+id/lay_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentInsetStart="10dp"
+                android:contentInsetLeft="10dp"
+                android:contentInsetEnd="10dp"
+                android:contentInsetRight="10dp"
+                android:contentInsetEndWithActions="10dp"
+                android:contentInsetStartWithNavigation="10dp"
+                android:textAlignment="center"
+                android:theme="@style/AppTheme"
+                app:contentInsetEnd="10dp"
+                app:contentInsetEndWithActions="10dp"
+                app:contentInsetLeft="10dp"
+                app:contentInsetRight="10dp"
+                app:contentInsetStart="10dp"
+                app:contentInsetStartWithNavigation="10dp"
+                app:contentScrim="?attr/colorPrimary">
+
+            </androidx.appcompat.widget.Toolbar>
+
+            <TextView
+                android:id="@+id/txt_toolbar_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/img_toolbar_profile"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_profile"
+                android:tint="@color/white" />
+
+            <ImageView
+                android:id="@+id/img_delete_assets"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_delete_forever_24px"
+                android:visibility="gone" />
+
+            <ImageView
+                android:id="@+id/img_search_property"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginEnd="16dp"
+                android:scaleType="fitXY"
+                android:src="@drawable/ic_search"
+
+                android:visibility="gone" />
+        </RelativeLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <fragment
+        android:id="@+id/nav_host_fragment"
+        android:name="androidx.navigation.fragment.NavHostFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:defaultNavHost="true"
+        app:navGraph="@navigation/main"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        >
+
+        <RelativeLayout
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="25dp"
+            android:background="@drawable/background_busy"
+            android:visibility="gone"
+            android:alpha="0.6"
+            android:clickable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+</LinearLayout>
