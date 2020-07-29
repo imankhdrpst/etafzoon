@@ -3,7 +3,7 @@ package com.mindology.app.util;
 public class Constants {
 
     public static final String BASE_AUTH_URL = "http://130.185.77.212:8080/";
-    public static final String BASE_URL =   "http://130.185.77.212:8080/v2/";//"http://192.168.100.21:9080/inventory/api/";"http://92.51.131.110:9080/inventory/api/";
+    public static final String BASE_URL =   "http://130.185.77.212:8080/";//"http://192.168.100.21:9080/inventory/api/";"http://92.51.131.110:9080/inventory/api/";
     public static final String BASE_LOQATE_URL = "https://api.addressy.com/Capture/Interactive/";
     public static final String BASE_STORAGE_URL = "https://storage.techranco.dev/";
 

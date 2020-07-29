@@ -17,6 +17,7 @@ public class SharedPrefrencesHelper {
     //    private static final String KEY_CREATING_INSPECTION = "creating_inspection";
     private static final String KEY_LIST_INSPECTION = "inspection_list_drafts";
     public static final String KEY_TOKEN = "token";
+    public static final String KEY_MOBILE_NUMBER = "mobileNumber";
     public static final String KEY_REFRESH = "refresh_token";
     public static final String KEY_REFRESH_UNTIL = "refresh_valid_until";
     public static final String KEY_TOKEN_TYPE = "token_type";
@@ -106,6 +107,15 @@ public class SharedPrefrencesHelper {
     public static synchronized void saveToken(TokenResponse token) {
         sharedPreferences.edit().putString(KEY_TOKEN, token.getToken()).apply();
     }
+
+    public static synchronized void saveMobileNumber(String mobileNumber) {
+        sharedPreferences.edit().putString(KEY_MOBILE_NUMBER, mobileNumber).apply();
+    }
+
+    public static synchronized String getSavedMobileNumber() {
+        return sharedPreferences.getString(KEY_MOBILE_NUMBER, "");
+    }
+
 
     public static synchronized void saveToken(String token) {
         sharedPreferences.edit().putString(KEY_TOKEN, token).apply();

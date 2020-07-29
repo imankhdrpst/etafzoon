@@ -296,5 +296,11 @@
     <string name="error_phone_number_empty">شماره همراه را وارد کنید</string>
     <string name="wrong_number">شماره اشتباه است ؟</string>
     <string name="family">نام خانوادگی</string>
+    <string name="main_page">صفحه اصلی</string>
+    <string name="hello">سلام!</string>
+    <string name="activities_chart">نمودار فعالیت ها</string>
+    <string name="month">ماه</string>
+    <string name="latest_posts">آخرین مطالب</string>
+    <string name="show_all">نمایش همه</string>
 
 </resources>

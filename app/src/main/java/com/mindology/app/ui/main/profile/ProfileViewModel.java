@@ -46,44 +46,44 @@ public class ProfileViewModel extends ViewModel {
             getProfileLiveData = new MediatorLiveData<>();
         }
         getProfileLiveData.setValue(Resource.loading((User) null));
-        final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
-
-                mainApi.getProfile()
-
-                        .onErrorReturn(new Function<Throwable, User>() {
-                            @Override
-                            public User apply(Throwable throwable) throws Exception {
-                                ErrorResponse errorResponse = Utils.fetchError(throwable);
-
-                                User result = new User();
-//                                result.setErrorResponse(errorResponse);
-                                return result;
-                            }
-                        })
-
-                        .map(new Function<User, Resource<User>>() {
-                            @Override
-                            public Resource<User> apply(User result) throws Exception {
-
-//                                if (result == null) {
-//                                    return Resource.error("Something went wrong", null);
-//                                } else if (result.getErrorResponse() != null) {
-//                                    return Resource.error(result.getErrorResponse().getMessage(), null);
-//                                }
-                                return Resource.success(result);
-                            }
-                        })
-
-                        .subscribeOn(Schedulers.io())
-        );
-
-        getProfileLiveData.addSource(source, new Observer<Resource<User>>() {
-            @Override
-            public void onChanged(Resource<User> listResource) {
-                getProfileLiveData.setValue(listResource);
-                getProfileLiveData.removeSource(source);
-            }
-        });
+//        final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
+//
+//                mainApi.getProfile()
+//
+//                        .onErrorReturn(new Function<Throwable, User>() {
+//                            @Override
+//                            public User apply(Throwable throwable) throws Exception {
+//                                ErrorResponse errorResponse = Utils.fetchError(throwable);
+//
+//                                User result = new User();
+////                                result.setErrorResponse(errorResponse);
+//                                return result;
+//                            }
+//                        })
+//
+//                        .map(new Function<User, Resource<User>>() {
+//                            @Override
+//                            public Resource<User> apply(User result) throws Exception {
+//
+////                                if (result == null) {
+////                                    return Resource.error("Something went wrong", null);
+////                                } else if (result.getErrorResponse() != null) {
+////                                    return Resource.error(result.getErrorResponse().getMessage(), null);
+////                                }
+//                                return Resource.success(result);
+//                            }
+//                        })
+//
+//                        .subscribeOn(Schedulers.io())
+//        );
+//
+//        getProfileLiveData.addSource(source, new Observer<Resource<User>>() {
+//            @Override
+//            public void onChanged(Resource<User> listResource) {
+//                getProfileLiveData.setValue(listResource);
+//                getProfileLiveData.removeSource(source);
+//            }
+//        });
         return getProfileLiveData;
     }
 

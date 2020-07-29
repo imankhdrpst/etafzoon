@@ -7,6 +7,9 @@ import com.mindology.app.models.HotSpot;
 import com.mindology.app.models.Inspection;
 import com.mindology.app.models.InspectionCreate;
 import com.mindology.app.models.Panorama;
+import com.mindology.app.models.Post;
+import com.mindology.app.models.PostGroup;
+import com.mindology.app.models.Profile;
 import com.mindology.app.models.Property;
 import com.mindology.app.models.PropertyCreate;
 import com.mindology.app.models.User;
@@ -15,10 +18,13 @@ import com.mindology.app.network.ServicePath;
 import com.mindology.app.network.models.Filters;
 import com.mindology.app.network.models.Sort;
 
+import java.util.List;
+
 import io.reactivex.Flowable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -27,6 +33,19 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface MainApi {
+
+    // post groups
+    @GET(ServicePath.POST_GROUPS)
+    Flowable<List<PostGroup>> getPostGroups();
+
+    // posts
+    @POST(ServicePath.POSTS + "?postIds=1")
+    Flowable<List<Post>> getPosts();
+
+    // profile
+    @GET(ServicePath.PROFILE + "/{mobileNumber}")
+    Flowable<Profile> getProfile(@Path("mobileNumber") String mobileNumber);
+
 
     // properties
     @GET(ServicePath.PROPERTIES)
@@ -60,9 +79,6 @@ public interface MainApi {
     @GET(ServicePath.INSPECTIONS + "/inspection-summary")
     Flowable<ListResponse<Inspection>> getSummaryInspections(@Query("state") String state ,@Query("offset") int offset, @Query("limit") int limit);
 
-    // profile
-    @GET(ServicePath.PROFILE)
-    Flowable<User> getProfile();
 
     @PUT(ServicePath.PROFILE)
     Flowable<User> editProfile(@Body User user);

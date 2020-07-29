@@ -3,15 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
-    app:startDestination="@+id/mainInspectionsScreen"
+    app:startDestination="@+id/mainPageScreen"
     >
 
     <fragment
-        android:id="@+id/mainInspectionsScreen"
-        android:name="com.mindology.app.ui.main.inspections.MainInspectionsFragment"
-        android:label="@string/main_inspections"
-        tools:layout="@layout/fragment_main_inspections" >
+        android:id="@+id/mainPageScreen"
+        android:name="com.mindology.app.ui.main.main.MainFragment"
+        android:label="@string/main_page"
+        tools:layout="@layout/fragment_main" >
     </fragment>
+
 
     <fragment
         android:id="@+id/profileScreen"

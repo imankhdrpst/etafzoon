@@ -1,13 +1,15 @@
-package com.mindology.app.ui.main.inspections.adapters;
+package com.mindology.app.ui.main.posts;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.mindology.app.R;
@@ -17,13 +19,15 @@ import com.smarteist.autoimageslider.SliderViewAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SliderAdapterExample extends
-        SliderViewAdapter<SliderAdapterExample.SliderAdapterVH> {
+import static com.mindology.app.util.Utils.getBitmapFromBase64String;
+
+public class BannerAdapter extends
+        SliderViewAdapter<BannerAdapter.SliderAdapterVH> {
 
     private Context context;
     private List<SliderItem> mSliderItems = new ArrayList<>();
 
-    public SliderAdapterExample(Context context) {
+    public BannerAdapter(Context context) {
         this.context = context;
     }
 
@@ -57,16 +61,17 @@ public class SliderAdapterExample extends
         viewHolder.textViewDescription.setTextSize(16);
         viewHolder.textViewDescription.setTextColor(Color.WHITE);
         Glide.with(viewHolder.itemView)
-                .load(sliderItem.getImageUrl())
+                .load(getBitmapFromBase64String(sliderItem.getBase64Content()))
+                .placeholder(R.drawable.background_busy)
                 .into(viewHolder.imageViewBackground);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "This is item in position " + position, Toast.LENGTH_SHORT).show();
             }
         });
     }
+
 
     @Override
     public int getCount() {

@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel;
 import com.mindology.app.di.ViewModelKey;
 import com.mindology.app.ui.main.MainViewModel;
 import com.mindology.app.ui.main.inspections.InspectionDetailsViewModel;
-import com.mindology.app.ui.main.inspections.MainInspectionsViewModel;
+import com.mindology.app.ui.main.main.MainPageViewModel;
 import com.mindology.app.ui.main.profile.ChangePasswordViewModel;
 import com.mindology.app.ui.main.profile.EditProfileViewModel;
 import com.mindology.app.ui.main.profile.ProfileViewModel;
@@ -22,10 +22,16 @@ public abstract class MainViewModelsModule {
     @ViewModelKey(MainViewModel.class)
     public abstract ViewModel bindMainViewModel(MainViewModel viewModel);
 
+
     @Binds
     @IntoMap
-    @ViewModelKey(MainInspectionsViewModel.class)
-    public abstract ViewModel bindInspectionsViewModel(MainInspectionsViewModel viewModel);
+    @ViewModelKey(MainPageViewModel.class)
+    public abstract ViewModel bindMainPageViewModel(MainPageViewModel viewModel);
+//
+//    @Binds
+//    @IntoMap
+//    @ViewModelKey(MainInspectionsViewModel.class)
+//    public abstract ViewModel bindInspectionsViewModel(MainInspectionsViewModel viewModel);
 
 //    @Binds
 //    @IntoMap

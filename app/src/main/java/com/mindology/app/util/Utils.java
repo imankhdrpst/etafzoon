@@ -86,16 +86,22 @@ public class Utils {
         }
     }
 
+    public static Bitmap getBitmapFromBase64String(String base64Content) {
+        byte[] decodedString = Base64.decode(base64Content, Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+        return decodedByte;
+    }
+
     public static synchronized ErrorResponse fetchError(Throwable throwable) {
         ErrorResponse errorResponse = new ErrorResponse();
         if (throwable instanceof UnknownHostException) {
-            errorResponse.setMessage("No internet connection");
+            errorResponse.setMessage("خطا در اتصال به اینترنت");
             return errorResponse;
         } else if (throwable instanceof SocketTimeoutException) {
-            errorResponse.setMessage("Time out, please try again");
+            errorResponse.setMessage("لطفا دوباره صعی کنید");
             return errorResponse;
         } else if (throwable instanceof ConnectException) {
-            errorResponse.setMessage("Could not connect to server");
+            errorResponse.setMessage("خطای برقراری ارتباط با سرور");
             return errorResponse;
         }
         try {

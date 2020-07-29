@@ -55,6 +55,7 @@ dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
     implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation project(path: ':autoimageslider')
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.3.0-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0-alpha02'
@@ -155,8 +156,14 @@ dependencies {
     //font
     implementation 'com.github.nitrico.fontbinder:fontbinder:1.0.5'
 
-    // auto image slider
-    implementation 'com.github.smarteist:autoimageslider:1.3.9'
+    // charts
+    implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
+
+    // rounded image view
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    //loading material
+    implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
 
 
     //modules

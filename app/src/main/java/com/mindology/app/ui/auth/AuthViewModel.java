@@ -103,6 +103,7 @@ public class AuthViewModel extends ViewModel {
                                 tokenReceived = tokenResponse.getToken();
                                 if (userAlreadyRegisteredAndNoNeedToRegister) {
                                     sessionManager.saveToken(tokenResponse.getToken());
+                                    sessionManager.saveMobileNumber(verificationRequestDTO.getMobileNumber());
                                     return AuthResource.profileFilled(new User(tokenResponse.getToken()));
                                 } else {
                                     return AuthResource.authenticated(new User(tokenResponse.getToken()));
@@ -135,6 +136,7 @@ public class AuthViewModel extends ViewModel {
                                     return AuthResource.error(t.getMessage(), null);
                                 }
                                 sessionManager.saveToken(tokenReceived);
+                                sessionManager.saveMobileNumber(dto.getMobileNumber());
                                 return AuthResource.profileFilled(new User());
                             }
                         })

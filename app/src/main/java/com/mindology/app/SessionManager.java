@@ -103,6 +103,11 @@ public class SessionManager {
         preferences.saveToken(token);
     }
 
+    public void saveMobileNumber(String number)
+    {
+        preferences.saveMobileNumber(number);
+    }
+
 
 }
 

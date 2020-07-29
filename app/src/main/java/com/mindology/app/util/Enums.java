@@ -319,4 +319,9 @@ public class Enums {
         SINGLE, MARRIED
     }
 
+    public enum PostGroupType
+    {
+        PICTURE
+    }
+
 }

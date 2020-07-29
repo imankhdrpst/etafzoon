@@ -4,5 +4,6 @@
         <domain includeSubdomains="true">130.185.77.212</domain>
         <domain includeSubdomains="true">picsum.photos</domain>
         <domain includeSubdomains="true">t00img.yangkeduo.com</domain>
+        <domain includeSubdomains="true">cdn.asriran.com</domain>
     </domain-config>
 </network-security-config>

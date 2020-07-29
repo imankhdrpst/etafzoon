@@ -2,7 +2,7 @@ package com.mindology.app.di.main;
 
 
 import com.mindology.app.ui.main.inspections.InspectionDetailsFragment;
-import com.mindology.app.ui.main.inspections.MainInspectionsFragment;
+import com.mindology.app.ui.main.main.MainFragment;
 import com.mindology.app.ui.main.profile.ChangePasswordFragment;
 import com.mindology.app.ui.main.profile.EditProfileFragment;
 import com.mindology.app.ui.main.profile.ProfileFragment;
@@ -14,7 +14,10 @@ import dagger.android.ContributesAndroidInjector;
 public abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
-    abstract MainInspectionsFragment contributeMainInspectionsFragment();
+    abstract MainFragment contributeMainFragment();
+
+//    @ContributesAndroidInjector
+//    abstract MainInspectionsFragment contributeMainInspectionsFragment();
 
 //    @ContributesAndroidInjector
 //    abstract CreateInspectionFragment contributeCreateInspectionFragment();

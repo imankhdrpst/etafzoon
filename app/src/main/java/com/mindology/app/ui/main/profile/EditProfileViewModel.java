@@ -53,44 +53,44 @@ public class EditProfileViewModel extends ViewModel {
         }
         getProfileLiveData.setValue(Resource.loading((User) null));
 
-        final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
-
-                mainApi.getProfile()
-
-                        .onErrorReturn(new Function<Throwable, User>() {
-                            @Override
-                            public User apply(Throwable throwable) throws Exception {
-                                ErrorResponse errorResponse = Utils.fetchError(throwable);
-
-                                User result = new User();
-//                                result.setErrorResponse(errorResponse);
-                                return result;
-                            }
-                        })
-
-                        .map(new Function<User, Resource<User>>() {
-                            @Override
-                            public Resource<User> apply(User resurce) throws Exception {
-
-//                                if (resurce == null) {
-//                                    return Resource.error("Something went wrong", null);
-//                                } else if (resurce.getErrorResponse() != null) {
-//                                    return Resource.error(resurce.getErrorResponse().getMessage(), null);
-//                                }
-                                return Resource.success(resurce);
-                            }
-                        })
-
-                        .subscribeOn(Schedulers.io())
-        );
-
-        getProfileLiveData.addSource(source, new Observer<Resource<User>>() {
-            @Override
-            public void onChanged(Resource<User> listResource) {
-                getProfileLiveData.setValue(listResource);
-                getProfileLiveData.removeSource(source);
-            }
-        });
+//        final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
+//
+//                mainApi.getProfile()
+//
+//                        .onErrorReturn(new Function<Throwable, User>() {
+//                            @Override
+//                            public User apply(Throwable throwable) throws Exception {
+//                                ErrorResponse errorResponse = Utils.fetchError(throwable);
+//
+//                                User result = new User();
+////                                result.setErrorResponse(errorResponse);
+//                                return result;
+//                            }
+//                        })
+//
+//                        .map(new Function<User, Resource<User>>() {
+//                            @Override
+//                            public Resource<User> apply(User resurce) throws Exception {
+//
+////                                if (resurce == null) {
+////                                    return Resource.error("Something went wrong", null);
+////                                } else if (resurce.getErrorResponse() != null) {
+////                                    return Resource.error(resurce.getErrorResponse().getMessage(), null);
+////                                }
+//                                return Resource.success(resurce);
+//                            }
+//                        })
+//
+//                        .subscribeOn(Schedulers.io())
+//        );
+//
+//        getProfileLiveData.addSource(source, new Observer<Resource<User>>() {
+//            @Override
+//            public void onChanged(Resource<User> listResource) {
+//                getProfileLiveData.setValue(listResource);
+//                getProfileLiveData.removeSource(source);
+//            }
+//        });
 
         return getProfileLiveData;
     }

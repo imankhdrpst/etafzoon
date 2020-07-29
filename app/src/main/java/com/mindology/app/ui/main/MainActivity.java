@@ -269,7 +269,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                             .build();
 
                     Navigation.findNavController(this, R.id.nav_host_fragment).navigate(
-                            R.id.mainInspectionsScreen,
+                            R.id.mainPageScreen,
                             null,
                             navOptions
                     );

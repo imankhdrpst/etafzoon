@@ -2,16 +2,13 @@ package com.mindology.app.models;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.mindology.app.util.Enums;
 
 public class Profile extends BaseModel {
 
     @SerializedName("id")
     @Expose
     private String id;
-
-    @SerializedName("username")
-    @Expose
-    private String username;
 
     @SerializedName("firstName")
     @Expose
@@ -25,21 +22,29 @@ public class Profile extends BaseModel {
     @Expose
     private String email;
 
-    @SerializedName("phoneNumber")
+    @SerializedName("mobileNumber")
     @Expose
-    private String phoneNumber;
+    private String mobileNumber;
 
-    @SerializedName("imageUrl")
+    @SerializedName("marriageStatus")
     @Expose
-    private String imageUrl;
+    private Enums.MarriageStatus marriageStatus = Enums.MarriageStatus.SINGLE;
 
-    public Profile(String id)
-    {
-        this.id = id;
-    }
+    @SerializedName("educationType")
+    @Expose
+    private Enums.EducationType educationType;
 
-    public Profile() {
-    }
+    @SerializedName("livingCity")
+    @Expose
+    private String livingCity;
+
+    @SerializedName("age")
+    @Expose
+    private String age;
+
+    @SerializedName("profilePicture")
+    @Expose
+    private String profilePicture;
 
     public String getId() {
         return id;
@@ -47,14 +52,6 @@ public class Profile extends BaseModel {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getFirstName() {
@@ -81,19 +78,54 @@ public class Profile extends BaseModel {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
+    public String getMobileNumber() {
+        return mobileNumber;
     }
 
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
+    public void setMobileNumber(String mobileNumber) {
+        this.mobileNumber = mobileNumber;
+    }
+
+    public Enums.MarriageStatus getMarriageStatus() {
+        return marriageStatus;
+    }
+
+    public void setMarriageStatus(Enums.MarriageStatus marriageStatus) {
+        this.marriageStatus = marriageStatus;
+    }
+
+    public Enums.EducationType getEducationType() {
+        return educationType;
+    }
+
+    public void setEducationType(Enums.EducationType educationType) {
+        this.educationType = educationType;
+    }
+
+    public String getLivingCity() {
+        return livingCity;
+    }
+
+    public void setLivingCity(String livingCity) {
+        this.livingCity = livingCity;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
     }
 }
-
-
-
-
-
 
 
 

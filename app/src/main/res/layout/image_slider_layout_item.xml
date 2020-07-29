@@ -22,8 +22,8 @@
 
     <FrameLayout
         android:id="@+id/fl_shadow_container"
-        android:background="@drawable/blue_button_background"
         android:layout_width="match_parent"
+        android:background="@android:color/transparent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom">
 
