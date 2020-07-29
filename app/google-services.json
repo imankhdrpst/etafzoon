@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "538486050393",
-    "firebase_url": "https://yas-inventories-18a08.firebaseio.com",
-    "project_id": "yas-inventories-18a08",
-    "storage_bucket": "yas-inventories-18a08.appspot.com"
+    "project_number": "740062798237",
+    "firebase_url": "https://mindology-6bcf4.firebaseio.com",
+    "project_id": "mindology-6bcf4",
+    "storage_bucket": "mindology-6bcf4.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:538486050393:android:bf4eda386c4c708d43eb48",
+        "mobilesdk_app_id": "1:740062798237:android:09b0c0046792c416da4f74",
         "android_client_info": {
-          "package_name": "com.yasinventories.app"
+          "package_name": "com.mindology.app"
         }
       },
       "oauth_client": [
         {
-          "client_id": "538486050393-j9dujvmglnf7a1hei51ittr88i55u5hl.apps.googleusercontent.com",
+          "client_id": "740062798237-7bac369mov9aq3i9hb277q08ehv57gba.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBQ4_0Y71iZI8RhwfAOiU3EJfzqbPz59yo"
+          "current_key": "AIzaSyCmlx98u-JN81cN5SEMzgejglD1UBJpW1s"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "538486050393-j9dujvmglnf7a1hei51ittr88i55u5hl.apps.googleusercontent.com",
+              "client_id": "740062798237-7bac369mov9aq3i9hb277q08ehv57gba.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

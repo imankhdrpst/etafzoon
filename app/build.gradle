@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: "androidx.navigation.safeargs"
-
+apply plugin: 'com.google.gms.google-services'
+apply plugin: 'com.google.firebase.crashlytics'
 
 android {
     compileSdkVersion 28
@@ -132,13 +133,14 @@ dependencies {
     implementation "androidx.navigation:navigation-ui:$nav_version"
     implementation "androidx.navigation:navigation-runtime:$nav_version"
 
+    // Add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    // Add the Firebase Crashlytics SDK.
+    implementation 'com.google.firebase:firebase-crashlytics:17.1.1'
+
 //    // SSP-dp
 //    implementation 'com.intuit.dp:dp-android:1.0.6'
 //    implementation 'com.intuit.ssp:ssp-android:1.0.6'
-
-    // Firebase crashlytics / analytics
-//    implementation 'com.google.firebase:firebase-analytics:17.4.1'
-//    implementation 'com.google.firebase:firebase-crashlytics:17.0.0-beta01'
 
     // image compressor
     implementation 'com.zxy.android:tiny:1.1.0'
