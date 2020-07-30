@@ -1,1 +1,1 @@
-include ':app',':sweetalert', ':imagepicker'
+include ':app',':sweetalert', ':imagepicker', ':autoimageslider'
