@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Mindology</string>
     <string name="data">Properties</string>
-    <string name="profile">Profile</string>
+    <string name="profile">پروفایل</string>
     <string name="logout">Logout</string>
     <string name="fragment_profile">Profile</string>
     <string name="fragment_posts">Properties</string>
@@ -302,5 +302,6 @@
     <string name="month">ماه</string>
     <string name="latest_posts">آخرین مطالب</string>
     <string name="show_all">نمایش همه</string>
+    <string name="posts">مطالب</string>
 
 </resources>

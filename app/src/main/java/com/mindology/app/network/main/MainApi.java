@@ -42,6 +42,7 @@ public interface MainApi {
     @POST(ServicePath.POSTS + "?postIds=1")
     Flowable<List<Post>> getPosts();
 
+
     // profile
     @GET(ServicePath.PROFILE + "/{mobileNumber}")
     Flowable<Profile> getProfile(@Path("mobileNumber") String mobileNumber);

@@ -1,19 +1,17 @@
 package com.mindology.app.ui.main;
 
 import android.annotation.SuppressLint;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.databinding.DataBindingUtil;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -28,14 +26,10 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.mindology.app.BaseActivity;
 import com.mindology.app.R;
-import com.mindology.app.models.Devices;
-import com.mindology.app.models.User;
-import com.mindology.app.util.Utils;
+import com.mindology.app.models.Profile;
 import com.mindology.app.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -53,30 +47,28 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private TextView txtToolbarTitle;
     private RelativeLayout layToolbar;
     private MainViewModel viewModel;
-    private CircleImageView imgProfilePicture;
-    private ImageView imgDeleteAssets, imgSearchProperties;
+    private TextView txtName, txtHello;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_main);
+        DataBindingUtil.setContentView(this, R.layout.activity_main);
 
         viewModel = ViewModelProviders.of(this, providerFactory).get(MainViewModel.class);
 
         txtToolbarTitle = findViewById(R.id.txt_toolbar_title);
         layToolbar = findViewById(R.id.lay_toolbar);
-        imgProfilePicture = findViewById(R.id.img_toolbar_profile);
-        imgDeleteAssets = findViewById(R.id.img_delete_assets);
-        imgSearchProperties = findViewById(R.id.img_search_property);
+        txtName = findViewById(R.id.txt_name);
+        txtHello = findViewById(R.id.txt_hello);
 
         currentApiVersion = Build.VERSION.SDK_INT;
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                 | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
         // This work only for android 4.4+
@@ -100,43 +92,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     });
         }
 
-        imgProfilePicture.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                if (isValidDestination(R.id.profileScreen)) {
-//                    if (navController.getCurrentDestination().getId() == R.id.editProfileScreen) {
-//                        navController.popBackStack();
-//                    } else {
-//                        navController.navigate(R.id.profileScreen);
-//                    }
-//                }
-            }
-        });
-
-        imgDeleteAssets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
-
-
-        imgSearchProperties.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                if (navController.getCurrentDestination().getId() == R.id.createInspectionScreen) {
-//                    ((CreateInspectionFragment)
-//                            getSupportFragmentManager()
-//                                    .findFragmentById(R.id.nav_host_fragment)
-//                                    .getChildFragmentManager()
-//                                    .getFragments()
-//                                    .get(0))
-//                            .onSearchButtonClicked();
-//                }
-            }
-        });
-
-
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layToolbar.getLayoutParams();
@@ -145,47 +100,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         init();
 
-//
-//        requestManager
-////                            .load(Utils.stringBase64ToBitmap(userResource.data.getPictureBase64()))
-//                .load("https://t00img.yangkeduo.com/goods/images/2018-09-11/1652dc1065082415d12da181d7fec7b9.jpeg")
-//                .into(imgProfilePicture);
-
         subscribeObservers();
 
     }
 
     private void subscribeObservers() {
-        viewModel.observerGetProfile().observe(this, new Observer<Resource<User>>() {
+
+        viewModel.queryMyProfile().observe(this, new Observer<Resource<Profile>>() {
             @Override
-            public void onChanged(Resource<User> userResource) {
-                if (userResource != null && userResource.data != null && userResource.status == Resource.Status.SUCCESS) {
-                    requestManager
-                            .load(Utils.stringBase64ToBitmap(userResource.data.getPictureBase64()))
-//                            .load("http://lorempixel.com/400/200/")
-                            .into(imgProfilePicture);
+            public void onChanged(Resource<Profile> profileResource) {
+                if (profileResource != null) {
+                    if (profileResource.status == Resource.Status.SUCCESS) {
+                        txtName.setText(profileResource.data.getFirstName() + " " + profileResource.data.getLastName());
+                    }
                 }
             }
         });
 
-        Devices devices = new Devices();
-        devices.setOs("ANDROID");
-        try {
-            PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-            String version = pInfo.versionName;
-            devices.setAppVersion(version);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        devices.setInfo("Yas inventories android application");
-        devices.setOsVersion(String.valueOf(Build.VERSION.SDK_INT));
-        devices.setToken(viewModel.getToken());
-        viewModel.observerDevices(devices).observe(this, new Observer<Resource<Object>>() {
-            @Override
-            public void onChanged(Resource<Object> objectResource) {
-
-            }
-        });
     }
 
     @SuppressLint("NewApi")
@@ -196,12 +127,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getWindow().getDecorView().setSystemUiVisibility(
                     View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                             | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-//                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-//                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+
+    private void showWelcome() {
+        txtName.setVisibility(View.VISIBLE);
+        txtHello.setVisibility(View.VISIBLE);
+    }
+
+    private void hideWelcome() {
+        txtName.setVisibility(View.GONE);
+        txtHello.setVisibility(View.GONE);
+    }
+
 
     public int getStatusBarHeight() {
         int result = 0;
@@ -220,24 +162,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navController.addOnDestinationChangedListener(new NavController.OnDestinationChangedListener() {
             @Override
             public void onDestinationChanged(@NonNull NavController controller, @NonNull NavDestination destination, @Nullable Bundle arguments) {
-//                toolbar.setTitle(destination.getLabel());
                 toolbar.setTitle("");
-                txtToolbarTitle.setText("mindology");
+                txtToolbarTitle.setText(destination.getLabel());
                 switch (destination.getId()) {
-                    case R.id.profileScreen:
-                        imgProfilePicture.setVisibility(View.GONE);
-                        imgDeleteAssets.setVisibility(View.GONE);
-                        imgSearchProperties.setVisibility(View.GONE);
+                    case R.id.mainPageScreen:
+                        showWelcome();
                         break;
-//                    case R.id.createInspectionScreen:
-//                        imgProfilePicture.setVisibility(View.GONE);
-//                        imgDeleteAssets.setVisibility(View.GONE);
-//                        imgSearchProperties.setVisibility(View.VISIBLE);
-//                        break;
+                    case R.id.postsScreen:
+                        hideWelcome();
+                        break;
                     default:
-                        imgProfilePicture.setVisibility(View.VISIBLE);
-                        imgDeleteAssets.setVisibility(View.GONE);
-                        imgSearchProperties.setVisibility(View.GONE);
                         break;
                 }
 

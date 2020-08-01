@@ -9,10 +9,16 @@
     <fragment
         android:id="@+id/mainPageScreen"
         android:name="com.mindology.app.ui.main.main.MainFragment"
-        android:label="@string/main_page"
+        android:label=""
         tools:layout="@layout/fragment_main" >
     </fragment>
 
+    <fragment
+        android:id="@+id/postsScreen"
+        android:name="com.mindology.app.ui.main.posts.PostsFragment"
+        android:label="@string/posts"
+        tools:layout="@layout/fragment_posts" >
+    </fragment>
 
     <fragment
         android:id="@+id/profileScreen"

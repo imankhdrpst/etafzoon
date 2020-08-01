@@ -19,7 +19,11 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
 
     private LayoutInflater inflater;
     private List<Post> data = new ArrayList<>();
+    private OnPostListener listener = null;
 
+    public PostsAdapter(OnPostListener listener) {
+        this.listener = listener;
+    }
 
     @NonNull
     @Override

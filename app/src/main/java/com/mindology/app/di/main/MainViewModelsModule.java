@@ -6,6 +6,7 @@ import com.mindology.app.di.ViewModelKey;
 import com.mindology.app.ui.main.MainViewModel;
 import com.mindology.app.ui.main.inspections.InspectionDetailsViewModel;
 import com.mindology.app.ui.main.main.MainPageViewModel;
+import com.mindology.app.ui.main.posts.PostsViewModel;
 import com.mindology.app.ui.main.profile.ChangePasswordViewModel;
 import com.mindology.app.ui.main.profile.EditProfileViewModel;
 import com.mindology.app.ui.main.profile.ProfileViewModel;
@@ -21,6 +22,11 @@ public abstract class MainViewModelsModule {
     @IntoMap
     @ViewModelKey(MainViewModel.class)
     public abstract ViewModel bindMainViewModel(MainViewModel viewModel);
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(PostsViewModel.class)
+    public abstract ViewModel bindPostsViewModel(PostsViewModel viewModel);
 
 
     @Binds

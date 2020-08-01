@@ -1,126 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:background="@color/white2"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Scrollable view here -->
+    <LinearLayout
 
-    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme"
-        android:elevation="2dp"
-        android:visibility="gone"
-        tools:ignore="MissingConstraints">
+        android:background="@color/white"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/lay_toolbar"
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:theme="@style/AppTheme"
+            android:layoutDirection="rtl"
+            android:elevation="0dp"
+            app:elevation="0dp"
+            tools:ignore="MissingConstraints">
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <RelativeLayout
+                android:id="@+id/lay_toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:contentInsetStart="10dp"
-                android:contentInsetLeft="10dp"
-                android:contentInsetEnd="10dp"
-                android:contentInsetRight="10dp"
-                android:contentInsetEndWithActions="10dp"
-                android:contentInsetStartWithNavigation="10dp"
-                android:textAlignment="center"
-                android:theme="@style/AppTheme"
-                app:contentInsetEnd="10dp"
-                app:contentInsetEndWithActions="10dp"
-                app:contentInsetLeft="10dp"
-                app:contentInsetRight="10dp"
-                app:contentInsetStart="10dp"
-                app:contentInsetStartWithNavigation="10dp"
-                app:contentScrim="?attr/colorPrimary">
+                android:layout_height="match_parent">
 
-            </androidx.appcompat.widget.Toolbar>
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:contentInsetStart="10dp"
+                    android:contentInsetLeft="10dp"
+                    android:contentInsetEnd="10dp"
+                    android:contentInsetRight="10dp"
+                    android:contentInsetEndWithActions="10dp"
+                    android:contentInsetStartWithNavigation="10dp"
+                    android:textAlignment="center"
+                    app:contentInsetEnd="10dp"
+                    app:contentInsetEndWithActions="10dp"
+                    app:contentInsetLeft="10dp"
+                    app:contentInsetRight="10dp"
+                    app:contentInsetStart="10dp"
+                    app:contentInsetStartWithNavigation="10dp"
+                    app:titleTextColor="@color/orange"
+                    app:contentScrim="@color/orange">
 
-            <TextView
-                android:id="@+id/txt_toolbar_title"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                </androidx.appcompat.widget.Toolbar>
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/img_toolbar_profile"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_profile"
-                android:tint="@color/white" />
+                <!-- toolbar title -->
+                <TextView
+                    android:id="@+id/txt_toolbar_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:font='@{"sans"}'
+                    android:textColor="@color/text_blue"
+                    android:textSize="20sp" />
 
-            <ImageView
-                android:id="@+id/img_delete_assets"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_delete_forever_24px"
-                android:visibility="gone" />
+                <!-- notification icon -->
+                <ImageView
+                    android:id="@+id/img_notifications"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="24dp"
+                    android:layout_marginEnd="18dp"
+                    android:layout_width="24dp"
+                    android:src="@drawable/ic_light_notification" />
 
-            <ImageView
-                android:id="@+id/img_search_property"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:layout_marginEnd="16dp"
-                android:scaleType="fitXY"
-                android:src="@drawable/ic_search"
+                <!-- text view hello -->
+                <TextView
+                    android:id="@+id/txt_hello"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="18dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
+                    android:font='@{"sans"}'
+                    android:text="@string/hello"
+                    android:textColor="@color/text_blue"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
-                android:visibility="gone" />
-        </RelativeLayout>
-    </com.google.android.material.appbar.AppBarLayout>
+                <!-- text view name -->
+                <TextView
+                    android:id="@+id/txt_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:gravity="start"
+                    android:textStyle="normal"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginStart="18dp"
+                    android:textSize="13sp"
+                    android:font='@{"sans"}'
+                    android:textColor="@color/text_blue"/>
+            </RelativeLayout>
+        </com.google.android.material.appbar.AppBarLayout>
 
-    <fragment
-        android:id="@+id/nav_host_fragment"
-        android:name="androidx.navigation.fragment.NavHostFragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:defaultNavHost="true"
-        android:layout_marginTop="24dp"
-        app:navGraph="@navigation/main"/>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="50dp"
-        >
-
-        <RelativeLayout
-            android:id="@+id/progress_bar"
+        <fragment
+            android:id="@+id/nav_host_fragment"
+            android:name="androidx.navigation.fragment.NavHostFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="25dp"
-            android:background="@drawable/background_busy"
-            android:visibility="gone"
-            android:alpha="0.6"
-            android:clickable="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"/>
+            app:defaultNavHost="true"
+            app:navGraph="@navigation/main"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            >
+
+            <RelativeLayout
+                android:id="@+id/progress_bar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="25dp"
+                android:background="@drawable/background_busy"
+                android:visibility="gone"
+                android:alpha="0.6"
+                android:clickable="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+                <ProgressBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
+
         </RelativeLayout>
 
-    </RelativeLayout>
-</LinearLayout>
+    </LinearLayout>
+
+
+</layout>

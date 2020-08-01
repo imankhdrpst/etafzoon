@@ -40,6 +40,7 @@ import com.mindology.app.models.SliderItem;
 import com.mindology.app.ui.main.Resource;
 import com.mindology.app.ui.main.inspections.InspectionDetailsFragmentArgs;
 import com.mindology.app.ui.main.inspections.adapters.OnInspectionListener;
+import com.mindology.app.ui.main.posts.OnPostListener;
 import com.mindology.app.ui.main.posts.PostsAdapter;
 import com.mindology.app.ui.main.posts.BannerAdapter;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
@@ -53,7 +54,7 @@ import java.util.List;
 
 import me.zhanghai.android.materialprogressbar.MaterialProgressBar;
 
-public class MainFragment extends BaseFragment implements OnInspectionListener {
+public class MainFragment extends BaseFragment implements OnPostListener {
 
     private MainPageViewModel viewModel;
     private RelativeLayout progressBar;
@@ -63,8 +64,9 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
     private Typeface tfLight;
     private RecyclerView rvPosts;
     private PostsAdapter postsAdapter;
-    private MaterialProgressBar prgLatestPosts, prgBanners;
+    private MaterialProgressBar prgLatestPosts;
     private TextView txtName;
+    private TextView txtShowAllPosts;
 
 
     @Nullable
@@ -80,10 +82,7 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
 
         progressBar = view.findViewById(R.id.progress_bar);
 
-        prgBanners = view.findViewById(R.id.prg_banners);
         prgLatestPosts = view.findViewById(R.id.prg_latest_posts);
-
-        txtName = view.findViewById(R.id.txt_name);
 
         sliderView = view.findViewById(R.id.imageSlider);
 
@@ -163,7 +162,7 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
 
         chart.getLegend().setEnabled(false);
 
-        chart.animateXY(2000, 2000);
+        chart.animateXY(1000, 1000);
 
         // don't forget to refresh the drawing
         chart.invalidate();
@@ -191,8 +190,16 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
 
         rvPosts = view.findViewById(R.id.rv_latest_posts);
         rvPosts.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, true));
-        postsAdapter = new PostsAdapter();
+        postsAdapter = new PostsAdapter(this);
         rvPosts.setAdapter(postsAdapter);
+
+        txtShowAllPosts = view.findViewById(R.id.txt_latest_posts_show_all);
+        txtShowAllPosts.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.postsScreen);
+            }
+        });
 
         subscribeObservers();
     }
@@ -265,20 +272,24 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
 //    }
 
     private void subscribeObservers() {
+
+        setData(10, 30.0f);
+        chart.invalidate();
+
         viewModel.queryPostGroups().observe(getViewLifecycleOwner(), new Observer<Resource<List<PostGroup>>>() {
             @Override
             public void onChanged(Resource<List<PostGroup>> listResource) {
                 if (listResource != null) {
                     switch (listResource.status) {
                         case LOADING:
-                            prgBanners.setVisibility(View.VISIBLE);
+//                            prgBanners.setVisibility(View.VISIBLE);
                             break;
                         case ERROR:
-                            prgBanners.setVisibility(View.GONE);
+//                            prgBanners.setVisibility(View.GONE);
                             break;
                         case UPDATED:
                         case SUCCESS:
-                            prgBanners.setVisibility(View.GONE);
+//                            prgBanners.setVisibility(View.GONE);
                             List<SliderItem> sliderItemList = new ArrayList<>();
                             for (PostGroup postGroup : listResource.data) {
                                 SliderItem sliderItem = new SliderItem();
@@ -287,8 +298,6 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
                                 adapter.renewItems(sliderItemList);
                             }
 
-                            setData(10, 30.0f);
-                            chart.invalidate();
 
                             break;
 
@@ -320,18 +329,6 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
             }
         });
 
-        viewModel.queryMyProfile().observe(getViewLifecycleOwner(), new Observer<Resource<Profile>>() {
-            @Override
-            public void onChanged(Resource<Profile> profileResource) {
-                if (profileResource != null)
-                {
-                    if (profileResource.status == Resource.Status.SUCCESS)
-                    {
-                        txtName.setText(profileResource.data.getFirstName() + " " + profileResource.data.getLastName());
-                    }
-                }
-            }
-        });
 
 //        viewModel.queryInspections().removeObservers(getViewLifecycleOwner());
 //        viewModel.queryInspections().observe(getViewLifecycleOwner(), new Observer<Resource<ListResponse<Inspection>>>() {
@@ -433,39 +430,9 @@ public class MainFragment extends BaseFragment implements OnInspectionListener {
     }
 
     @Override
-    public void onInspectionClicked(Inspection inspection) {
-        InspectionDetailsFragmentArgs args = new InspectionDetailsFragmentArgs.Builder().setInspectionId(inspection.getId()).build();
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.inspectionDetailsScreen, args.toBundle());
+    public void onPostClicked(Post post) {
 
     }
-
-    public static class InspectionsItemDecorator extends RecyclerView.ItemDecoration {
-        private int boxSpace, betweenSpace;
-
-        public InspectionsItemDecorator(int boxSpace, int betweenSpace) {
-            this.boxSpace = boxSpace;
-            this.betweenSpace = betweenSpace;
-        }
-
-        @Override
-        public void getItemOffsets(Rect outRect, View view,
-                                   RecyclerView parent, RecyclerView.State state) {
-
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildLayoutPosition(view) == 0) {
-                outRect.top = boxSpace;
-            } else {
-                outRect.top = 0;
-            }
-
-            outRect.bottom = betweenSpace;
-
-            outRect.left = boxSpace;
-            outRect.right = boxSpace;
-        }
-    }
-
-
 }
 
 

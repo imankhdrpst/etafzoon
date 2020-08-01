@@ -1,5 +1,7 @@
 package com.mindology.app.ui.main;
 
+import android.text.TextUtils;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.MediatorLiveData;
@@ -9,9 +11,11 @@ import androidx.lifecycle.ViewModel;
 import com.mindology.app.SessionManager;
 import com.mindology.app.models.Devices;
 import com.mindology.app.models.ErrorResponse;
+import com.mindology.app.models.Profile;
 import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
 import com.mindology.app.ui.auth.AuthResource;
+import com.mindology.app.util.SharedPrefrencesHelper;
 import com.mindology.app.util.Utils;
 
 import javax.inject.Inject;
@@ -28,6 +32,9 @@ public class MainViewModel extends ViewModel {
     private MediatorLiveData<Resource<User>> getProfileLiveData;
     private MediatorLiveData<Resource<Object>> devicesLiveData;
 
+    private MediatorLiveData<Resource<Profile>> profileLiveData;
+    private Profile myProfile;
+
 
     @Inject
     public MainViewModel(MainApi mainApi, SessionManager sessionManager) {
@@ -39,96 +46,52 @@ public class MainViewModel extends ViewModel {
         return sessionManager.getAuthUser();
     }
 
-    public LiveData<Resource<User>> observerGetProfile() {
-        if (getProfileLiveData == null) {
-            getProfileLiveData = new MediatorLiveData<>();
+    public LiveData<Resource<Profile>> queryMyProfile() {
+
+        if (profileLiveData == null) {
+            profileLiveData = new MediatorLiveData<>();
         }
-        getProfileLiveData.setValue(Resource.loading(null));
-//        final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
-//
-//                mainApi.getProfile()
-//
-//                        .onErrorReturn(new Function<Throwable, User>() {
-//                            @Override
-//                            public User apply(Throwable throwable) throws Exception {
-//                                ErrorResponse errorResponse = Utils.fetchError(throwable);
-//
-//                                User result = new User();
-////                                result.setErrorResponse(errorResponse);
-//                                return result;
-//                            }
-//                        })
-//
-//                        .map(new Function<User, Resource<User>>() {
-//                            @Override
-//                            public Resource<User> apply(User result) throws Exception {
-//
-////                                if (result == null) {
-////                                    return Resource.error("Something went wrong", null);
-////                                } else if (result.getErrorResponse() != null) {
-////                                    return Resource.error(result.getErrorResponse().getMessage(), null);
-////                                }
-//                                return Resource.success(result);
-//                            }
-//                        })
-//
-//                        .subscribeOn(Schedulers.io())
-//        );
-//
-//        getProfileLiveData.addSource(source, new Observer<Resource<User>>() {
-//            @Override
-//            public void onChanged(Resource<User> listResource) {
-//                getProfileLiveData.setValue(listResource);
-//                getProfileLiveData.removeSource(source);
-//            }
-//        });
-        return getProfileLiveData;
-    }
+        if (myProfile != null) {
+            profileLiveData.setValue(Resource.success(myProfile));
+        } else {
+            String mobileNumber = SharedPrefrencesHelper.getSavedMobileNumber();
+            profileLiveData.setValue(Resource.loading(null));
+            final LiveData<Resource<Profile>> source = LiveDataReactiveStreams.fromPublisher(
 
-    public LiveData<Resource<Object>> observerDevices(Devices devices) {
-        if (devicesLiveData == null) {
-            devicesLiveData = new MediatorLiveData<>();
-        }
-        devicesLiveData.setValue(Resource.loading(null));
-
-
-        final LiveData<Resource<Object>> source = LiveDataReactiveStreams.fromPublisher(
-
-                mainApi.devices(devices)
-
-                        .onErrorReturn(new Function<Throwable, User>() {
-                            @Override
-                            public User apply(Throwable throwable) throws Exception {
-                                ErrorResponse errorResponse = Utils.fetchError(throwable);
-
-                                User result = new User();
-//                                result.setErrorResponse(errorResponse);
-                                return result;
-                            }
-                        })
-
-                        .map(new Function<Object, Resource<Object>>() {
-                            @Override
-                            public Resource<Object> apply(Object result) throws Exception {
-
-                                if (result == null) {
-                                    return Resource.error("Something went wrong", null);
+                    mainApi.getProfile(mobileNumber)
+                            .onErrorReturn(new Function<Throwable, Profile>() {
+                                @Override
+                                public Profile apply(Throwable throwable) throws Exception {
+                                    Profile res = new Profile();
+                                    res.setMessage(Utils.fetchError(throwable).getMessage());
+                                    return res;
                                 }
-                                return Resource.success(result);
-                            }
-                        })
+                            })
 
-                        .subscribeOn(Schedulers.io())
-        );
+                            .map(new Function<Profile, Resource<Profile>>() {
+                                @Override
+                                public Resource<Profile> apply(Profile response) throws Exception {
 
-        devicesLiveData.addSource(source, new Observer<Resource<Object>>() {
-            @Override
-            public void onChanged(Resource<Object> listResource) {
-                devicesLiveData.setValue(listResource);
-                devicesLiveData.removeSource(source);
-            }
-        });
-        return devicesLiveData;
+                                    if (response == null || !TextUtils.isEmpty(response.getMessage()))
+                                        return Resource.error(response.getMessage(), response);
+                                    else return Resource.success(response);
+                                }
+                            })
+
+                            .subscribeOn(Schedulers.io())
+            );
+
+            profileLiveData.addSource(source, new Observer<Resource<Profile>>() {
+                @Override
+                public void onChanged(Resource<Profile> listResource) {
+                    profileLiveData.setValue(listResource);
+                    profileLiveData.removeSource(source);
+                }
+            });
+        }
+
+        return  profileLiveData;
+
     }
 
 
