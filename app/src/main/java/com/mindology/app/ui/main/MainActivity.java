@@ -26,7 +26,7 @@ import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
 import com.mindology.app.BaseActivity;
 import com.mindology.app.R;
-import com.mindology.app.models.Profile;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -61,6 +61,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         layToolbar = findViewById(R.id.lay_toolbar);
         txtName = findViewById(R.id.txt_name);
         txtHello = findViewById(R.id.txt_hello);
+
+        txtName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateProfile();
+            }
+        });
+        txtHello.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateProfile();
+            }
+        });
 
         currentApiVersion = Build.VERSION.SDK_INT;
 
@@ -104,11 +117,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     }
 
+    private void navigateProfile() {
+        Navigation.findNavController(this, R.id.nav_host_fragment).navigate(R.id.profileScreen);
+    }
+
     private void subscribeObservers() {
 
-        viewModel.queryMyProfile().observe(this, new Observer<Resource<Profile>>() {
+        viewModel.queryMyProfile().observe(this, new Observer<Resource<ClientUserDTO>>() {
             @Override
-            public void onChanged(Resource<Profile> profileResource) {
+            public void onChanged(Resource<ClientUserDTO> profileResource) {
                 if (profileResource != null) {
                     if (profileResource.status == Resource.Status.SUCCESS) {
                         txtName.setText(profileResource.data.getFirstName() + " " + profileResource.data.getLastName());
@@ -168,7 +185,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     case R.id.mainPageScreen:
                         showWelcome();
                         break;
+                    case R.id.postDetailScreen:
                     case R.id.postsScreen:
+                    case R.id.profileScreen:
                         hideWelcome();
                         break;
                     default:

@@ -166,6 +166,9 @@ dependencies {
     //loading material
     implementation 'me.zhanghai.android.materialprogressbar:library:1.6.1'
 
+    //shadow
+    implementation 'com.loopeer.lib:shadow:0.0.3'
+
 
     //modules
     implementation project(path: ':sweetalert')

@@ -3,6 +3,7 @@ package com.mindology.app.di.main;
 
 import com.mindology.app.ui.main.inspections.InspectionDetailsFragment;
 import com.mindology.app.ui.main.main.MainFragment;
+import com.mindology.app.ui.main.posts.PostDetailFragment;
 import com.mindology.app.ui.main.posts.PostsFragment;
 import com.mindology.app.ui.main.profile.ChangePasswordFragment;
 import com.mindology.app.ui.main.profile.EditProfileFragment;
@@ -19,6 +20,10 @@ public abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract PostsFragment contributePostsFragment();
+
+
+    @ContributesAndroidInjector
+    abstract PostDetailFragment contributePostDetailFragment();
 
 //    @ContributesAndroidInjector
 //    abstract MainInspectionsFragment contributeMainInspectionsFragment();

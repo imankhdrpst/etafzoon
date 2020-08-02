@@ -2,19 +2,20 @@ package com.mindology.app.repo;
 
 import com.mindology.app.models.Alarm;
 import com.mindology.app.models.Area;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.Inspection;
 import com.mindology.app.models.Meter;
 import com.mindology.app.models.Panorama;
-import com.mindology.app.models.User;
+import com.mindology.app.models.Post;
 
 public class TempDataHolder {
     private static Inspection currentInspection;
-    private static User currentUser;
+    private static ClientUserDTO currentUser;
     private static Area selectedArea;
     private static Meter selectedMeter;
     private static Alarm selectedAlarm;
     private static Panorama selectedPanorama;
-
+    private static Post selectedPost;
 
 
     public static void setCurrentInspection(Inspection selectedInspection) {
@@ -30,11 +31,11 @@ public class TempDataHolder {
 
 
 
-    public static void setCurrentUser(User currentUser) {
+    public static void setCurrentUser(ClientUserDTO currentUser) {
         TempDataHolder.currentUser = currentUser;
     }
 
-    public static User getCurrentUser() {
+    public static ClientUserDTO getCurrentUser() {
         return currentUser;
     }
 
@@ -79,4 +80,11 @@ public class TempDataHolder {
         currentInspection = null;
     }
 
+    public static Post getSelectedPost() {
+        return selectedPost;
+    }
+
+    public static void setSelectedPost(Post selectedPost) {
+        TempDataHolder.selectedPost = selectedPost;
+    }
 }

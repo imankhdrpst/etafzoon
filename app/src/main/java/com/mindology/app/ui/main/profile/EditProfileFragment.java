@@ -93,22 +93,22 @@ public class EditProfileFragment extends BaseFragment {
         });
 
         if (TempDataHolder.getCurrentUser() != null) {
-            fillWithData(TempDataHolder.getCurrentUser());
+//            fillWithData(TempDataHolder.getCurrentUser());
         } else {
             subscribeGetCurrentUserProfile();
         }
     }
 
     private void onConfirmChanges() {
-        User user = TempDataHolder.getCurrentUser();
+//        User user = TempDataHolder.getCurrentUser();
 
 //        user.setAboutMe(txtAboutMe.getText().toString());
 //        user.setNickname(txtNickName.getText().toString());
-        user.setMobile(txtPhoneNumber.getText().toString());
+//        user.setMobile(txtPhoneNumber.getText().toString());
 
-        if (changedPhotoUri != null) {
-
-            progressBar.setVisibility(View.VISIBLE);
+//        if (changedPhotoUri != null) {
+//
+//            progressBar.setVisibility(View.VISIBLE);
 
 //            Observable.fromCallable(new Callable<String>() {
 //                @Override
@@ -144,9 +144,9 @@ public class EditProfileFragment extends BaseFragment {
 //                            progressBar.setVisibility(View.GONE);
 //                        }
 //                    });
-        } else {
-            subscribeEditProfileObserver(user);
-        }
+//        } else {
+//            subscribeEditProfileObserver(user);
+//        }
 
     }
 
@@ -181,7 +181,7 @@ public class EditProfileFragment extends BaseFragment {
 
                         case SUCCESS:
                             progressBar.setVisibility(View.GONE);
-                            TempDataHolder.setCurrentUser(userResource.data);
+//                            TempDataHolder.setCurrentUser(userResource.data);
 
                             new SweetAlertDialog(getContext(), SweetAlertDialog.SUCCESS_TYPE)
                                     .setTitleText(getString(R.string.success))
@@ -231,7 +231,7 @@ public class EditProfileFragment extends BaseFragment {
 
                         case SUCCESS:
 
-                            TempDataHolder.setCurrentUser(userResource.data);
+//                            TempDataHolder.setCurrentUser(userResource.data);
 
                             fillWithData(userResource.data);
                             break;

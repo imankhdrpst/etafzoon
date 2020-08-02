@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
 import com.mindology.app.models.Post;
+import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.main.Resource;
 
 import java.util.List;
@@ -81,6 +83,8 @@ public class PostsFragment extends BaseFragment implements OnPostListener {
 
     @Override
     public void onPostClicked(Post post) {
+        TempDataHolder.setSelectedPost(post);
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.postDetailScreen);
 
     }
 }

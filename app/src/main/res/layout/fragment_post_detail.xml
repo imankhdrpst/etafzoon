@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fillViewport="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+                <!-- lay title and date time -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="14dp"
+                    android:paddingStart="20dp"
+                    android:paddingEnd="20dp">
+
+                    <!-- text view title of post -->
+                    <TextView
+                        android:id="@+id/txt_post_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:font='@{"sans"}'
+                        android:textColor="@color/text_dark_gray"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <!-- text view date&time of post -->
+                    <TextView
+                        android:id="@+id/txt_post_date_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:font='@{"sans"}'
+                        android:textColor="@color/gray"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
+
+                <!-- image view post image -->
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:id="@+id/img_post_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="222dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@color/gray"
+                    android:scaleType="fitXY"
+                    app:riv_corner_radius="10dip"
+                    app:riv_mutate_background="true"
+                    app:riv_oval="false"
+                    app:riv_tile_mode="repeat" />
+
+                <!-- text view post content -->
+                <TextView
+                    android:id="@+id/txt_post_content"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginTop="20dp"
+                    android:font='@{"sans"}'
+                    android:gravity="end"
+                    android:textColor="@color/text_dark_gray"
+                    android:textSize="14sp" />
+
+                <!-- layout review the post -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:orientation="vertical">
+
+                    <!-- text view is content useful ? -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:font='@{"sans"}'
+                        android:text="@string/was_it_useful"
+                        android:textColor="@color/blue"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <!-- layout select yes/no -->
+                    <RelativeLayout
+                        android:layout_width="182dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="13dp">
+
+                        <!-- text view yes -->
+                        <TextView
+                            android:id="@+id/txt_post_useful_yes"
+                            android:layout_width="84dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="13dp"
+                            android:background="@drawable/background_box_bordered_gray"
+                            android:font='@{"sans"}'
+                            android:paddingStart="35dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="35dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/yes"
+                            android:textColor="@color/text_dark_gray"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                        <!-- text view no -->
+                        <TextView
+                            android:id="@+id/txt_post_useful_no"
+                            android:layout_width="84dp"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:background="@drawable/background_box_bordered_gray"
+                            android:font='@{"sans"}'
+                            android:paddingStart="35dp"
+                            android:paddingTop="8dp"
+                            android:paddingEnd="35dp"
+                            android:paddingBottom="8dp"
+                            android:text="@string/no"
+                            android:textColor="@color/text_dark_gray"
+                            android:textSize="13sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <!-- layout author detials -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="63dp"
+                        app:cardBackgroundColor="@color/white"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginTop="28dp"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_marginBottom="20dp"
+                        app:cardElevation="3dp">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <!-- image view author picture -->
+                            <de.hdodenhof.circleimageview.CircleImageView
+                                android:id="@+id/img_author_picture"
+                                android:layout_width="40dp"
+                                android:layout_height="40dp"
+                                android:layout_alignParentEnd="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginEnd="12dp"
+                                android:src="@drawable/profile_place_holder" />
+
+                            <!-- layout name and profession of author -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_alignParentEnd="true"
+                                android:layout_marginEnd="70dp"
+                                android:gravity="center_vertical"
+                                android:orientation="vertical">
+
+                                <!-- text view author name -->
+                                <TextView
+                                    android:id="@+id/txt_post_author_name"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center"
+                                    android:font='@{"sans"}'
+                                    android:textColor="@color/app_bar_blue"
+                                    android:textSize="14sp" />
+
+                                <LinearLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="end"
+                                    android:gravity="end"
+                                    android:orientation="horizontal">
+
+                                    <!-- image view star -->
+                                    <ImageView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_gravity="center_vertical"
+                                        android:layout_marginEnd="4dp"
+                                        android:src="@drawable/ic_bold_star" />
+
+                                    <!-- text view author profession -->
+                                    <TextView
+                                        android:id="@+id/txt_post_author_stars_count"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:font='@{"sans"}'
+                                        android:textColor="@color/gray"
+                                        android:textSize="14sp" />
+
+                                    <!-- view seperator -->
+                                    <View
+                                        android:layout_width="1dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginStart="5dp"
+                                        android:layout_marginEnd="5dp"
+                                        android:background="@color/gray" />
+
+                                    <!-- text view author profession -->
+                                    <TextView
+                                        android:id="@+id/txt_post_author_profession"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:font='@{"sans"}'
+                                        android:textColor="@color/gray"
+                                        android:textSize="14sp" />
+
+                                </LinearLayout>
+
+
+                            </LinearLayout>
+
+                            <!-- layout share & bookmark -->
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentStart="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginStart="20dp"
+                                android:orientation="horizontal">
+
+                                <!-- image view share -->
+                                <ImageView
+                                    android:id="@+id/img_share"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginEnd="15dp"
+                                    android:src="@drawable/ic_share" />
+
+                                <View
+                                    android:layout_width="1dp"
+                                    android:layout_height="match_parent"
+                                    android:background="@color/gray_light_text" />
+
+                                <!-- image view bookmark -->
+                                <ImageView
+                                    android:id="@+id/img_bookmark"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_vertical"
+                                    android:layout_marginStart="15dp"
+                                    android:src="@drawable/ic_outline_bookmark" />
+
+                            </LinearLayout>
+
+                        </RelativeLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:alpha="0.6"
+            android:background="@drawable/background_busy"
+            android:clickable="true"
+            android:padding="25dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</layout>
+
+
+
+
+
+
+
+
+
+
+

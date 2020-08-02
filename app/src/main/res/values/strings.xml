@@ -3,7 +3,7 @@
     <string name="data">Properties</string>
     <string name="profile">پروفایل</string>
     <string name="logout">Logout</string>
-    <string name="fragment_profile">Profile</string>
+    <string name="fragment_profile">ClientUserDTO</string>
     <string name="fragment_posts">Properties</string>
     <string name="empty_list">Empty List</string>
     <string name="check_your_connection">Check Your Internet Connection</string>
@@ -83,7 +83,7 @@
     <string name="cancel">Cancel</string>
     <string name="q_update_property">Update Property?</string>
     <string name="d_update_property">You have made some changes on this property, you must update property before using it.</string>
-    <string name="yes">Yes</string>
+    <string name="yes">آره</string>
     <string name="error_date_less_than_today">The selected date must not be before today</string>
     <string name="save">Save</string>
     <string name="success_edit_property">Property updated successfully</string>
@@ -97,7 +97,7 @@
     <string name="confirm_new_password">Confirm New Pasword</string>
     <string name="email">Email</string>
     <string name="change_photo">Change Photo</string>
-    <string name="edit_profile">Edit Profile</string>
+    <string name="edit_profile">Edit ClientUserDTO</string>
     <string name="name">نام</string>
     <string name="message">Message</string>
     <string name="send_message">Send Message</string>
@@ -167,7 +167,7 @@
     <string name="nick_name">Nick Name</string>
     <string name="about_me">About Me</string>
     <string name="error_edit_profile">Error in profile edit</string>
-    <string name="success_edit_profile">Profile is successfully updated</string>
+    <string name="success_edit_profile">ClientUserDTO is successfully updated</string>
     <string name="add_area">Add new area</string>
     <string name="add_meter">Add new meter</string>
     <string name="add_alarm">Add new alarm</string>
@@ -250,7 +250,7 @@
     <string name="sign_out">Sign Out</string>
     <string name="delete_assets">Delete Assets</string>
     <string name="delete_panonrama">Delete Panorama?</string>
-    <string name="no">No</string>
+    <string name="no">نه</string>
     <string name="address_line_1_label">Address Line 1:</string>
     <string name="address_line_2_label">Address Line 2:</string>
     <string name="city_label">City:</string>
@@ -303,5 +303,6 @@
     <string name="latest_posts">آخرین مطالب</string>
     <string name="show_all">نمایش همه</string>
     <string name="posts">مطالب</string>
+    <string name="was_it_useful">این مطلب مفید بود ؟</string>
 
 </resources>

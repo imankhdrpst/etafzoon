@@ -21,6 +21,13 @@
     </fragment>
 
     <fragment
+        android:id="@+id/postDetailScreen"
+        android:name="com.mindology.app.ui.main.posts.PostDetailFragment"
+        android:label=""
+        tools:layout="@layout/fragment_post_detail" >
+    </fragment>
+
+    <fragment
         android:id="@+id/profileScreen"
         android:name="com.mindology.app.ui.main.profile.ProfileFragment"
         android:label="@string/profile"

@@ -87,9 +87,13 @@ public class Utils {
     }
 
     public static Bitmap getBitmapFromBase64String(String base64Content) {
-        byte[] decodedString = Base64.decode(base64Content, Base64.DEFAULT);
-        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-        return decodedByte;
+        try {
+            byte[] decodedString = Base64.decode(base64Content, Base64.DEFAULT);
+            Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+            return decodedByte;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public static synchronized ErrorResponse fetchError(Throwable throwable) {
@@ -98,7 +102,7 @@ public class Utils {
             errorResponse.setMessage("خطا در اتصال به اینترنت");
             return errorResponse;
         } else if (throwable instanceof SocketTimeoutException) {
-            errorResponse.setMessage("لطفا دوباره صعی کنید");
+            errorResponse.setMessage("لطفا دوباره سعی کنید");
             return errorResponse;
         } else if (throwable instanceof ConnectException) {
             errorResponse.setMessage("خطای برقراری ارتباط با سرور");

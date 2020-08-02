@@ -50,6 +50,9 @@ public class Post extends BaseModel {
     @Expose
     private String title;
 
+    private boolean isBookmarked = false;
+    private String helpful = "-1";
+
     public String getAuthor() {
         return author;
     }
@@ -136,5 +139,22 @@ public class Post extends BaseModel {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public boolean isBookmarked() {
+        return isBookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        isBookmarked = bookmarked;
+    }
+
+    public void setHelpful(String helpful) {
+
+        this.helpful = helpful;
+    }
+
+    public String getHelpful() {
+        return helpful;
     }
 }

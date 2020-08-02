@@ -9,11 +9,10 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.mindology.app.SessionManager;
-import com.mindology.app.models.Devices;
-import com.mindology.app.models.ErrorResponse;
-import com.mindology.app.models.Profile;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
+import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.auth.AuthResource;
 import com.mindology.app.util.SharedPrefrencesHelper;
 import com.mindology.app.util.Utils;
@@ -32,8 +31,8 @@ public class MainViewModel extends ViewModel {
     private MediatorLiveData<Resource<User>> getProfileLiveData;
     private MediatorLiveData<Resource<Object>> devicesLiveData;
 
-    private MediatorLiveData<Resource<Profile>> profileLiveData;
-    private Profile myProfile;
+    private MediatorLiveData<Resource<ClientUserDTO>> profileLiveData;
+    private ClientUserDTO myProfile;
 
 
     @Inject
@@ -46,7 +45,7 @@ public class MainViewModel extends ViewModel {
         return sessionManager.getAuthUser();
     }
 
-    public LiveData<Resource<Profile>> queryMyProfile() {
+    public LiveData<Resource<ClientUserDTO>> queryMyProfile() {
 
         if (profileLiveData == null) {
             profileLiveData = new MediatorLiveData<>();
@@ -56,34 +55,36 @@ public class MainViewModel extends ViewModel {
         } else {
             String mobileNumber = SharedPrefrencesHelper.getSavedMobileNumber();
             profileLiveData.setValue(Resource.loading(null));
-            final LiveData<Resource<Profile>> source = LiveDataReactiveStreams.fromPublisher(
+            final LiveData<Resource<ClientUserDTO>> source = LiveDataReactiveStreams.fromPublisher(
 
                     mainApi.getProfile(mobileNumber)
-                            .onErrorReturn(new Function<Throwable, Profile>() {
+                            .onErrorReturn(new Function<Throwable, ClientUserDTO>() {
                                 @Override
-                                public Profile apply(Throwable throwable) throws Exception {
-                                    Profile res = new Profile();
+                                public ClientUserDTO apply(Throwable throwable) throws Exception {
+                                    ClientUserDTO res = new ClientUserDTO();
                                     res.setMessage(Utils.fetchError(throwable).getMessage());
                                     return res;
                                 }
                             })
 
-                            .map(new Function<Profile, Resource<Profile>>() {
+                            .map(new Function<ClientUserDTO, Resource<ClientUserDTO>>() {
                                 @Override
-                                public Resource<Profile> apply(Profile response) throws Exception {
+                                public Resource<ClientUserDTO> apply(ClientUserDTO response) throws Exception {
 
                                     if (response == null || !TextUtils.isEmpty(response.getMessage()))
                                         return Resource.error(response.getMessage(), response);
-                                    else return Resource.success(response);
+
+                                    TempDataHolder.setCurrentUser(response);
+                                    return Resource.success(response);
                                 }
                             })
 
                             .subscribeOn(Schedulers.io())
             );
 
-            profileLiveData.addSource(source, new Observer<Resource<Profile>>() {
+            profileLiveData.addSource(source, new Observer<Resource<ClientUserDTO>>() {
                 @Override
-                public void onChanged(Resource<Profile> listResource) {
+                public void onChanged(Resource<ClientUserDTO> listResource) {
                     profileLiveData.setValue(listResource);
                     profileLiveData.removeSource(source);
                 }

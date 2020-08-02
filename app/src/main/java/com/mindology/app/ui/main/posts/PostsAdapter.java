@@ -1,6 +1,7 @@
 package com.mindology.app.ui.main.posts;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -39,7 +40,6 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, int position) {
         Post post = data.get(position);
-
         holder.bind(post);
     }
 
@@ -63,6 +63,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
         public PostViewHolder(@NonNull ViewHolderPostsBinding b) {
             super(b.getRoot());
             binding = b;
+
         }
 
         public void bind(Post post) {
@@ -80,6 +81,17 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
             Glide.with(binding.txtPostAuthorName.getContext())
                     .load(getBitmapFromBase64String(post.getAuthorProfilePicture()))
                     .into(binding.imgAuthorPicture);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null)
+                    {
+                        listener.onPostClicked(post);
+                    }
+
+                }
+            });
 
             binding.executePendingBindings();
 

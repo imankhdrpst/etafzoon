@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel;
 import com.mindology.app.SessionManager;
 import com.mindology.app.models.Post;
 import com.mindology.app.models.PostGroup;
-import com.mindology.app.models.Profile;
 import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
 import com.mindology.app.ui.auth.AuthResource;

@@ -1,7 +1,6 @@
 package com.mindology.app.ui.main.main;
 
 import android.graphics.Color;
-import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -32,14 +31,11 @@ import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
-import com.mindology.app.models.Inspection;
 import com.mindology.app.models.Post;
 import com.mindology.app.models.PostGroup;
-import com.mindology.app.models.Profile;
 import com.mindology.app.models.SliderItem;
+import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.main.Resource;
-import com.mindology.app.ui.main.inspections.InspectionDetailsFragmentArgs;
-import com.mindology.app.ui.main.inspections.adapters.OnInspectionListener;
 import com.mindology.app.ui.main.posts.OnPostListener;
 import com.mindology.app.ui.main.posts.PostsAdapter;
 import com.mindology.app.ui.main.posts.BannerAdapter;
@@ -431,7 +427,8 @@ public class MainFragment extends BaseFragment implements OnPostListener {
 
     @Override
     public void onPostClicked(Post post) {
-
+        TempDataHolder.setSelectedPost(post);
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.postDetailScreen);
     }
 }
 
