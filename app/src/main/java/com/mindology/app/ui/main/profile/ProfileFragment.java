@@ -1,5 +1,6 @@
 package com.mindology.app.ui.main.profile;
 
+import android.database.DatabaseUtils;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.mindology.app.BaseFragment;
@@ -17,6 +19,8 @@ import com.mindology.app.R;
 import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.util.Utils;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,11 +32,13 @@ public class ProfileFragment extends BaseFragment {
     private RelativeLayout progressBar;
     private CircleImageView imgProfilePicture;
     private TextView txtFirstNameLastName, txtMobileNumber, txtCityCountry;
+    private ExpandableLayout expandableOptions;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        return DataBindingUtil.inflate(inflater, R.layout.fragment_profile, container, false).getRoot();
+
     }
 
     @Override
@@ -47,6 +53,10 @@ public class ProfileFragment extends BaseFragment {
         txtFirstNameLastName = view.findViewById(R.id.txt_profile_first_name_last_name);
         txtMobileNumber = view.findViewById(R.id.txt_profile_mobile_number);
         txtCityCountry = view.findViewById(R.id.txt_profile_city_country);
+        expandableOptions = view.findViewById(R.id.expandable_layout_profile_options);
+
+        expandableOptions.expand(true);
+
     }
 
 

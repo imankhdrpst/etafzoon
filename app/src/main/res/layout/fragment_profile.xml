@@ -36,7 +36,7 @@
                             android:id="@+id/img_profile_picture"
                             android:layout_width="86dp"
                             android:layout_height="86dp"
-                            android:src="@drawable/profile_place_holder" />
+                            android:src="@drawable/ic_profile" />
                     </RelativeLayout>
 
                     <!-- first name and last name -->
@@ -101,7 +101,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 app:el_duration="1500"
-                app:el_expanded="true"
+                app:el_expanded="false"
                 app:el_parallax="0">
 
                 <LinearLayout
@@ -111,18 +111,284 @@
                     android:layout_centerInParent="true"
                     android:background="@drawable/background_bottom_sheet"
                     android:orientation="vertical"
-                    android:paddingStart="20dp"
                     android:paddingTop="32dp"
-                    android:paddingEnd="20dp"
                     android:paddingBottom="24dp">
 
+                    <!-- vaghte molaghat -->
+                    <RelativeLayout
+                        android:id="@+id/lay_vaghte_molaghat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#eee8ff"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_calendar"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/vaghte_molaghat"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                    <!-- tamrinat -->
+                    <RelativeLayout
+                        android:id="@+id/lay_tamrinat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#fff3e1
+"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_gym"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/tamrinat"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                    <!-- kife pool -->
+                    <RelativeLayout
+                        android:id="@+id/lay_kife_pool"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#e4ecff"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_wallet"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/kife_pool"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                    <!-- porsesh o pasokh -->
+                    <RelativeLayout
+                        android:id="@+id/lay_porsesh_o_pasokh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#feebdd"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_question_mark"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/porsesh_o_pasokh"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                    <!-- vaziate roohi -->
+                    <RelativeLayout
+                        android:id="@+id/lay_vaziate_roohi"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#ecfff4"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_graph"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/vaziate_roohi"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
+
+                    <!-- virayeshe profile -->
+                    <RelativeLayout
+                        android:id="@+id/lay_virayeshe_profile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="32dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="45dp"
+                            android:layout_height="45dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#30AEAEAE"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_edit_24px"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/virayeshe_profile"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:src="@drawable/ic_arrow_back"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"/>
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
             </net.cachapa.expandablelayout.ExpandableLayout>
 
         </com.loopeer.shadow.ShadowView>
-
 
         <RelativeLayout
             android:id="@+id/progress_bar"
@@ -142,4 +408,5 @@
         </RelativeLayout>
 
     </RelativeLayout>
+
 </layout>

@@ -304,5 +304,11 @@
     <string name="show_all">نمایش همه</string>
     <string name="posts">مطالب</string>
     <string name="was_it_useful">این مطلب مفید بود ؟</string>
+    <string name="vaghte_molaghat">وقت ملاقات</string>
+    <string name="tamrinat">تمرینات</string>
+    <string name="kife_pool">کیف پول</string>
+    <string name="porsesh_o_pasokh">پرسش و پاسخ</string>
+    <string name="vaziate_roohi">وضعیت روحی</string>
+    <string name="virayeshe_profile">ویرایش پروفایل</string>
 
 </resources>

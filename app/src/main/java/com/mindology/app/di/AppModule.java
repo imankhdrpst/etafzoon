@@ -177,7 +177,7 @@ public class AppModule {
     @Provides
     static RequestOptions provideRequestOptions() {
         return RequestOptions
-                .placeholderOf(R.drawable.profile_place_holder)
+                .placeholderOf(R.drawable.ic_profile)
                 .error(R.drawable.error_placeholder);
     }
 
