@@ -169,10 +169,19 @@ dependencies {
     //shadow
     implementation 'com.loopeer.lib:shadow:0.0.3'
 
+    // image compressor
+    implementation 'id.zelory:compressor:2.1.0'
+
+    // image picker
+    implementation 'com.github.esafirm.android-image-picker:imagepicker:2.3.1'
+    // for experimental rx picker
+    implementation 'com.github.esafirm.android-image-picker:rximagepicker:2.3.1'
+    // If you have a problem with Glide, please use the same Glide version or simply open an issue
+    implementation 'com.github.bumptech.glide:glide:4.5.0'
+
 
     //modules
     implementation project(path: ':sweetalert')
-    implementation project(path: ':imagepicker')
     implementation project(path: ':autoimageslider')
 
 }

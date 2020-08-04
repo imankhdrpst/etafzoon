@@ -311,12 +311,34 @@ public class Enums {
 
     public enum EducationType
     {
-        BACHELOR, MA, RESEARCH
+        BACHELOR, MA, RESEARCH;
+
+        public static EducationType findByName(String toString) {
+            for(EducationType value : values())
+            {
+                if (value.name().toLowerCase().equals(toString.toLowerCase()))
+                {
+                    return value;
+                }
+            }
+            return BACHELOR;
         }
+    }
 
     public enum MarriageStatus
     {
-        SINGLE, MARRIED
+        SINGLE, MARRIED;
+
+        public static MarriageStatus findByName(String toString) {
+            for (MarriageStatus value : values())
+            {
+                if (value.name().toLowerCase().equals(toString.toLowerCase()))
+                {
+                    return value;
+                }
+            }
+            return SINGLE;
+        }
     }
 
     public enum PostGroupType

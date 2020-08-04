@@ -1,5 +1,6 @@
 package com.mindology.app.ui.main.profile;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
@@ -10,10 +11,12 @@ import androidx.lifecycle.ViewModel;
 
 import com.bumptech.glide.RequestManager;
 import com.mindology.app.SessionManager;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.ErrorResponse;
-import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
+import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.main.Resource;
+import com.mindology.app.util.SharedPrefrencesHelper;
 import com.mindology.app.util.Utils;
 
 import javax.inject.Inject;
@@ -27,8 +30,7 @@ public class EditProfileViewModel extends ViewModel {
     private final SessionManager sessionManager;
     private final MainApi mainApi;
     private final RequestManager requestManager;
-    private MediatorLiveData<Resource<User>> getProfileLiveData;
-    private MediatorLiveData<Resource<User>> editProfileLiveData;
+    private MediatorLiveData<Resource<ClientUserDTO>> profileLiveData;
 
 
     @Inject
@@ -47,101 +49,73 @@ public class EditProfileViewModel extends ViewModel {
         return requestManager;
     }
 
-    public LiveData<Resource<User>> observerGetProfile() {
-        if (getProfileLiveData == null) {
-            getProfileLiveData = new MediatorLiveData<>();
+    public LiveData<Resource<ClientUserDTO>> observerProfile()
+    {
+        if (profileLiveData == null) {
+            profileLiveData = new MediatorLiveData<>();
         }
-        getProfileLiveData.setValue(Resource.loading((User) null));
 
-//        final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
-//
-//                mainApi.getProfile()
-//
-//                        .onErrorReturn(new Function<Throwable, User>() {
-//                            @Override
-//                            public User apply(Throwable throwable) throws Exception {
-//                                ErrorResponse errorResponse = Utils.fetchError(throwable);
-//
-//                                User result = new User();
-////                                result.setErrorResponse(errorResponse);
-//                                return result;
-//                            }
-//                        })
-//
-//                        .map(new Function<User, Resource<User>>() {
-//                            @Override
-//                            public Resource<User> apply(User resurce) throws Exception {
-//
-////                                if (resurce == null) {
-////                                    return Resource.error("Something went wrong", null);
-////                                } else if (resurce.getErrorResponse() != null) {
-////                                    return Resource.error(resurce.getErrorResponse().getMessage(), null);
-////                                }
-//                                return Resource.success(resurce);
-//                            }
-//                        })
-//
-//                        .subscribeOn(Schedulers.io())
-//        );
-//
-//        getProfileLiveData.addSource(source, new Observer<Resource<User>>() {
-//            @Override
-//            public void onChanged(Resource<User> listResource) {
-//                getProfileLiveData.setValue(listResource);
-//                getProfileLiveData.removeSource(source);
-//            }
-//        });
+        if (TempDataHolder.getCurrentUser() != null)
+        {
+            profileLiveData.setValue(Resource.success(TempDataHolder.getCurrentUser()));
+        }
+        else
+        {
+            getProfile();
+        }
 
-        return getProfileLiveData;
+        return profileLiveData;
     }
 
-    public LiveData<Resource<User>> observerEditProfile(User user) {
-        if (editProfileLiveData == null) {
-            editProfileLiveData = new MediatorLiveData<>();
-            editProfileLiveData.setValue(Resource.loading((User) user));
-
-            final LiveData<Resource<User>> source = LiveDataReactiveStreams.fromPublisher(
-
-                    mainApi.editProfile(user)
-
-                            .onErrorReturn(new Function<Throwable, User>() {
-                                @Override
-                                public User apply(Throwable throwable) throws Exception {
-                                    ErrorResponse errorResponse = Utils.fetchError(throwable);
-//                                    user.setErrorResponse(errorResponse);
-                                    return user;
-                                }
-                            })
-
-                            .map(new Function<User, Resource<User>>() {
-                                @Override
-                                public Resource<User> apply(User result) throws Exception {
-//
-//                                    if (result == null)
-//                                    {
-//                                        return Resource.error("Something went wrong", user);
-//                                    }
-//                                    else if (result.getErrorResponse() != null)
-//                                    {
-//                                        return Resource.error(result.getErrorResponse().getMessage(), user);
-//                                    }
-                                    return Resource.success(result);
-                                }
-                            })
-
-                            .subscribeOn(Schedulers.io())
-            );
-
-            editProfileLiveData.addSource(source, new Observer<Resource<User>>() {
-                @Override
-                public void onChanged(Resource<User> listResource) {
-                    editProfileLiveData.setValue(listResource);
-                    editProfileLiveData.removeSource(source);
-                }
-            });
-
+    public LiveData<Resource<ClientUserDTO>> getProfile() {
+        if (profileLiveData == null) {
+            profileLiveData = new MediatorLiveData<>();
         }
-        return editProfileLiveData;
+        profileLiveData.setValue(Resource.loading((ClientUserDTO) null));
+
+        final LiveData<Resource<ClientUserDTO>> source = LiveDataReactiveStreams.fromPublisher(
+
+                mainApi.getProfile(SharedPrefrencesHelper.getSavedMobileNumber())
+
+                        .onErrorReturn(new Function<Throwable, ClientUserDTO>() {
+                            @Override
+                            public ClientUserDTO apply(Throwable throwable) throws Exception {
+                                ErrorResponse errorResponse = Utils.fetchError(throwable);
+                                ClientUserDTO result = new ClientUserDTO();
+                                result.setMessage(errorResponse.getMessage());
+                                return result;
+                            }
+                        })
+
+                        .map(new Function<ClientUserDTO, Resource<ClientUserDTO>>() {
+                            @Override
+                            public Resource<ClientUserDTO> apply(ClientUserDTO result) throws Exception {
+
+                                if (result == null) {
+                                    return Resource.error("خطا در بازیابی اطلاعات", null);
+                                } else if (!TextUtils.isEmpty(result.getMessage())) {
+                                    return Resource.error(result.getMessage(), null);
+                                }
+                                return Resource.success(result);
+                            }
+                        })
+
+                        .subscribeOn(Schedulers.io())
+        );
+
+        profileLiveData.addSource(source, new Observer<Resource<ClientUserDTO>>() {
+            @Override
+            public void onChanged(Resource<ClientUserDTO> listResource) {
+                profileLiveData.setValue(listResource);
+                profileLiveData.removeSource(source);
+            }
+        });
+        return profileLiveData;
+    }
+
+
+    public void saveProfile(ClientUserDTO user) {
+
     }
 }
 

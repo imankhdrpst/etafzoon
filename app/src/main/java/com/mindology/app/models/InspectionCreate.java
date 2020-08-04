@@ -36,7 +36,7 @@ public class InspectionCreate extends BaseModel {
 
     @SerializedName("inspector")
     @Expose
-    private User inspector;
+    private ClientUserDTO inspector;
 
     public Enums.InspectionStatus getInspectionStatus() {
         return inspectionStatus;
@@ -94,11 +94,11 @@ public class InspectionCreate extends BaseModel {
         this.note = note;
     }
 
-    public User getInspector() {
+    public ClientUserDTO getInspector() {
         return inspector;
     }
 
-    public void setInspector(User inspector) {
+    public void setInspector(ClientUserDTO inspector) {
         this.inspector = inspector;
     }
 }

@@ -85,7 +85,7 @@
     <string name="d_update_property">You have made some changes on this property, you must update property before using it.</string>
     <string name="yes">آره</string>
     <string name="error_date_less_than_today">The selected date must not be before today</string>
-    <string name="save">Save</string>
+    <string name="save">ذخیره</string>
     <string name="success_edit_property">Property updated successfully</string>
     <string name="error_username_empty">Username must not be empty</string>
     <string name="error_password_empty">Password must not be empty</string>
@@ -95,9 +95,9 @@
     <string name="current_password">Current Password</string>
     <string name="new_password">New Password</string>
     <string name="confirm_new_password">Confirm New Pasword</string>
-    <string name="email">Email</string>
+    <string name="email">پست الکترونیکی</string>
     <string name="change_photo">Change Photo</string>
-    <string name="edit_profile">Edit ClientUserDTO</string>
+    <string name="edit_profile">ویرایش پروفایل</string>
     <string name="name">نام</string>
     <string name="message">Message</string>
     <string name="send_message">Send Message</string>
@@ -247,7 +247,7 @@
     <string name="create">Create</string>
     <string name="activities_report">Activities Report</string>
     <string name="cancellation_report">Cancellation Report</string>
-    <string name="sign_out">Sign Out</string>
+    <string name="sign_out">خروج</string>
     <string name="delete_assets">Delete Assets</string>
     <string name="delete_panonrama">Delete Panorama?</string>
     <string name="no">نه</string>
@@ -310,5 +310,7 @@
     <string name="porsesh_o_pasokh">پرسش و پاسخ</string>
     <string name="vaziate_roohi">وضعیت روحی</string>
     <string name="virayeshe_profile">ویرایش پروفایل</string>
+    <string name="gender">جنسیت</string>
+    <string name="education_type">تحصیلات</string>
 
 </resources>

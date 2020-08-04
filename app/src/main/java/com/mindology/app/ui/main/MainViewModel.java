@@ -10,7 +10,6 @@ import androidx.lifecycle.ViewModel;
 
 import com.mindology.app.SessionManager;
 import com.mindology.app.models.ClientUserDTO;
-import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
 import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.auth.AuthResource;
@@ -28,7 +27,7 @@ public class MainViewModel extends ViewModel {
     private final SessionManager sessionManager; // @Singleton scoped dependency
     private final MainApi mainApi; // @ForgetPasswordScope scoped dependency
 
-    private MediatorLiveData<Resource<User>> getProfileLiveData;
+    private MediatorLiveData<Resource<ClientUserDTO>> getProfileLiveData;
     private MediatorLiveData<Resource<Object>> devicesLiveData;
 
     private MediatorLiveData<Resource<ClientUserDTO>> profileLiveData;
@@ -41,7 +40,7 @@ public class MainViewModel extends ViewModel {
         this.mainApi = mainApi;
     }
 
-    public LiveData<AuthResource<User>> observeAuthState() {
+    public LiveData<AuthResource<ClientUserDTO>> observeAuthState() {
         return sessionManager.getAuthUser();
     }
 

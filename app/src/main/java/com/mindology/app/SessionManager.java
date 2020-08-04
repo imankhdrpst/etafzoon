@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.Observer;
 
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.TokenResponse;
-import com.mindology.app.models.User;
 import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.auth.AuthResource;
 import com.mindology.app.util.SharedPrefrencesHelper;
@@ -19,24 +19,24 @@ public class SessionManager {
     private SharedPrefrencesHelper preferences;
 
     // data
-    private MediatorLiveData<AuthResource<User>> cachedUser = new MediatorLiveData<>();
+    private MediatorLiveData<AuthResource<ClientUserDTO>> cachedUser = new MediatorLiveData<>();
 
     @Inject
     public SessionManager(SharedPrefrencesHelper helper) {
         this.preferences = helper;
     }
 
-    public void authenticateWithId(final LiveData<AuthResource<User>> source) {
+    public void authenticateWithId(final LiveData<AuthResource<ClientUserDTO>> source) {
         if (cachedUser != null) {
-            cachedUser.setValue(AuthResource.loading((User) null));
-            cachedUser.addSource(source, new Observer<AuthResource<User>>() {
+            cachedUser.setValue(AuthResource.loading((ClientUserDTO) null));
+            cachedUser.addSource(source, new Observer<AuthResource<ClientUserDTO>>() {
                 @Override
-                public void onChanged(AuthResource<User> userAuthResource) {
+                public void onChanged(AuthResource<ClientUserDTO> userAuthResource) {
                     cachedUser.setValue(userAuthResource);
                     cachedUser.removeSource(source);
 
                     if (userAuthResource.status.equals(AuthResource.AuthStatus.ERROR)) {
-                        cachedUser.setValue(AuthResource.<User>logout());
+                        cachedUser.setValue(AuthResource.<ClientUserDTO>logout());
                     }
                 }
             });
@@ -48,11 +48,11 @@ public class SessionManager {
         clearTokenOnPrefs();
         TempDataHolder.resetAllData();
         preferences.clearAll();
-        cachedUser.setValue(AuthResource.<User>logout());
+        cachedUser.setValue(AuthResource.<ClientUserDTO>logout());
     }
 
 
-    public LiveData<AuthResource<User>> getAuthUser() {
+    public LiveData<AuthResource<ClientUserDTO>> getAuthUser() {
         return cachedUser;
     }
 

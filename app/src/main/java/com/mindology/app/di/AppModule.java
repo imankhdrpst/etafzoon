@@ -11,7 +11,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
 import com.mindology.app.R;
-import com.mindology.app.models.User;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.util.Constants;
 import com.mindology.app.util.SharedPrefrencesHelper;
 import com.moczul.ok2curl.CurlInterceptor;
@@ -198,8 +198,8 @@ public class AppModule {
     @Singleton
     @Provides
     @Named("app_user")
-    static User someUser() {
-        return new User();
+    static ClientUserDTO someUser() {
+        return new ClientUserDTO();
     }
 
     //    @Singleton

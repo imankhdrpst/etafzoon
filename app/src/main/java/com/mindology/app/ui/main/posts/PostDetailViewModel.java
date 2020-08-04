@@ -10,10 +10,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.mindology.app.SessionManager;
 import com.mindology.app.models.BookmarkPostDTO;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.HelpfulCreatePostDTO;
 import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.Post;
-import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
 import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.auth.AuthResource;
@@ -22,7 +22,6 @@ import com.mindology.app.util.SharedPrefrencesHelper;
 
 import javax.inject.Inject;
 
-import io.reactivex.Scheduler;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
@@ -47,7 +46,7 @@ public class PostDetailViewModel extends ViewModel {
         this.sharedPrefs = helper;
     }
 
-    public LiveData<AuthResource<User>> getAuthenticatedUser() {
+    public LiveData<AuthResource<ClientUserDTO>> getAuthenticatedUser() {
         return sessionManager.getAuthUser();
     }
 

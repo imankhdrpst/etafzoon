@@ -9,9 +9,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.mindology.app.SessionManager;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.Post;
-import com.mindology.app.models.PostGroup;
-import com.mindology.app.models.User;
 import com.mindology.app.network.main.MainApi;
 import com.mindology.app.ui.auth.AuthResource;
 import com.mindology.app.ui.main.Resource;
@@ -44,7 +43,7 @@ public class PostsViewModel extends ViewModel {
         this.sharedPrefs = helper;
     }
 
-    public LiveData<AuthResource<User>> getAuthenticatedUser() {
+    public LiveData<AuthResource<ClientUserDTO>> getAuthenticatedUser() {
         return sessionManager.getAuthUser();
     }
 

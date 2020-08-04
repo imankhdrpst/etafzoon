@@ -15,7 +15,6 @@ import com.mindology.app.models.Post;
 import com.mindology.app.models.PostGroup;
 import com.mindology.app.models.Property;
 import com.mindology.app.models.PropertyCreate;
-import com.mindology.app.models.User;
 import com.mindology.app.network.ListResponse;
 import com.mindology.app.network.ServicePath;
 import com.mindology.app.network.models.Filters;
@@ -102,7 +101,7 @@ public interface MainApi {
 
 
     @PUT(ServicePath.PROFILE)
-    Flowable<User> editProfile(@Body User user);
+    Flowable<ClientUserDTO> editProfile(@Body ClientUserDTO user);
 
     // contact us messages
     @POST(ServicePath.CONTACT_MESSAGES)

@@ -50,7 +50,7 @@ public class Inspection extends BaseModel {
 
     @SerializedName("inspector")
     @Expose
-    private User inspector;
+    private ClientUserDTO inspector;
 
     @SerializedName("assets")
     @Expose
@@ -123,11 +123,11 @@ public class Inspection extends BaseModel {
         this.note = note;
     }
 
-    public User getInspector() {
+    public ClientUserDTO getInspector() {
         return inspector;
     }
 
-    public void setInspector(User inspector) {
+    public void setInspector(ClientUserDTO inspector) {
         this.inspector = inspector;
     }
 

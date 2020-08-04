@@ -10,7 +10,6 @@ import com.mindology.app.SessionManager;
 import com.mindology.app.models.ClientLoginDTO;
 import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.TokenResponse;
-import com.mindology.app.models.User;
 import com.mindology.app.models.VerificationRequestDTO;
 import com.mindology.app.network.auth.AuthApi;
 
@@ -33,7 +32,7 @@ public class AuthViewModel extends ViewModel {
         this.authApi = authApi;
     }
 
-    public LiveData<AuthResource<User>> observeAuthState() {
+    public LiveData<AuthResource<ClientUserDTO>> observeAuthState() {
         return sessionManager.getAuthUser();
     }
 
@@ -46,7 +45,7 @@ public class AuthViewModel extends ViewModel {
         }
     }
 
-    private LiveData<AuthResource<User>> queryUserPhoneNumber(final String mobileNumber) {
+    private LiveData<AuthResource<ClientUserDTO>> queryUserPhoneNumber(final String mobileNumber) {
         ClientLoginDTO clientLoginDTO = new ClientLoginDTO(mobileNumber);
         return LiveDataReactiveStreams.fromPublisher(
                 authApi.loginUser(clientLoginDTO)
@@ -62,22 +61,22 @@ public class AuthViewModel extends ViewModel {
                         })
 
                         // wrap User object in AuthResource
-                        .map(new Function<TokenResponse, AuthResource<User>>() {
+                        .map(new Function<TokenResponse, AuthResource<ClientUserDTO>>() {
                             @Override
-                            public AuthResource<User> apply(TokenResponse tokenResponse) throws Exception {
+                            public AuthResource<ClientUserDTO> apply(TokenResponse tokenResponse) throws Exception {
 
                                 if (!TextUtils.isEmpty(tokenResponse.getMessage())) {
                                     return AuthResource.error(tokenResponse.getMessage(), null);
                                 } else if (tokenResponse.getAuthenticated() != null && tokenResponse.getAuthenticated().equals("1")) {
                                     userAlreadyRegisteredAndNoNeedToRegister = true;
                                 }
-                                return AuthResource.phoneNumberValid(new User());
+                                return AuthResource.phoneNumberValid(new ClientUserDTO());
                             }
                         })
                         .subscribeOn(Schedulers.io()));
     }
 
-    private LiveData<AuthResource<User>> queryActivationCode(final String mobileNumber, final String activationCode) {
+    private LiveData<AuthResource<ClientUserDTO>> queryActivationCode(final String mobileNumber, final String activationCode) {
         VerificationRequestDTO verificationRequestDTO = new VerificationRequestDTO(mobileNumber, activationCode);
         return LiveDataReactiveStreams.fromPublisher(
                 authApi.verifyCode(verificationRequestDTO)
@@ -93,9 +92,9 @@ public class AuthViewModel extends ViewModel {
                         })
 
                         // wrap User object in AuthResource
-                        .map(new Function<TokenResponse, AuthResource<User>>() {
+                        .map(new Function<TokenResponse, AuthResource<ClientUserDTO>>() {
                             @Override
-                            public AuthResource<User> apply(TokenResponse tokenResponse) throws Exception {
+                            public AuthResource<ClientUserDTO> apply(TokenResponse tokenResponse) throws Exception {
 
                                 if (TextUtils.isEmpty(tokenResponse.getToken())) {
                                     return AuthResource.error(tokenResponse.getMessage(), null);
@@ -104,16 +103,16 @@ public class AuthViewModel extends ViewModel {
                                 if (userAlreadyRegisteredAndNoNeedToRegister) {
                                     sessionManager.saveToken(tokenResponse.getToken());
                                     sessionManager.saveMobileNumber(verificationRequestDTO.getMobileNumber());
-                                    return AuthResource.profileFilled(new User(tokenResponse.getToken()));
+                                    return AuthResource.profileFilled(new ClientUserDTO());
                                 } else {
-                                    return AuthResource.authenticated(new User(tokenResponse.getToken()));
+                                    return AuthResource.authenticated(new ClientUserDTO());
                                 }
                             }
                         })
                         .subscribeOn(Schedulers.io()));
     }
 
-    private LiveData<AuthResource<User>> fillProfile(ClientUserDTO dto) {
+    private LiveData<AuthResource<ClientUserDTO>> fillProfile(ClientUserDTO dto) {
         return LiveDataReactiveStreams.fromPublisher(
                 authApi.signup(dto)
 
@@ -128,16 +127,16 @@ public class AuthViewModel extends ViewModel {
                         })
 
                         // wrap User object in AuthResource
-                        .map(new Function<ClientUserDTO, AuthResource<User>>() {
+                        .map(new Function<ClientUserDTO, AuthResource<ClientUserDTO>>() {
                             @Override
-                            public AuthResource<User> apply(ClientUserDTO t) throws Exception {
+                            public AuthResource<ClientUserDTO> apply(ClientUserDTO t) throws Exception {
 
                                 if (!TextUtils.isEmpty(t.getMessage())) {
                                     return AuthResource.error(t.getMessage(), null);
                                 }
                                 sessionManager.saveToken(tokenReceived);
                                 sessionManager.saveMobileNumber(dto.getMobileNumber());
-                                return AuthResource.profileFilled(new User());
+                                return AuthResource.profileFilled(new ClientUserDTO());
                             }
                         })
                         .subscribeOn(Schedulers.io()));

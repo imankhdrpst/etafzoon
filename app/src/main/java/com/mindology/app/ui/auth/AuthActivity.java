@@ -27,7 +27,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.mindology.app.R;
-import com.mindology.app.models.User;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.ui.main.MainActivity;
 import com.mindology.app.util.SoftInputAssist;
 import com.mindology.app.viewmodels.ViewModelProviderFactory;
@@ -269,9 +269,9 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     }
 
     private void subscribeObservers() {
-        viewModel.observeAuthState().observe(this, new Observer<AuthResource<User>>() {
+        viewModel.observeAuthState().observe(this, new Observer<AuthResource<ClientUserDTO>>() {
             @Override
-            public void onChanged(AuthResource<User> userAuthResource) {
+            public void onChanged(AuthResource<ClientUserDTO> userAuthResource) {
                 if (userAuthResource != null) {
                     switch (userAuthResource.status) {
 

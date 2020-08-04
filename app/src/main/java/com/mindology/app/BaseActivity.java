@@ -11,7 +11,7 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 
-import com.mindology.app.models.User;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.ui.auth.AuthActivity;
 import com.mindology.app.ui.auth.AuthResource;
 
@@ -52,9 +52,9 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
     }
 
     private void subscribeObservers(){
-        sessionManager.getAuthUser().observe(this, new Observer<AuthResource<User>>() {
+        sessionManager.getAuthUser().observe(this, new Observer<AuthResource<ClientUserDTO>>() {
             @Override
-            public void onChanged(AuthResource<User> userAuthResource) {
+            public void onChanged(AuthResource<ClientUserDTO> userAuthResource) {
                 if(userAuthResource != null){
                     switch (userAuthResource.status){
                         case LOADING:{

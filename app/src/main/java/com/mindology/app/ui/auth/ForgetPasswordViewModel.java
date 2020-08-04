@@ -1,28 +1,15 @@
 package com.mindology.app.ui.auth;
 
-import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.LiveDataReactiveStreams;
 import androidx.lifecycle.ViewModel;
 
 import com.mindology.app.SessionManager;
-import com.mindology.app.models.TokenResponse;
-import com.mindology.app.models.User;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.network.auth.AuthApi;
-import com.mindology.app.util.Constants;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
 
 import javax.inject.Inject;
-
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.HttpException;
 
 public class ForgetPasswordViewModel extends ViewModel {
 
@@ -40,7 +27,7 @@ public class ForgetPasswordViewModel extends ViewModel {
         Log.d(TAG, "AuthViewModel: viewmodel is working...");
     }
 
-    public LiveData<AuthResource<User>> observeAuthState() {
+    public LiveData<AuthResource<ClientUserDTO>> observeAuthState() {
         return sessionManager.getAuthUser();
     }
 

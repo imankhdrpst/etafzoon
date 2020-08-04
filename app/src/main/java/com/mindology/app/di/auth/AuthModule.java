@@ -1,6 +1,6 @@
 package com.mindology.app.di.auth;
 
-import com.mindology.app.models.User;
+import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.network.auth.AuthApi;
 
 import javax.inject.Named;
@@ -15,8 +15,8 @@ public class AuthModule {
     @AuthScope
     @Provides
     @Named("auth_user")
-    static User someUser(){
-        return new User();
+    static ClientUserDTO someUser(){
+        return new ClientUserDTO();
     }
 
     @AuthScope
