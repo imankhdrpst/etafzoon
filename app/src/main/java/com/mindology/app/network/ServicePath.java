@@ -20,4 +20,5 @@ public class ServicePath {
     public static final String POST_BOOKMARK = "post/bookmark";
     public static final String POST_BOOKMARK_DELETE = "post/bookmark/delete";
     public static final String POST_SHARE = "post/increase/share/";
+    public static final String EDIT_PROFILE = "user/update";
 }

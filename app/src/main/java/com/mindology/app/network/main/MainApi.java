@@ -67,19 +67,8 @@ public interface MainApi {
     @GET(ServicePath.PROFILE + "/{mobileNumber}")
     Flowable<ClientUserDTO> getProfile(@Path("mobileNumber") String mobileNumber);
 
-    // properties
-    @GET(ServicePath.PROPERTIES)
-    Flowable<ListResponse<Property>> getProperties(@Query("fq") Filters filters, @Query("sort") Sort sortModel);
-
-    @POST(ServicePath.PROPERTIES)
-    Flowable<Property> createProperty(@Body PropertyCreate property);
-
-    @PUT(ServicePath.PROPERTIES + "/{id}")
-    Flowable<Property> editProperty(@Path("id") String id, @Body Property property);
-
-    // inspections
-    @GET(ServicePath.INSPECTIONS)
-    Flowable<ListResponse<Inspection>> getInspections(@Query("fq") Filters filters, @Query("sort") Sort sortModel);
+    @POST(ServicePath.EDIT_PROFILE)
+    Flowable<ClientUserDTO> editProfile(@Body ClientUserDTO user);
 
     @POST(ServicePath.INSPECTIONS)
     Flowable<Inspection> createInspection(@Body InspectionCreate inspection);
@@ -100,8 +89,6 @@ public interface MainApi {
     Flowable<ListResponse<Inspection>> getSummaryInspections(@Query("state") String state ,@Query("offset") int offset, @Query("limit") int limit);
 
 
-    @PUT(ServicePath.PROFILE)
-    Flowable<ClientUserDTO> editProfile(@Body ClientUserDTO user);
 
     // contact us messages
     @POST(ServicePath.CONTACT_MESSAGES)

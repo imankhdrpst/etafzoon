@@ -1,1 +1,3 @@
+include ':imagepicker'
+include ':rximagepicker'
 include ':app',':sweetalert', ':autoimageslider'

@@ -67,7 +67,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     private AutoCompleteTextView txtCity, txtMarriageStatus, txtEducationType;
     private TextView lblNameAndFamily, lblMobileNumber;
     private View progressBar;
-    private Uri changedPhotoUri = null;
+    private String changedPhotoUri = null;
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ImageView imgEditPicture;
     private MaterialButton btnSave;
@@ -205,7 +205,8 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                                 .setCompressFormat(Bitmap.CompressFormat.WEBP)
                                 .setMaxHeight(Constants.COMPRESS_MAX_HEIGHT)
                                 .setMaxWidth(Constants.COMPRESS_MAX_WIDTH)
-                                .compressToBitmap(new File(Utils.getRealPathFromURI(getContext(), changedPhotoUri)));
+//                                .compressToBitmap(new File(Utils.getRealPathFromURI(getContext(), changedPhotoUri)));
+                                .compressToBitmap(new File(changedPhotoUri));
                         return Utils.bitmapToStringBase64(bitmap);
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -335,7 +336,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
                 viewModel.getRequestManager().load(images.get(0).getPath()).into(imgProfilePicture);
 
-                changedPhotoUri = mSelected.get(0);
+                changedPhotoUri = images.get(0).getPath();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

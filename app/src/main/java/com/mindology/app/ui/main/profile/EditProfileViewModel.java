@@ -115,7 +115,45 @@ public class EditProfileViewModel extends ViewModel {
 
 
     public void saveProfile(ClientUserDTO user) {
+        profileLiveData.setValue(Resource.loading((ClientUserDTO) null));
 
+        final LiveData<Resource<ClientUserDTO>> source = LiveDataReactiveStreams.fromPublisher(
+
+                mainApi.editProfile(user)
+
+                        .onErrorReturn(new Function<Throwable, ClientUserDTO>() {
+                            @Override
+                            public ClientUserDTO apply(Throwable throwable) throws Exception {
+                                ErrorResponse errorResponse = Utils.fetchError(throwable);
+                                ClientUserDTO result = new ClientUserDTO();
+                                result.setMessage(errorResponse.getMessage());
+                                return result;
+                            }
+                        })
+
+                        .map(new Function<ClientUserDTO, Resource<ClientUserDTO>>() {
+                            @Override
+                            public Resource<ClientUserDTO> apply(ClientUserDTO result) throws Exception {
+
+                                if (result == null) {
+                                    return Resource.error("خطا در بازیابی اطلاعات", null);
+                                } else if (!TextUtils.isEmpty(result.getMessage())) {
+                                    return Resource.error(result.getMessage(), null);
+                                }
+                                return Resource.success(result);
+                            }
+                        })
+
+                        .subscribeOn(Schedulers.io())
+        );
+
+        profileLiveData.addSource(source, new Observer<Resource<ClientUserDTO>>() {
+            @Override
+            public void onChanged(Resource<ClientUserDTO> listResource) {
+                profileLiveData.setValue(listResource);
+                profileLiveData.removeSource(source);
+            }
+        });
     }
 }
 
