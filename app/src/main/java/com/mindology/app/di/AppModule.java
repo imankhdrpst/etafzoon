@@ -194,7 +194,7 @@ public class AppModule {
     @Singleton
     @Provides
     static Drawable provideAppDrawable(Application application) {
-        return ContextCompat.getDrawable(application, R.drawable.ic_logo);
+        return ContextCompat.getDrawable(application, R.drawable.mindology);
     }
 
     @Singleton

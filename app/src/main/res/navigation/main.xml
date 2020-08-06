@@ -40,12 +40,6 @@
     </fragment>
 
     <fragment
-        android:id="@+id/changePasswordScreen"
-        android:name="com.mindology.app.ui.main.profile.ChangePasswordFragment"
-        android:label="@string/change_password"
-        tools:layout="@layout/fragment_change_password"/>
-
-    <fragment
         android:id="@+id/editProfileScreen"
         android:name="com.mindology.app.ui.main.profile.EditProfileFragment"
         android:label="@string/edit_profile"
@@ -56,18 +50,5 @@
         android:name="com.mindology.app.ui.main.mood.MoodListFragment"
         android:label="@string/mood_status"
         tools:layout="@layout/fragment_vaziate_roohi"/>
-    <fragment
-        android:id="@+id/inspectionDetailsScreen"
-        android:name="com.mindology.app.ui.main.inspections.InspectionDetailsFragment"
-        android:label="@string/inspection"
-        tools:layout="@layout/fragment_inspection_details">
-
-        <argument
-            android:name="inspectionId"
-            android:defaultValue="@null"
-            app:argType="string"
-            app:nullable="true" />
-
-    </fragment>
 
 </navigation>

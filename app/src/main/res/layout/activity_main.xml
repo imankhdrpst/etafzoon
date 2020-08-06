@@ -43,8 +43,8 @@
                     app:contentInsetRight="10dp"
                     app:contentInsetStart="10dp"
                     app:contentInsetStartWithNavigation="10dp"
-                    app:titleTextColor="@color/orange"
-                    app:contentScrim="@color/orange">
+                    app:titleTextColor="@color/blue"
+                    app:contentScrim="@color/blue">
 
                 </androidx.appcompat.widget.Toolbar>
 

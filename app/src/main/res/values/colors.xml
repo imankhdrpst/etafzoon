@@ -1,45 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <color name="turquoise">#00A0BA</color>
     <color name="white">#FFFFFF</color>
-    <color name="white2">#F6F6F6</color>
-    <color name="white3">#F1F1F1</color>
-    <color name="coal">#333333</color>
     <color name="green">#00C951</color>
     <color name="gray">#AEAEAE</color>
     <color name="dark_gray">#474747</color>
     <color name="red">#ED1111</color>
     <color name="blue">#20B1EA</color>
-    <color name="lighter_blue">#5020B1EA</color>
     <color name="text_back_gray">#FBFBFB</color>
     <color name="text_dark_gray">#232126</color>
     <color name="text_blue">#22326e</color>
-    <color name="app_bar_blue">#383456</color>
     <color name="border_gray">#f6f6f8</color>
-
-
-
-    <color name="orange">#FFAC00</color>
-    <color name="app_bar">#00778A</color>
-    <color name="status_bar">#00778A</color>
-    <color name="under_app_bar">#0090A7</color>
-
-
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">#fff</color>
 
-    <color name="YIBlue">#00A0BA</color>
-    <color name="YIRed">#ED1111</color>
-    <color name="YIGreen">#6DD400</color>
-    <color name="YIGray1">#F0F0F1</color>
-    <color name="YIGray2">#D2D2D4</color>
-    <color name="YIGray3">#B4B4B7</color>
-    <color name="YIGray4">#8C8C90</color>
-    <color name="YIGray5">#46464B</color>
-    <color name="YIWhite">#FFFFFF</color>
-    <color name="md_yellow_500">#FFEB3B</color>
-    <color name="md_yellow_700">#FBC02D</color>
-    <color name="md_yellow_800">#F9A825</color>
-    <color name="gray_light_text">#aeaeae</color>
 
 
 </resources>

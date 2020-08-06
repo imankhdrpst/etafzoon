@@ -143,11 +143,11 @@
             app:cornerRadius="50dp"
             app:backgroundTint="@color/text_blue"
             app:icon="@drawable/ic_add_24px"
-            app:iconTint="@color/white2"
+            app:iconTint="@color/white"
             app:iconGravity="end"
             app:rippleColor="@color/blue"
             android:textSize="16sp"
-            android:textColor="@color/white2"
+            android:textColor="@color/white"
             android:text="@string/add_new_mood"
             android:font='@{"sans"}'
             android:layout_alignParentBottom="true"
