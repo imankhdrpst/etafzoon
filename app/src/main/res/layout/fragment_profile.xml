@@ -94,8 +94,8 @@
             android:layout_alignParentBottom="true"
             app:cornerRadiusTL="40dp"
             app:cornerRadiusTR="40dp"
-            app:shadowMarginTop="15dp"
-            app:shadowRadius="14dp">
+            app:shadowMarginTop="9dp"
+            app:shadowRadius="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -103,14 +103,22 @@
                 android:orientation="vertical">
 
                 <!-- handle toggle bottom sheet -->
-                <View
-                    android:layout_width="70dp"
-                    android:layout_height="4dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="9dp"
-                    android:layout_marginBottom="40dp"
-                    android:background="@drawable/background_box_gray"
-                    android:id="@+id/handle_bottom_sheet"/>
+                <LinearLayout
+                    android:id="@+id/handle_bottom_sheet"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:padding="20dp">
+                    <View
+                        android:layout_width="70dp"
+                        android:layout_height="4dp"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="9dp"
+                        android:padding="20dp"
+                        android:background="@drawable/background_box_gray"
+                        />
+
+                </LinearLayout>
 
                 <!-- expandable view options -->
                 <net.cachapa.expandablelayout.ExpandableLayout
@@ -118,7 +126,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
-                    app:el_duration="1500"
+                    app:el_duration="500"
                     app:el_expanded="false"
                     app:el_parallax="0">
 

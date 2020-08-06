@@ -27,6 +27,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.mindology.app.BaseActivity;
 import com.mindology.app.R;
 import com.mindology.app.models.ClientUserDTO;
+import com.mindology.app.util.SoftInputAssist;
 import com.mindology.app.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -40,13 +41,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     ViewModelProviderFactory providerFactory;
     @Inject
     RequestManager requestManager;
+    public MainViewModel viewModel;
+
+    private SoftInputAssist softInputAssist;
+
+
     private int currentApiVersion;
 
     //    private DrawerLayout drawerLayout;
 //    private NavigationView navigationView;
     private TextView txtToolbarTitle;
     private RelativeLayout layToolbar;
-    private MainViewModel viewModel;
     private TextView txtName, txtHello;
 
     @Override
@@ -57,24 +62,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         viewModel = ViewModelProviders.of(this, providerFactory).get(MainViewModel.class);
 
-        txtToolbarTitle = findViewById(R.id.txt_toolbar_title);
-        layToolbar = findViewById(R.id.lay_toolbar);
-        txtName = findViewById(R.id.txt_name);
-        txtHello = findViewById(R.id.txt_hello);
-
-        txtName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateProfile();
-            }
-        });
-        txtHello.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                navigateProfile();
-            }
-        });
-
         currentApiVersion = Build.VERSION.SDK_INT;
 
         final int flags = View.SYSTEM_UI_FLAG_LAYOUT_STABLE
@@ -84,14 +71,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 | View.SYSTEM_UI_FLAG_FULLSCREEN
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY;
 
-        // This work only for android 4.4+
         if (currentApiVersion >= Build.VERSION_CODES.KITKAT) {
 
             getWindow().getDecorView().setSystemUiVisibility(flags);
 
-            // Code below is to handle presses of Volume up or Volume down.
-            // Without this, after pressing volume buttons, the navigation bar will
-            // show up and won't hide
             final View decorView = getWindow().getDecorView();
             decorView
                     .setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
@@ -105,11 +88,30 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     });
         }
 
+        softInputAssist = new SoftInputAssist(this);
+
+        layToolbar = findViewById(R.id.lay_toolbar);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("");
+        txtToolbarTitle = findViewById(R.id.txt_toolbar_title);
+        txtName = findViewById(R.id.txt_name);
+        txtHello = findViewById(R.id.txt_hello);
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layToolbar.getLayoutParams();
         params.setMargins(0, getStatusBarHeight(), 0, 0);
         setSupportActionBar(toolbar);
+
+        txtName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateProfile();
+            }
+        });
+        txtHello.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateProfile();
+            }
+        });
 
         init();
 
@@ -205,8 +207,20 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     protected void onResume() {
         super.onResume();
+        softInputAssist.onResume();
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        softInputAssist.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        softInputAssist.onDestroy();
+        super.onDestroy();
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {

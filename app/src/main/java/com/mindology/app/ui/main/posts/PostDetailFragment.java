@@ -16,7 +16,6 @@ import androidx.lifecycle.ViewModelProviders;
 import com.bumptech.glide.Glide;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
-import com.mindology.app.models.BookmarkPostDTO;
 import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.Post;
 import com.mindology.app.repo.TempDataHolder;
@@ -39,8 +38,9 @@ public class PostDetailFragment extends BaseFragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        if (viewModel == null)
-            viewModel = ViewModelProviders.of(this, providerFactory).get(PostDetailViewModel.class);
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this, providerFactory).get(PostDetailViewModel.class);
 
         progressBar = view.findViewById(R.id.progress_bar);
         txtPostTitle = view.findViewById(R.id.txt_post_title);
@@ -75,7 +75,7 @@ public class PostDetailFragment extends BaseFragment {
         txtUsefulNo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtUsefulNo.getTag() != null && (boolean)txtUsefulNo.getTag()) {
+                if (txtUsefulNo.getTag() != null && (boolean) txtUsefulNo.getTag()) {
                     onNotUsefulClicked();
                 }
             }
@@ -83,7 +83,7 @@ public class PostDetailFragment extends BaseFragment {
         txtUsefulYes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtUsefulYes.getTag() != null && (boolean)txtUsefulYes.getTag()) {
+                if (txtUsefulYes.getTag() != null && (boolean) txtUsefulYes.getTag()) {
                     onUsefulYesClicked();
                 }
             }
@@ -93,11 +93,11 @@ public class PostDetailFragment extends BaseFragment {
     }
 
     private void onUsefulYesClicked() {
-        viewModel.setHelpful(true);
+        viewModel.setHelpful(mainViewModel.getMyProfile().getId(), true);
     }
 
     private void onNotUsefulClicked() {
-        viewModel.setHelpful(false);
+        viewModel.setHelpful(mainViewModel.getMyProfile().getId(), false);
     }
 
     private void onShareClicked() {
@@ -105,7 +105,7 @@ public class PostDetailFragment extends BaseFragment {
     }
 
     private void onBookmarkClicked() {
-        viewModel.setBookmark((boolean)imgBookmark.getTag());
+        viewModel.setBookmark(mainViewModel.getMyProfile().getMobileNumber(), (boolean) imgBookmark.getTag());
     }
 
     @Override
@@ -198,15 +198,13 @@ public class PostDetailFragment extends BaseFragment {
             txtUsefulYes.setTag(true);
             txtUsefulNo.setTextColor(getResources().getColor(R.color.gray));
             txtUsefulNo.setTag(false);
-        }
-        else if (data.getHelpful().equals("1")) // post has been set as useful
+        } else if (data.getHelpful().equals("1")) // post has been set as useful
         {
             txtUsefulYes.setTextColor(getResources().getColor(R.color.gray));
             txtUsefulYes.setTag(false);
             txtUsefulNo.setTextColor(getResources().getColor(R.color.text_dark_gray));
             txtUsefulNo.setTag(true);
-        }
-        else  // the useful has not been set yet
+        } else  // the useful has not been set yet
         {
             txtUsefulYes.setTextColor(getResources().getColor(R.color.text_dark_gray));
             txtUsefulYes.setTag(true);
@@ -214,13 +212,10 @@ public class PostDetailFragment extends BaseFragment {
             txtUsefulNo.setTag(true);
         }
 
-        if (data.isBookmarked())
-        {
+        if (data.isBookmarked()) {
             imgBookmark.setColorFilter(getResources().getColor(R.color.red));
             imgBookmark.setTag(false);
-        }
-        else
-        {
+        } else {
             imgBookmark.setColorFilter(getResources().getColor(R.color.blue));
             imgBookmark.setTag(true);
         }

@@ -10,7 +10,6 @@ import com.mindology.app.models.Post;
 
 public class TempDataHolder {
     private static Inspection currentInspection;
-    private static ClientUserDTO currentUser;
     private static Area selectedArea;
     private static Meter selectedMeter;
     private static Alarm selectedAlarm;
@@ -27,16 +26,6 @@ public class TempDataHolder {
     public static Inspection getCurrentInspection()
     {
         return currentInspection;
-    }
-
-
-
-    public static void setCurrentUser(ClientUserDTO currentUser) {
-        TempDataHolder.currentUser = currentUser;
-    }
-
-    public static ClientUserDTO getCurrentUser() {
-        return currentUser;
     }
 
     public static void setSelectedArea(Area selectedArea) {
@@ -72,7 +61,6 @@ public class TempDataHolder {
     }
 
     public static void resetAllData() {
-        currentUser = null;
         selectedArea = null;
         selectedMeter = null;
         selectedAlarm = null;

@@ -312,5 +312,11 @@
     <string name="virayeshe_profile">ویرایش پروفایل</string>
     <string name="gender">جنسیت</string>
     <string name="education_type">تحصیلات</string>
+    <string name="your_mood">حال شما</string>
+    <string name="mood_status">وضعیت روحی</string>
+    <string name="add_new_mood">افزودن</string>
+    <string name="why_not_in_mood">چرا خوب نیستی؟</string>
+    <string name="sad">ناراحت</string>
+    <string name="describe_your_mood">حالتو توصیف کن</string>
 
 </resources>

@@ -52,6 +52,11 @@
         tools:layout="@layout/fragment_edit_profile"/>
 
     <fragment
+        android:id="@+id/moodListScreen"
+        android:name="com.mindology.app.ui.main.mood.MoodListFragment"
+        android:label="@string/mood_status"
+        tools:layout="@layout/fragment_vaziate_roohi"/>
+    <fragment
         android:id="@+id/inspectionDetailsScreen"
         android:name="com.mindology.app.ui.main.inspections.InspectionDetailsFragment"
         android:label="@string/inspection"
