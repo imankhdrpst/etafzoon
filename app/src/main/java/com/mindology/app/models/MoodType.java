@@ -7,6 +7,7 @@ public class MoodType {
     private int backgroundColor;
     private boolean selected = false;
     private String title;
+    private int shadowColor;
 
     public int getBackgroundColor() {
         return backgroundColor;
@@ -55,5 +56,13 @@ public class MoodType {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public int getShadowColor() {
+        return shadowColor;
+    }
+
+    public void setShadowColor(int shadowColor) {
+        this.shadowColor = shadowColor;
     }
 }

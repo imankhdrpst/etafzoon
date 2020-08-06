@@ -21,4 +21,6 @@ public class ServicePath {
     public static final String POST_BOOKMARK_DELETE = "post/bookmark/delete";
     public static final String POST_SHARE = "post/increase/share/";
     public static final String EDIT_PROFILE = "user/update";
+    public static final String MOOD_LIST = "/mood/statistics";
+    public static final String MOOD_ADD = "/mood/add";
 }

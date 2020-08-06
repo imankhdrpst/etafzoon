@@ -1,7 +1,7 @@
 package com.mindology.app.ui.main.mood;
 
-import com.mindology.app.models.Post;
+import com.mindology.app.models.MoodType;
 
 public interface OnMoodTypeClickListener {
-    void onPostClicked(Post post);
+    void onMoodTypeClicked(MoodType moodType);
 }

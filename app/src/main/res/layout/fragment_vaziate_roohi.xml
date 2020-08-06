@@ -37,7 +37,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:textColor="@color/text_dark_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:font='@{"sans"}'
                             android:text="@string/activities_chart"/>
@@ -105,7 +105,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_centerVertical="true"
                             android:textColor="@color/text_dark_gray"
-                            android:textSize="14sp"
+                            android:textSize="16sp"
                             android:textStyle="bold"
                             android:font='@{"sans"}'
                             android:text="@string/your_mood"/>
@@ -139,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/fab_add_mood"
-            app:elevation="4dp"
+            app:elevation="2dp"
             app:cornerRadius="50dp"
             app:backgroundTint="@color/text_blue"
             app:icon="@drawable/ic_add_24px"
@@ -158,12 +158,12 @@
         <!-- layout shadow container for bottom sheet options -->
         <!-- expandable view options -->
         <net.cachapa.expandablelayout.ExpandableLayout
-            android:id="@+id/expandable_layout_profile_options"
+            android:id="@+id/expandable_layout_add_mood"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             app:el_duration="500"
-            app:el_expanded="true"
+            app:el_expanded="false"
             app:el_parallax="0">
 
             <com.loopeer.shadow.ShadowView
@@ -277,6 +277,7 @@
                         android:elevation="-5dp"
                         android:font='@{"sans"}'
                         android:text="@string/save"
+                        android:textSize="16sp"
                         android:textColor="@color/white"
                         app:backgroundTint="@color/blue"
                         app:cornerRadius="10dp"

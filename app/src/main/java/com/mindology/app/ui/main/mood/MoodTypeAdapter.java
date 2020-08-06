@@ -1,12 +1,6 @@
 package com.mindology.app.ui.main.mood;
 
-import android.graphics.Color;
-import android.graphics.CornerPathEffect;
-import android.graphics.Paint;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RectShape;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,24 +9,21 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.mikhaellopez.circleview.CircleView;
-import com.mindology.app.R;
 import com.mindology.app.databinding.ViewHolderMoodTypeBinding;
-import com.mindology.app.databinding.ViewHolderPostsBinding;
+import com.mindology.app.models.MoodDTO;
 import com.mindology.app.models.MoodType;
-import com.mindology.app.models.Post;
+import com.mindology.app.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.mindology.app.util.Utils.getBitmapFromBase64String;
 
 public class MoodTypeAdapter extends RecyclerView.Adapter<MoodTypeAdapter.MoodTypeViewHolder> {
 
     private LayoutInflater inflater;
     private List<MoodType> data = new ArrayList<>();
     private OnMoodTypeClickListener listener = null;
+    private MoodType selected = null;
 
     public MoodTypeAdapter(OnMoodTypeClickListener listener) {
         this.listener = listener;
@@ -53,6 +44,23 @@ public class MoodTypeAdapter extends RecyclerView.Adapter<MoodTypeAdapter.MoodTy
     public void onBindViewHolder(@NonNull MoodTypeViewHolder holder, int position) {
         MoodType moodType = data.get(position);
         holder.bind(moodType);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (listener != null)
+                {
+                    for (MoodType type : data)
+                    {
+                        type.setSelected(false);
+                    }
+                    moodType.setSelected(true);
+                    selected = moodType;
+                    notifyDataSetChanged();
+                    listener.onMoodTypeClicked(moodType);
+                }
+            }
+        });
     }
 
     public void setData(List<MoodType> data) {
@@ -63,6 +71,10 @@ public class MoodTypeAdapter extends RecyclerView.Adapter<MoodTypeAdapter.MoodTy
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    public MoodType getSelected() {
+        return selected;
     }
 
 
@@ -82,17 +94,24 @@ public class MoodTypeAdapter extends RecyclerView.Adapter<MoodTypeAdapter.MoodTy
             this.moodType = moodType;
 
             binding.txtTitle.setText(moodType.getTitle());
-            binding.imgIcon.setVisibility(moodType.getResourceId());
-            binding.circleView.setCircleColor(moodType.getBackgroundColor());
-            binding.circleView.setShadowEnable(true);
-            binding.circleView.setShadowColor(moodType.getBorderColor());
-            binding.circleView.setShadowGravity(CircleView.ShadowGravity.CENTER);
-            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) binding.circleView.getLayoutParams();
-            params.height = binding.circleView.getRootView().getHeight();
-            params.width = binding.circleView.getRootView().getWidth();
-            binding.layBorder.setLayoutParams(params);
-            GradientDrawable border = (GradientDrawable)binding.layBorder.getBackground();
-            border.setStroke(1, moodType.getBorderColor(), 10, 10);
+            binding.imgIcon.setImageResource(moodType.getResourceId());
+            if (moodType.isSelected()) {
+                binding.circleView.setVisibility(View.INVISIBLE);
+                binding.circleViewShadow.setVisibility(View.VISIBLE);
+                binding.layBorder.setVisibility(View.VISIBLE);
+                binding.circleViewShadow.setShadowColor(moodType.getShadowColor());
+                binding.circleViewShadow.setShadowGravity(CircleView.ShadowGravity.CENTER);
+                binding.circleViewShadow.setCircleColor(moodType.getBackgroundColor());
+                GradientDrawable border = (GradientDrawable) binding.layBorder.getBackground();
+                border.setStroke(1, moodType.getBorderColor(), 4, 8);
+            }
+            else
+            {
+                binding.circleView.setVisibility(View.VISIBLE);
+                binding.circleViewShadow.setVisibility(View.INVISIBLE);
+                binding.circleView.setCircleColor(moodType.getBackgroundColor());
+                binding.layBorder.setVisibility(View.INVISIBLE);
+            }
 
             binding.executePendingBindings();
 

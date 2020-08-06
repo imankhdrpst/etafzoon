@@ -22,13 +22,26 @@
                 android:layout_centerInParent="true"
                 app:cv_border_width="0dp"
                 app:cv_color="#303f51b5"
+                app:cv_shadow="false"
+                app:cv_shadow_color="#403f51b5"
+                app:cv_shadow_radius="0" />
+
+            <com.mikhaellopez.circleview.CircleView
+                android:id="@+id/circleViewShadow"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                app:cv_border="false"
+                app:cv_border_color="#000000"
+                android:layout_centerInParent="true"
+                app:cv_border_width="0dp"
+                app:cv_color="#303f51b5"
                 app:cv_shadow="true"
                 app:cv_shadow_color="#403f51b5"
                 app:cv_shadow_radius="10" />
 
             <RelativeLayout
-                android:layout_width="42dp"
-                android:layout_height="42dp"
+                android:layout_width="62dp"
+                android:layout_height="62dp"
                 android:layout_centerInParent="true"
                 android:id="@+id/lay_border"
                 android:background="@drawable/circle_dashed"/>

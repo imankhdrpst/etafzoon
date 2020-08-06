@@ -3,6 +3,7 @@ package com.mindology.app.ui.main.mood;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,8 +12,8 @@ import android.widget.RelativeLayout;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.databinding.DataBindingUtil;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,21 +28,29 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
+import com.mindology.app.models.MoodDTO;
+import com.mindology.app.models.MoodStatisticsDTO;
 import com.mindology.app.models.MoodType;
-import com.mindology.app.models.Post;
-import com.mindology.app.repo.TempDataHolder;
-import com.mindology.app.ui.main.posts.OnPostListener;
+import com.mindology.app.ui.main.Resource;
+
+import net.cachapa.expandablelayout.ExpandableLayout;
 
 import org.apache.commons.lang3.ArrayUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
-public class MoodListFragment extends BaseFragment implements OnPostListener, OnMoodTypeClickListener {
+import okhttp3.ResponseBody;
+
+public class MoodListFragment extends BaseFragment implements OnMoodTypeClickListener {
 
     private MoodListViewModel viewModel;
     private RelativeLayout progressBar;
@@ -51,7 +60,13 @@ public class MoodListFragment extends BaseFragment implements OnPostListener, On
     private ExtendedFloatingActionButton fabAddMood;
     private TextInputEditText txtDescription;
     private MoodTypeAdapter moodTypesAdtapter;
-    private RecyclerView rvMoods;
+    private RecyclerView rvMoodTypes;
+    private ExpandableLayout expandableAddMood;
+    private View handleBottomSheet;
+    private MaterialButton btnAddMood;
+    private TextInputLayout txtLayoutDescription;
+    private MoodsAdapter moodsAdapter;
+    private List<MoodType> moodTypes = new ArrayList<>();
 
 
     @Nullable
@@ -72,6 +87,7 @@ public class MoodListFragment extends BaseFragment implements OnPostListener, On
         fabAddMood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                expandableAddMood.expand(true);
             }
         });
 
@@ -145,7 +161,7 @@ public class MoodListFragment extends BaseFragment implements OnPostListener, On
         chart.invalidate();
 
         rvMoodList = view.findViewById(R.id.rv_mood_list);
-        rvMoodList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, true));
+        rvMoodList.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, true));
         rvMoodList.addOnScrollListener(new RecyclerView.OnScrollListener() {
 
             int yScroll = 0;
@@ -153,11 +169,11 @@ public class MoodListFragment extends BaseFragment implements OnPostListener, On
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (yScroll > 50) {
+                if (yScroll > 20) {
                     yScroll = 0;
                     fabAddMood.hide();
                 }
-                if (yScroll < -50) {
+                if (yScroll < -20) {
                     yScroll = 0;
                     fabAddMood.show();
                 }
@@ -166,24 +182,124 @@ public class MoodListFragment extends BaseFragment implements OnPostListener, On
                 yScroll += dy;
             }
         });
+        moodsAdapter = new MoodsAdapter();
+        rvMoodList.setAdapter(moodsAdapter);
 
-        rvMoods = view.findViewById(R.id.rv_moods);
-        rvMoods.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, true));
+        rvMoodTypes = view.findViewById(R.id.rv_moods);
+        rvMoodTypes.setLayoutManager(new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, true));
         moodTypesAdtapter = new MoodTypeAdapter(this);
-        rvMoods.setAdapter(moodTypesAdtapter);
-        List<MoodType> moodTypes = new ArrayList<>();
-        MoodType type = new MoodType();
-        type.setTitle("kناراحت");
-        type.setResourceId(R.drawable.ic_edit_24px);
-        type.setBackgroundColor(Color.parseColor("#fff9f3"));
-        type.setBorderColor(Color.parseColor("#ff8000"));
-        moodTypes.add(type);
+        rvMoodTypes.setAdapter(moodTypesAdtapter);
+        moodTypes = new ArrayList<>();
+
+        MoodType moodAnxiety = new MoodType();
+        moodAnxiety.setTitle("مضطرب");
+        moodAnxiety.setIndex(1);
+        moodAnxiety.setResourceId(R.drawable.ic_mood_anxious);
+        moodAnxiety.setBackgroundColor(Color.parseColor("#fff9f3"));
+        moodAnxiety.setBorderColor(Color.parseColor("#ff8000"));
+        moodAnxiety.setShadowColor(Color.parseColor("#50ff8000"));
+
+        MoodType moodCrying = new MoodType();
+        moodCrying.setTitle("گریان");
+        moodCrying.setIndex(2);
+        moodCrying.setResourceId(R.drawable.ic_mood_crying);
+        moodCrying.setBackgroundColor(Color.parseColor("#fff8f8"));
+        moodCrying.setBorderColor(Color.parseColor("#e8252b"));
+        moodCrying.setShadowColor(Color.parseColor("#50e8252b"));
+
+        MoodType moodUpset = new MoodType();
+        moodUpset.setTitle("عصبانی");
+        moodUpset.setIndex(3);
+        moodUpset.setResourceId(R.drawable.ic_mood_upset);
+        moodUpset.setBackgroundColor(Color.parseColor("#fbfdff"));
+        moodUpset.setBorderColor(Color.parseColor("#a0a5aa"));
+        moodUpset.setShadowColor(Color.parseColor("#50a0a5aa"));
+
+        MoodType moodSad = new MoodType();
+        moodSad.setTitle("ناراحت");
+        moodSad.setIndex(4);
+        moodSad.setResourceId(R.drawable.ic_mood_sad);
+        moodSad.setBackgroundColor(Color.parseColor("#fef9f6"));
+        moodSad.setBorderColor(Color.parseColor("#db7e6c"));
+        moodSad.setShadowColor(Color.parseColor("#50db7e6c"));
+
+        moodTypes.add(moodAnxiety);
+        moodTypes.add(moodCrying);
+        moodTypes.add(moodUpset);
+        moodTypes.add(moodSad);
+        moodTypes.add(moodSad);
+        moodTypes.add(moodSad);
+
         moodTypesAdtapter.setData(moodTypes);
 
         txtDescription = view.findViewById(R.id.input_description);
         txtDescription.setHint(getString(R.string.describe_your_mood));
+        txtLayoutDescription = view.findViewById(R.id.txt_layout_description);
+
+        expandableAddMood = view.findViewById(R.id.expandable_layout_add_mood);
+        expandableAddMood.setOnExpansionUpdateListener(new ExpandableLayout.OnExpansionUpdateListener() {
+            @Override
+            public void onExpansionUpdate(float expansionFraction, int state) {
+                switch (state) {
+                    case ExpandableLayout.State.EXPANDING:
+                        fabAddMood.hide();
+                        break;
+                    case ExpandableLayout.State.COLLAPSED:
+                        fabAddMood.show();
+                        break;
+                }
+            }
+        });
+
+        handleBottomSheet = view.findViewById(R.id.handle_bottom_sheet);
+        handleBottomSheet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expandableAddMood.collapse(true);
+            }
+        });
+
+        btnAddMood = view.findViewById(R.id.btn_save);
+        btnAddMood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onAddMoodClicked();
+            }
+        });
 
         subscribeObservers();
+    }
+
+    private void onAddMoodClicked() {
+        if (TextUtils.isEmpty(txtDescription.getText().toString()))
+        {
+            txtLayoutDescription.setError("لطفا حال خودتو توصیف کن");
+        }
+        else {
+            txtLayoutDescription.setError("");
+            if (moodTypesAdtapter.getSelected() != null) {
+                MoodDTO moodDTO = new MoodDTO();
+                moodDTO.setMoodDate(Calendar.getInstance().getTime());
+                switch (moodTypesAdtapter.getSelected().getIndex()) {
+                    case 1:
+                        moodDTO.setReason0(1);
+                        break;
+                    case 2:
+                        moodDTO.setReason1(1);
+                        break;
+                    case 3:
+                        moodDTO.setReason2(1);
+                        break;
+                    case 4:
+                        moodDTO.setReason3(1);
+                        break;
+                }
+                moodDTO.setDescription(txtDescription.getText().toString());
+                moodDTO.setUserMobile(mainViewModel.getMyProfile().getMobileNumber());
+
+                viewModel.addMood(moodDTO);
+            }
+        }
     }
 
     private void setData(int count, float range) {
@@ -249,12 +365,87 @@ public class MoodListFragment extends BaseFragment implements OnPostListener, On
         setData(10, 30.0f);
         chart.invalidate();
 
+        viewModel.observeMoodList(mainViewModel.getMyProfile().getMobileNumber()).observe(getViewLifecycleOwner(), new Observer<Resource<MoodStatisticsDTO>>() {
+            @Override
+            public void onChanged(Resource<MoodStatisticsDTO> moodStatisticsDTOResource) {
+                if (moodStatisticsDTOResource != null)
+                {
+                    switch (moodStatisticsDTOResource.status)
+                    {
+                        case ERROR:
+                            progressBar.setVisibility(View.GONE);
+                            fabAddMood.show();
+                            break;
+                        case LOADING:
+                            progressBar.setVisibility(View.VISIBLE);
+                            fabAddMood.hide();
+                            break;
+                        case UPDATED:
+                        case SUCCESS:
+                            fabAddMood.show();
+                            progressBar.setVisibility(View.GONE);
+                            List<MoodDTO> result = moodStatisticsDTOResource.data.getMoods();
+                            for(MoodDTO moodDTO : result)
+                            {
+                                if (moodDTO.getReason0() == 1)
+                                {
+                                    moodDTO.setMoodType(moodTypes.get(0));
+                                }
+                                if (moodDTO.getReason1() == 1)
+                                {
+                                    moodDTO.setMoodType(moodTypes.get(1));
+                                }
+                                if (moodDTO.getReason2() == 1)
+                                {
+                                    moodDTO.setMoodType(moodTypes.get(2));
+                                }
+                                if (moodDTO.getReason3() == 1)
+                                {
+                                    moodDTO.setMoodType(moodTypes.get(3));
+                                }
+                                if (moodDTO.getReason4() == 1)
+                                {
+                                    moodDTO.setMoodType(moodTypes.get(4));
+                                }
+                                if (moodDTO.getReason5() == 1)
+                                {
+                                    moodDTO.setMoodType(moodTypes.get(5));
+                                }
+                            }
+                            moodsAdapter.setData(result);
+                            break;
+
+                    }
+                }
+            }
+        });
+        viewModel.observeAddMood().observe(getViewLifecycleOwner(), new Observer<Resource<ResponseBody>>() {
+            @Override
+            public void onChanged(Resource<ResponseBody> objectResource) {
+                if (objectResource != null)
+                {
+                    switch (objectResource.status)
+                    {
+                        case LOADING:
+                            progressBar.setVisibility(View.VISIBLE);
+                            break;
+                        case SUCCESS:
+                        case ERROR:
+                            progressBar.setVisibility(View.GONE);
+                            if (expandableAddMood.isExpanded())
+                                expandableAddMood.collapse(true);
+                            break;
+
+                    }
+                }
+            }
+        });
     }
 
+
     @Override
-    public void onPostClicked(Post post) {
-        TempDataHolder.setSelectedPost(post);
-        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.postDetailScreen);
+    public void onMoodTypeClicked(MoodType moodType) {
+
     }
 }
 

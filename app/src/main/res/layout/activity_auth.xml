@@ -347,6 +347,7 @@
                             android:elevation="-5dp"
                             android:font='@{"sans"}'
                             android:text="@string/next"
+                            android:textSize="16sp"
                             android:textColor="@color/white"
                             app:backgroundTint="@color/blue"
                             app:cornerRadius="10dp"
@@ -477,6 +478,7 @@
                             android:font='@{"sans"}'
                             android:text="@string/activate"
                             android:textColor="@color/white"
+                            android:textSize="16sp"
                             app:backgroundTint="@color/blue"
                             app:cornerRadius="10dp"
                             app:elevation="-5dp" />
@@ -667,6 +669,7 @@
                             android:elevation="-5dp"
                             android:font='@{"sans"}'
                             android:text="@string/register"
+                            android:textSize="16sp"
                             android:textColor="@color/white"
                             app:backgroundTint="@color/blue"
                             app:cornerRadius="10dp"
