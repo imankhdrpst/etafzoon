@@ -18,8 +18,6 @@ import androidx.navigation.Navigation;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
 import com.mindology.app.models.ClientUserDTO;
-import com.mindology.app.repo.TempDataHolder;
-import com.mindology.app.ui.auth.AuthActivity;
 import com.mindology.app.ui.main.Resource;
 import com.mindology.app.util.Utils;
 
@@ -39,6 +37,7 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     private ExpandableLayout expandableOptions;
     private View handleBottomSheet;
     private View laySignOut, layEditProfile;
+    private View layMoodStatus;
 
     @Nullable
     @Override
@@ -49,6 +48,9 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+
+        super.onViewCreated(view, savedInstanceState);
+
         this.view = view;
 
         viewModel = ViewModelProviders.of(this, providerFactory).get(ProfileViewModel.class);
@@ -66,9 +68,12 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
         laySignOut.setOnClickListener(this);
         layEditProfile = view.findViewById(R.id.lay_virayeshe_profile);
         layEditProfile.setOnClickListener(this);
+        layMoodStatus = view.findViewById(R.id.lay_vaziate_roohi);
+        layMoodStatus.setOnClickListener(this);
 
         expandableOptions.expand(true);
 
+        subscribeObservers();
 
     }
 
@@ -93,21 +98,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        if (TempDataHolder.getCurrentUser() != null) {
-            fillViewWithData(TempDataHolder.getCurrentUser());
-        } else {
-            subscribeGetProfileObservers();
-        }
     }
 
-    private void subscribeGetProfileObservers() {
-        viewModel.observerGetProfile().observe(getViewLifecycleOwner(), new Observer<Resource<ClientUserDTO>>() {
+    private void subscribeObservers() {
+        mainViewModel.queryMyProfile().observe(getViewLifecycleOwner(), new Observer<Resource<ClientUserDTO>>() {
             @Override
             public void onChanged(Resource<ClientUserDTO> clientUserDTOResource) {
-                if (clientUserDTOResource != null)
-                {
-                    switch (clientUserDTOResource.status)
-                    {
+                if (clientUserDTOResource != null) {
+                    switch (clientUserDTOResource.status) {
                         case LOADING:
                             progressBar.setVisibility(View.VISIBLE);
                             break;
@@ -121,7 +119,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                             sweetAlertDialog.dismissWithAnimation();
-                                            Navigation.findNavController(getActivity(), R.id.nav_host_fragment).popBackStack();
                                         }
                                     })
                                     .show();
@@ -129,7 +126,6 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
                         case SUCCESS:
                         case UPDATED:
                             progressBar.setVisibility(View.GONE);
-                            TempDataHolder.setCurrentUser(clientUserDTOResource.data);
                             fillViewWithData(clientUserDTOResource.data);
                             break;
                     }
@@ -150,7 +146,14 @@ public class ProfileFragment extends BaseFragment implements View.OnClickListene
             case R.id.lay_virayeshe_profile:
                 onEditProfileClicked();
                 break;
+            case R.id.lay_vaziate_roohi:
+                onMoodStatusClicked();
+                break;
         }
+    }
+
+    private void onMoodStatusClicked() {
+        Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.moodListScreen);
     }
 
     private void onEditProfileClicked() {

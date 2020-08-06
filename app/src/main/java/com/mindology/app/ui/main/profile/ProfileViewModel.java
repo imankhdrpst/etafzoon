@@ -43,53 +43,6 @@ public class ProfileViewModel extends ViewModel {
         return sessionManager;
     }
 
-    public LiveData<Resource<ClientUserDTO>> observerGetProfile() {
-        if (getProfileLiveData == null) {
-            getProfileLiveData = new MediatorLiveData<>();
-        }
-        getProfileLiveData.setValue(Resource.loading((ClientUserDTO) null));
-
-        final LiveData<Resource<ClientUserDTO>> source = LiveDataReactiveStreams.fromPublisher(
-
-                mainApi.getProfile(SharedPrefrencesHelper.getSavedMobileNumber())
-
-                        .onErrorReturn(new Function<Throwable, ClientUserDTO>() {
-                            @Override
-                            public ClientUserDTO apply(Throwable throwable) throws Exception {
-                                ErrorResponse errorResponse = Utils.fetchError(throwable);
-                                ClientUserDTO result = new ClientUserDTO();
-                                result.setMessage(errorResponse.getMessage());
-                                return result;
-                            }
-                        })
-
-                        .map(new Function<ClientUserDTO, Resource<ClientUserDTO>>() {
-                            @Override
-                            public Resource<ClientUserDTO> apply(ClientUserDTO result) throws Exception {
-
-                                if (result == null) {
-                                    return Resource.error("خطا در بازیابی اطلاعات", null);
-                                } else if (!TextUtils.isEmpty(result.getMessage())) {
-                                    return Resource.error(result.getMessage(), null);
-                                }
-                                return Resource.success(result);
-                            }
-                        })
-
-                        .subscribeOn(Schedulers.io())
-        );
-
-        getProfileLiveData.addSource(source, new Observer<Resource<ClientUserDTO>>() {
-            @Override
-            public void onChanged(Resource<ClientUserDTO> listResource) {
-                getProfileLiveData.setValue(listResource);
-                getProfileLiveData.removeSource(source);
-            }
-        });
-        return getProfileLiveData;
-    }
-
-
 }
 
 

@@ -36,9 +36,9 @@ import com.mindology.app.models.PostGroup;
 import com.mindology.app.models.SliderItem;
 import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.main.Resource;
+import com.mindology.app.ui.main.posts.BannerAdapter;
 import com.mindology.app.ui.main.posts.OnPostListener;
 import com.mindology.app.ui.main.posts.PostsAdapter;
-import com.mindology.app.ui.main.posts.BannerAdapter;
 import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
 import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
@@ -73,8 +73,9 @@ public class MainFragment extends BaseFragment implements OnPostListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        if (viewModel == null)
-            viewModel = ViewModelProviders.of(this, providerFactory).get(MainPageViewModel.class);
+        super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this, providerFactory).get(MainPageViewModel.class);
 
         progressBar = view.findViewById(R.id.progress_bar);
 
@@ -305,10 +306,8 @@ public class MainFragment extends BaseFragment implements OnPostListener {
         viewModel.queryLatestPosts().observe(getViewLifecycleOwner(), new Observer<Resource<List<Post>>>() {
             @Override
             public void onChanged(Resource<List<Post>> listResource) {
-                if (listResource != null)
-                {
-                    switch (listResource.status)
-                    {
+                if (listResource != null) {
+                    switch (listResource.status) {
                         case LOADING:
                             prgLatestPosts.setVisibility(View.VISIBLE);
                             break;

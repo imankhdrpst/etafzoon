@@ -28,8 +28,6 @@
             android:required="false" />
 
         <activity android:name="com.mindology.app.ui.main.MainActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name="com.mindology.app.ui.auth.ForgetPasswordActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize"></activity>
-        <activity android:name="com.mindology.app.ui.auth.ContactUsActivity" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize"></activity>
         <activity android:name="com.mindology.app.ui.auth.AuthActivity"  android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
