@@ -2,7 +2,6 @@ package com.mindology.app.network.main;
 
 import com.mindology.app.models.BookmarkPostDTO;
 import com.mindology.app.models.ClientUserDTO;
-import com.mindology.app.models.HelpfulCreatePostDTO;
 import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.MoodDTO;
 import com.mindology.app.models.MoodStatisticsDTO;
@@ -36,7 +35,7 @@ public interface MainApi {
 
     // post useful
     @POST(ServicePath.POST_USEFUL)
-    Flowable<HelpfulPostDTO> setPostUseful(@Body HelpfulCreatePostDTO dto);
+    Flowable<HelpfulPostDTO> setPostUseful(@Body HelpfulPostDTO dto);
 
     // post bookmark
     @POST(ServicePath.POST_BOOKMARK)

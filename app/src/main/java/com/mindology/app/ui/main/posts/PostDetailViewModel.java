@@ -11,7 +11,6 @@ import androidx.lifecycle.ViewModel;
 import com.mindology.app.SessionManager;
 import com.mindology.app.models.BookmarkPostDTO;
 import com.mindology.app.models.ClientUserDTO;
-import com.mindology.app.models.HelpfulCreatePostDTO;
 import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.Post;
 import com.mindology.app.network.main.MainApi;
@@ -220,7 +219,7 @@ public class PostDetailViewModel extends ViewModel {
         });
     }
 
-    public void setHelpful(int id, boolean helpful) {
+    public void setHelpful(String mobile, boolean helpful) {
         if (post == null) return;
 
         if (helpfulLiveData == null) {
@@ -229,10 +228,10 @@ public class PostDetailViewModel extends ViewModel {
 
         helpfulLiveData.setValue(Resource.loading(null));
 
-        HelpfulCreatePostDTO dto = new HelpfulCreatePostDTO();
-        dto.setClientUserId(id);
+        HelpfulPostDTO dto = new HelpfulPostDTO();
         dto.setPostId(post.getId());
         dto.setHelpful(helpful);
+        dto.setUserMobile(mobile);
 
         final LiveData<Resource<HelpfulPostDTO>> source = LiveDataReactiveStreams.fromPublisher(
 

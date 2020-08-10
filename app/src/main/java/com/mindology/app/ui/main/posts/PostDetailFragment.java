@@ -94,11 +94,11 @@ public class PostDetailFragment extends BaseFragment {
     }
 
     private void onUsefulYesClicked() {
-        viewModel.setHelpful(mainViewModel.getMyProfile().getId(), true);
+        viewModel.setHelpful(mainViewModel.getMyProfile().getMobileNumber(), true);
     }
 
     private void onNotUsefulClicked() {
-        viewModel.setHelpful(mainViewModel.getMyProfile().getId(), false);
+        viewModel.setHelpful(mainViewModel.getMyProfile().getMobileNumber(), false);
     }
 
     private void onShareClicked() {

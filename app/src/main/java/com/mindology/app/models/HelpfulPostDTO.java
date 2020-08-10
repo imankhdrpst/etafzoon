@@ -4,9 +4,9 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class HelpfulPostDTO extends BaseModel {
-    @SerializedName("clientUserId")
+    @SerializedName("userMobile")
     @Expose
-    private int clientUserId;
+    private String userMobile;
 
     @SerializedName("helpful")
     @Expose
@@ -20,12 +20,12 @@ public class HelpfulPostDTO extends BaseModel {
     @Expose
     private int postId;
 
-    public int getClientUserId() {
-        return clientUserId;
+    public String getUserMobile() {
+        return userMobile;
     }
 
-    public void setClientUserId(int clientUserId) {
-        this.clientUserId = clientUserId;
+    public void setUserMobile(String clientUserId) {
+        this.userMobile = clientUserId;
     }
 
     public boolean isHelpful() {
