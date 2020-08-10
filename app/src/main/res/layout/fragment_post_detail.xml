@@ -189,7 +189,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center"
                                     android:font='@{"sans"}'
-                                    android:textColor="@color/app_bar_blue"
+                                    android:textColor="@color/text_blue"
                                     android:textSize="14sp" />
 
                                 <LinearLayout
@@ -259,7 +259,7 @@
                                 <View
                                     android:layout_width="1dp"
                                     android:layout_height="match_parent"
-                                    android:background="@color/gray_light_text" />
+                                    android:background="@color/border_gray" />
 
                                 <!-- image view bookmark -->
                                 <ImageView

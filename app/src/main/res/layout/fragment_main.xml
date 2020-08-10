@@ -26,7 +26,7 @@
                     android:layout_marginTop="18dp"
                     android:layout_width="match_parent"
                     app:cardCornerRadius="10dp"
-                    app:cardBackgroundColor="@color/white2"
+                    app:cardBackgroundColor="@color/border_gray"
                     >
 
                     <com.smarteist.autoimageslider.SliderView

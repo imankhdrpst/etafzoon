@@ -10,15 +10,13 @@ import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.HotSpot;
 import com.mindology.app.models.Inspection;
 import com.mindology.app.models.InspectionCreate;
+import com.mindology.app.models.MoodDTO;
+import com.mindology.app.models.MoodStatisticsDTO;
 import com.mindology.app.models.Panorama;
 import com.mindology.app.models.Post;
 import com.mindology.app.models.PostGroup;
-import com.mindology.app.models.Property;
-import com.mindology.app.models.PropertyCreate;
 import com.mindology.app.network.ListResponse;
 import com.mindology.app.network.ServicePath;
-import com.mindology.app.network.models.Filters;
-import com.mindology.app.network.models.Sort;
 
 import java.util.List;
 
@@ -26,6 +24,7 @@ import io.reactivex.Flowable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
 import retrofit2.http.GET;
 import retrofit2.http.PATCH;
 import retrofit2.http.POST;
@@ -69,6 +68,14 @@ public interface MainApi {
 
     @POST(ServicePath.EDIT_PROFILE)
     Flowable<ClientUserDTO> editProfile(@Body ClientUserDTO user);
+
+    // mood list
+    @POST(ServicePath.MOOD_LIST )
+    Flowable<MoodStatisticsDTO> getMoodList(@Query("mobile") String mobile, @Query("period") int period);
+
+    // mood add
+    @POST(ServicePath.MOOD_ADD)
+    Flowable<ResponseBody> addMood(@Body MoodDTO moodDTO);
 
     @POST(ServicePath.INSPECTIONS)
     Flowable<Inspection> createInspection(@Body InspectionCreate inspection);

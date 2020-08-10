@@ -12,7 +12,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mindology.app.BaseFragment;
@@ -39,8 +38,8 @@ public class PostsFragment extends BaseFragment implements OnPostListener {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        if (viewModel == null)
-            viewModel = ViewModelProviders.of(this, providerFactory).get(PostsViewModel.class);
+        super.onViewCreated(view, savedInstanceState);
+        viewModel = ViewModelProviders.of(this, providerFactory).get(PostsViewModel.class);
 
         progressBar = view.findViewById(R.id.prg_latest_posts);
 

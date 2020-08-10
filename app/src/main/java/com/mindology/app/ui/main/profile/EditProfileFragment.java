@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +30,6 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
 import com.mindology.app.models.ClientUserDTO;
-import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.main.Resource;
 import com.mindology.app.util.Constants;
 import com.mindology.app.util.Enums;
@@ -82,8 +80,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        Log.d(TAG, "onViewCreated: GroupedInspections. " + this);
-
+        super.onViewCreated(view, savedInstanceState);
         this.view = view;
 
         viewModel = ViewModelProviders.of(this, providerFactory).get(EditProfileViewModel.class);
@@ -170,18 +167,15 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
     private void onConfirmChanges() {
 
-        if (TextUtils.isEmpty(txtName.getText().toString()))
-        {
+        if (TextUtils.isEmpty(txtName.getText().toString())) {
             txtLayoutName.setError("نام را وارد نمایید");
             return;
-        }
-        else
-        {
+        } else {
             txtLayoutName.setError("");
         }
 
 
-        ClientUserDTO user = TempDataHolder.getCurrentUser();
+        ClientUserDTO user = new ClientUserDTO();// TempDataHolder.getCurrentUser();
 
         user.setFirstName(txtName.getText().toString());
         user.setLastName(txtFamily.getText().toString());
@@ -222,7 +216,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                         public void accept(String o) throws Exception {
 
                             user.setProfilePicture(o);
-                            viewModel.saveProfile(user);
+                            mainViewModel.saveProfile(user);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -231,14 +225,14 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                         }
                     });
         } else {
-            viewModel.saveProfile(user);
+            mainViewModel.saveProfile(user);
         }
 
     }
 
     private void subscribeProfile() {
 //        viewModel.observerGetProfile().removeObservers(getViewLifecycleOwner());
-        viewModel.observerProfile().observe(getViewLifecycleOwner(), new Observer<Resource<ClientUserDTO>>() {
+        mainViewModel.queryMyProfile().observe(getViewLifecycleOwner(), new Observer<Resource<ClientUserDTO>>() {
             @Override
             public void onChanged(Resource<ClientUserDTO> userResource) {
                 if (userResource != null) {
@@ -265,7 +259,6 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
 
                         case SUCCESS:
                             progressBar.setVisibility(View.GONE);
-                            TempDataHolder.setCurrentUser(userResource.data);
                             fillWithData(userResource.data);
                             break;
                     }

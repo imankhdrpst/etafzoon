@@ -114,7 +114,7 @@ public class PostDetailViewModel extends ViewModel {
         return bookmarkLiveData;
     }
 
-    public void setBookmark(boolean add)
+    public void setBookmark(String mobileNumber, boolean add)
     {
         if (post == null) return;
 
@@ -127,7 +127,7 @@ public class PostDetailViewModel extends ViewModel {
 
         BookmarkPostDTO dto = new BookmarkPostDTO();
         dto.setPostId(post.getId());
-        dto.setUserMobile(TempDataHolder.getCurrentUser().getMobileNumber());
+        dto.setUserMobile(mobileNumber);
 
         final LiveData<Resource<Object>> source;
 
@@ -220,7 +220,7 @@ public class PostDetailViewModel extends ViewModel {
         });
     }
 
-    public void setHelpful(boolean helpful) {
+    public void setHelpful(int id, boolean helpful) {
         if (post == null) return;
 
         if (helpfulLiveData == null) {
@@ -230,7 +230,7 @@ public class PostDetailViewModel extends ViewModel {
         helpfulLiveData.setValue(Resource.loading(null));
 
         HelpfulCreatePostDTO dto = new HelpfulCreatePostDTO();
-        dto.setClientUserId(TempDataHolder.getCurrentUser().getId());
+        dto.setClientUserId(id);
         dto.setPostId(post.getId());
         dto.setHelpful(helpful);
 

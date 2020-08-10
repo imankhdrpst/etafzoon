@@ -85,7 +85,7 @@
                             android:layout_centerVertical="true"
                             android:layout_marginTop="11dp"
                             android:font='@{"sans"}'
-                            android:textColor="@color/gray_light_text"
+                            android:textColor="@color/gray"
                             android:textSize="13sp" />
                     </LinearLayout>
 

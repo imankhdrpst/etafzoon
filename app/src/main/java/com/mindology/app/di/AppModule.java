@@ -10,6 +10,7 @@ import androidx.core.content.ContextCompat;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.gson.GsonBuilder;
 import com.mindology.app.R;
 import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.util.Constants;
@@ -18,6 +19,7 @@ import com.moczul.ok2curl.CurlInterceptor;
 import com.moczul.ok2curl.logger.Loggable;
 
 import java.io.IOException;
+import java.text.DateFormat;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -70,7 +72,7 @@ public class AppModule {
         return new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").create()))
                 .client(client)
                 .build();
     }
@@ -192,7 +194,7 @@ public class AppModule {
     @Singleton
     @Provides
     static Drawable provideAppDrawable(Application application) {
-        return ContextCompat.getDrawable(application, R.drawable.ic_logo);
+        return ContextCompat.getDrawable(application, R.drawable.mindology);
     }
 
     @Singleton
