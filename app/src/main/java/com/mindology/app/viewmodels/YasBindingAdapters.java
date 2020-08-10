@@ -1,5 +1,6 @@
 package com.mindology.app.viewmodels;
 
+import android.content.res.ColorStateList;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -7,7 +8,10 @@ import android.widget.TextView;
 import androidx.databinding.BindingAdapter;
 
 import com.bumptech.glide.RequestManager;
+import com.google.android.material.button.MaterialButton;
 import com.mindology.app.R;
+import com.mindology.app.util.Constants;
+import com.mindology.app.util.Enums;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -47,23 +51,23 @@ public class YasBindingAdapters {
         view.setText(value ? "Yes" : "");
     }
 
-//    @BindingAdapter(value = "propertyType")
-//    public static void propertyType(TextView view, String value) {
-//        if (TextUtils.isEmpty(value)) {
-//            view.setText("");
-//        } else {
-//            view.setText(Enums.PropertyTypes.getNameByType(Enums.PropertyTypes.getTypeByValue(value)));
-//        }
-//    }
+    @BindingAdapter(value = "propertyType")
+    public static void propertyType(TextView view, String value) {
+        if (TextUtils.isEmpty(value)) {
+            view.setText("");
+        } else {
+            view.setText(Enums.PropertyTypes.getNameByType(Enums.PropertyTypes.getTypeByValue(value)));
+        }
+    }
 
-//    @BindingAdapter(value = "furnishing")
-//    public static void furnishing(TextView view, String value) {
-//        if (TextUtils.isEmpty(value)) {
-//            view.setText("");
-//        } else {
-//            view.setText(Enums.Furnishing.getNameByType(Enums.Furnishing.getTypeByKey(value)));
-//        }
-//    }
+    @BindingAdapter(value = "furnishing")
+    public static void furnishing(TextView view, String value) {
+        if (TextUtils.isEmpty(value)) {
+            view.setText("");
+        } else {
+            view.setText(Enums.Furnishing.getNameByType(Enums.Furnishing.getTypeByKey(value)));
+        }
+    }
 
 //    @BindingAdapter(value = "inspectionType")
 //    public static void inspectionType(MultiStateSwitch view, Enums.InspectionTypes value) {
@@ -81,17 +85,6 @@ public class YasBindingAdapters {
 //            }
 //    }
 
-//    @BindingAdapter(value = "buttonEnabled")
-///    public static void buttonEnabled(MaterialButton view, boolean value) {
-//        if (!value) {
-//            view.setBackgroundTintList(ColorStateList.valueOf(view.getResources().getColor(R.color.YIGreen)));
-//            view.setEnabled(true);
-//        } else {
-//            view.setBackgroundTintList(ColorStateList.valueOf(view.getResources().getColor(R.color.turquoise)));
-//            view.setEnabled(false);
-//        }
-//    }
-
     @BindingAdapter(value = "buttonVisibility")
     public static void buttonVisibility(View view, boolean value) {
         if (value) {
@@ -104,79 +97,14 @@ public class YasBindingAdapters {
         }
     }
 
-//    @BindingAdapter(value = "address")
-//    public static void address(TextView view, Address value) {
-//        if (value == null) {
-//            view.setText(view.getContext().getString(R.string.create_or_attach_property));
-//        } else {
-//            try {
-//                view.setText(value.toString());
-//            } catch (Exception e) {
-//
-//            }
-//        }
-//    }
+    @BindingAdapter(value = {"expireDate", "prefixText"}, requireAll = false)
+    public static void expireDate(TextView textView, long dateInt, String prefixText) {
 
-//    @BindingAdapter(value = "client")
-//    public static void client(TextView view, Client value) {
-//        if (value == null) {
-//            view.setText("");
-//        } else {
-//            try {
-//                view.setText(value.getName());
-//            } catch (Exception e) {
-//
-//            }
-//        }
-//    }
+        Date date = new Date(dateInt);
+        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
+        String dateText = df2.format(date);
 
-//    @BindingAdapter(value = "linkedInspection")
-//    public static void linkedInspection(TextView view, Inspection value) {
-//        if (value == null) {
-//            view.setText("");
-//        } else {
-//            try {
-//                view.setText(value.getProperty().getAddress().toString());
-//            } catch (Exception e) {
-//            }
-//        }
-//    }
-
-//    @BindingAdapter(value = {"addressWithPrefix", "prefix"}, requireAll = false)
-//    public static void addressMulti(TextView view, Address value, String text) {
-//        if (value == null) {
-//            view.setText(text);
-//        } else {
-//            try {
-//                view.setText(value.toString());
-//            } catch (Exception e) {
-//
-//            }
-//        }
-//    }
-
-//    @BindingAdapter(value = "date")
-//    public static void date(TextView view, String date) {
-//        if (date == null) {
-//            view.setText(view.getContext().getString(R.string.none));
-//        } else {
-//            try {
-//                Date relatedDate = (new SimpleDateFormat(Constants.dateFormat)).parse(date);
-//                view.setText(new SimpleDateFormat(Constants.newDateFormat).format(relatedDate));
-//            } catch (ParseException e) {
-//                view.setText(date);
-//            }
-//        }
-//    }
-
-//    @BindingAdapter(value = {"expireDate", "prefixText"}, requireAll = false)
-//    public static void expireDate(TextView textView, long dateInt, String prefixText) {
-//
-//        Date date = new Date(dateInt);
-//        SimpleDateFormat df2 = new SimpleDateFormat("dd/MM/yy");
-//        String dateText = df2.format(date);
-//
-//        textView.setText(prefixText + " " + dateText);
-//    }
+        textView.setText(prefixText + " " + dateText);
+    }
 
 }

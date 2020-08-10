@@ -1,34 +1,22 @@
 package com.mindology.app.network.main;
 
 import com.mindology.app.models.BookmarkPostDTO;
-import com.mindology.app.models.Client;
 import com.mindology.app.models.ClientUserDTO;
-import com.mindology.app.models.ContactMessageResponse;
-import com.mindology.app.models.Devices;
 import com.mindology.app.models.HelpfulCreatePostDTO;
 import com.mindology.app.models.HelpfulPostDTO;
-import com.mindology.app.models.HotSpot;
-import com.mindology.app.models.Inspection;
-import com.mindology.app.models.InspectionCreate;
 import com.mindology.app.models.MoodDTO;
 import com.mindology.app.models.MoodStatisticsDTO;
-import com.mindology.app.models.Panorama;
 import com.mindology.app.models.Post;
 import com.mindology.app.models.PostGroup;
-import com.mindology.app.network.ListResponse;
 import com.mindology.app.network.ServicePath;
 
 import java.util.List;
 
 import io.reactivex.Flowable;
 import okhttp3.ResponseBody;
-import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.Field;
 import retrofit2.http.GET;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
@@ -70,67 +58,11 @@ public interface MainApi {
     Flowable<ClientUserDTO> editProfile(@Body ClientUserDTO user);
 
     // mood list
-    @POST(ServicePath.MOOD_LIST )
+    @POST(ServicePath.MOOD_LIST)
     Flowable<MoodStatisticsDTO> getMoodList(@Query("mobile") String mobile, @Query("period") int period);
 
     // mood add
     @POST(ServicePath.MOOD_ADD)
     Flowable<ResponseBody> addMood(@Body MoodDTO moodDTO);
-
-    @POST(ServicePath.INSPECTIONS)
-    Flowable<Inspection> createInspection(@Body InspectionCreate inspection);
-
-    @GET(ServicePath.INSPECTIONS + "/{id}")
-    Flowable<Inspection> getInspection(@Path("id") String id);
-
-    @PUT(ServicePath.INSPECTIONS + "/{id}")
-    Flowable<Inspection> editInspection(@Path("id") String id, @Body Inspection inspection);
-
-    @PATCH(ServicePath.INSPECTIONS + "/{id}")
-    Flowable<Inspection> changeInspectionState(@Path("id") String id, @Body Inspection.InspectionStateJsonable body);
-
-    @GET(ServicePath.INSPECTIONS + "/suggested-link")
-    Flowable<ListResponse<Inspection>> getLinkInspectionSuggestions(@Query("propertyId") String propertyId, @Query("type") String type);
-
-    @GET(ServicePath.INSPECTIONS + "/inspection-summary")
-    Flowable<ListResponse<Inspection>> getSummaryInspections(@Query("state") String state ,@Query("offset") int offset, @Query("limit") int limit);
-
-
-
-    // contact us messages
-    @POST(ServicePath.CONTACT_MESSAGES)
-    Flowable<ContactMessageResponse> sendMessage(@Body ContactMessageResponse message);
-
-    // LOGS
-    @POST(ServicePath.LOGS + "")
-    Call<ResponseBody> insertLog(@Body String id);
-
-    //Clients
-    @GET(ServicePath.CLIENTS)
-    Flowable<ListResponse<Client>> getClients(@Query("state") String state);
-
-    // panoramas
-//    @POST(ServicePath.PANORAMAS)
-//    Single<Panorama> postPanorama(@Body InspectionDetailsFragment.PanoramaToUpload image);
-
-    @GET(ServicePath.PANORAMAS)
-    Flowable<ListResponse<Panorama>> getAllPanoramas(@Query("areaId") String areaId);
-
-    //hotspots
-//    @POST(ServicePath.PANORAMAS + "/{id}/hotspots")
-//    Flowable<HotSpot> postHotspot(@Body HotSpot hotSpot, @Path("id") String panoramaId);
-
-//    @PATCH(ServicePath.PANORAMAS + "/{id}/hotspots")
-//    Flowable<HotSpot> postHotspots(@Body ListResponse<HotSpot> hotSpots, @Path("id") String panoramaId);
-
-//    @PATCH(ServicePath.PANORAMAS + "/{panoramaId}")
-//    Flowable<ResponseBody> bindPanoramaToId(@Path("panoramaId") String panoramaId, @Body InspectionDetailsFragment.PanoramaToArea panoramaToArea);
-
-    @GET(ServicePath.PANORAMAS + "/{panoramaId}/hotspots")
-    Flowable<ListResponse<HotSpot>> getAllHotspots(@Path("panoramaId") String id);
-
-    // os version properties
-    @PUT(ServicePath.DEVICES)
-    Flowable<Object> devices(@Body Devices devices);
 
 }

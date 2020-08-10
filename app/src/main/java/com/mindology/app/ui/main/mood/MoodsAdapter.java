@@ -1,17 +1,14 @@
 package com.mindology.app.ui.main.mood;
 
-import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.mikhaellopez.circleview.CircleView;
 import com.mindology.app.databinding.ViewHolderMoodBinding;
 import com.mindology.app.models.MoodDTO;
-import com.mindology.app.models.MoodType;
+import com.mindology.app.util.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +64,7 @@ public class MoodsAdapter extends RecyclerView.Adapter<MoodsAdapter.MoodViewHold
 
             binding.imgIcon.setImageResource(moodDTO.getMoodType().getResourceId());
             binding.circleView.setCircleColor(moodDTO.getMoodType().getBackgroundColor());
-            binding.txtMoodTime.setText(moodDTO.getMoodDate().toString());
+            binding.txtMoodTime.setText(Utils.dateDifferenceCalculate(moodDTO.getMoodDate()));
             binding.txtMoodDescription.setText(moodDTO.getDescription());
 
             binding.executePendingBindings();

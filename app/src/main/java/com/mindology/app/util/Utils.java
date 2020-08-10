@@ -12,7 +12,6 @@ import android.util.Base64;
 
 import com.esafirm.imagepicker.model.Image;
 import com.google.gson.Gson;
-import com.mindology.app.models.Attachment;
 import com.mindology.app.models.ErrorResponse;
 import com.zxy.tiny.Tiny;
 import com.zxy.tiny.common.FileResult;
@@ -68,6 +67,49 @@ public class Utils {
 
         return Base64.encodeToString(byteArray, Base64.NO_WRAP);
     }
+
+    public static String dateDifferenceCalculate(Date start) {
+        Date end = Calendar.getInstance().getTime();
+        //milliseconds
+        long different = end.getTime() - start.getTime();
+
+        System.out.println("start : " + start);
+        System.out.println("end : " + end);
+        System.out.println("different : " + different);
+
+        long secondsInMilli = 1000;
+        long minutesInMilli = secondsInMilli * 60;
+        long hoursInMilli = minutesInMilli * 60;
+        long daysInMilli = hoursInMilli * 24;
+
+        long elapsedDays = different / daysInMilli;
+        different = different % daysInMilli;
+
+        long elapsedHours = different / hoursInMilli;
+        different = different % hoursInMilli;
+
+        long elapsedMinutes = different / minutesInMilli;
+        different = different % minutesInMilli;
+
+        long elapsedSeconds = different / secondsInMilli;
+
+        System.out.printf(
+                "%d days, %d hours, %d minutes, %d seconds%n",
+                elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
+        if (elapsedDays > 0) {
+            return String.valueOf(elapsedDays) + " روز پیش";
+        } else if (elapsedHours > 0) {
+            return String.valueOf(elapsedHours) + " ساعت پیش";
+        } else if (elapsedMinutes > 0) {
+            return String.valueOf(elapsedMinutes) + " دقیقه پیش";
+        } else if (elapsedSeconds > 0) {
+            return String.valueOf(elapsedSeconds) + " ثانیه پیش";
+        }
+
+        return "";
+
+    }
+
 
     public static String getRealPathFromURI(Context context, Uri contentUri) {
         Cursor cursor = null;
@@ -219,57 +261,57 @@ public class Utils {
         return "";//(new SimpleDateFormat(Constants.viewDateFormat)).format(date);
     }
 
-    public static Attachment getAttachment(Context context, Uri item) {
-        Attachment attachment = new Attachment();
-        File relatedFile = new File(Utils.getRealPathFromURI(context, item));
-        if (!relatedFile.exists()) {
-            relatedFile = Utils.getFileFromCapturedFileName((new File(item.getPath())).getName());
-        }
-        relatedFile = Utils.compressBitmap(relatedFile);
-        attachment.setFileName(relatedFile.getName());
-        attachment.setLocalPath(relatedFile.getAbsolutePath());
-        attachment.setMimeType("image/jpeg");
-
-        Date date = Calendar.getInstance().getTime();
-        try {
-            ExifInterface exifInterface = new ExifInterface();
-            exifInterface.readExif(context.getContentResolver().openInputStream(item), ExifInterface.Options.OPTION_ALL);
-            ExifTag tag = exifInterface.getTag(ExifInterface.TAG_DATE_TIME_ORIGINAL);
-            if (tag != null) {
-                date = ExifInterface.getDateTime(tag.getValueAsString(), TimeZone.getDefault());
-            }
-        } catch (IOException e) {
-        }
-        DateFormat format = new SimpleDateFormat(Constants.dateFormat);
-        String strDate = format.format(new Date(date.getTime()));
-        attachment.setDateTaken(strDate);
-        return attachment;
-    }
-
-    public static Attachment getAttachment(Context context, Image item) {
-        Attachment attachment = new Attachment();
-        File relatedFile = new File(item.getPath());
-        if (!relatedFile.exists()) {
-            relatedFile = Utils.getFileFromCapturedFileName((new File(item.getPath())).getName());
-        }
-        relatedFile = Utils.compressBitmap(relatedFile);
-        attachment.setFileName(relatedFile.getName());
-        attachment.setLocalPath(relatedFile.getAbsolutePath());
-        attachment.setMimeType("image/jpeg");
-
-        Date date = Calendar.getInstance().getTime();
-        try {
-            ExifInterface exifInterface = new ExifInterface();
-            exifInterface.readExif(context.getContentResolver().openInputStream(Uri.fromFile(relatedFile)), ExifInterface.Options.OPTION_ALL);
-            ExifTag tag = exifInterface.getTag(ExifInterface.TAG_DATE_TIME_ORIGINAL);
-            if (tag != null) {
-                date = ExifInterface.getDateTime(tag.getValueAsString(), TimeZone.getDefault());
-            }
-        } catch (IOException e) {
-        }
-        DateFormat format = new SimpleDateFormat(Constants.dateFormat);
-        String strDate = format.format(new Date(date.getTime()));
-        attachment.setDateTaken(strDate);
-        return attachment;
-    }
+//    public static Attachment getAttachment(Context context, Uri item) {
+//        Attachment attachment = new Attachment();
+//        File relatedFile = new File(Utils.getRealPathFromURI(context, item));
+//        if (!relatedFile.exists()) {
+//            relatedFile = Utils.getFileFromCapturedFileName((new File(item.getPath())).getName());
+//        }
+//        relatedFile = Utils.compressBitmap(relatedFile);
+//        attachment.setFileName(relatedFile.getName());
+//        attachment.setLocalPath(relatedFile.getAbsolutePath());
+//        attachment.setMimeType("image/jpeg");
+//
+//        Date date = Calendar.getInstance().getTime();
+//        try {
+//            ExifInterface exifInterface = new ExifInterface();
+//            exifInterface.readExif(context.getContentResolver().openInputStream(item), ExifInterface.Options.OPTION_ALL);
+//            ExifTag tag = exifInterface.getTag(ExifInterface.TAG_DATE_TIME_ORIGINAL);
+//            if (tag != null) {
+//                date = ExifInterface.getDateTime(tag.getValueAsString(), TimeZone.getDefault());
+//            }
+//        } catch (IOException e) {
+//        }
+//        DateFormat format = new SimpleDateFormat(Constants.dateFormat);
+//        String strDate = format.format(new Date(date.getTime()));
+//        attachment.setDateTaken(strDate);
+//        return attachment;
+//    }
+//
+//    public static Attachment getAttachment(Context context, Image item) {
+//        Attachment attachment = new Attachment();
+//        File relatedFile = new File(item.getPath());
+//        if (!relatedFile.exists()) {
+//            relatedFile = Utils.getFileFromCapturedFileName((new File(item.getPath())).getName());
+//        }
+//        relatedFile = Utils.compressBitmap(relatedFile);
+//        attachment.setFileName(relatedFile.getName());
+//        attachment.setLocalPath(relatedFile.getAbsolutePath());
+//        attachment.setMimeType("image/jpeg");
+//
+//        Date date = Calendar.getInstance().getTime();
+//        try {
+//            ExifInterface exifInterface = new ExifInterface();
+//            exifInterface.readExif(context.getContentResolver().openInputStream(Uri.fromFile(relatedFile)), ExifInterface.Options.OPTION_ALL);
+//            ExifTag tag = exifInterface.getTag(ExifInterface.TAG_DATE_TIME_ORIGINAL);
+//            if (tag != null) {
+//                date = ExifInterface.getDateTime(tag.getValueAsString(), TimeZone.getDefault());
+//            }
+//        } catch (IOException e) {
+//        }
+//        DateFormat format = new SimpleDateFormat(Constants.dateFormat);
+//        String strDate = format.format(new Date(date.getTime()));
+//        attachment.setDateTaken(strDate);
+//        return attachment;
+//    }
 }

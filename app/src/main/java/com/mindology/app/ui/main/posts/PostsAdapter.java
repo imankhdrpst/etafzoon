@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.mindology.app.databinding.ViewHolderPostsBinding;
 import com.mindology.app.models.Post;
+import com.mindology.app.util.Utils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import static com.mindology.app.util.Utils.getBitmapFromBase64String;
@@ -71,7 +73,7 @@ public class PostsAdapter extends RecyclerView.Adapter<PostsAdapter.PostViewHold
 
             binding.txtPostTitle.setText(post.getTitle());
             binding.txtPostAuthorName.setText(post.getAuthor());
-            binding.txtPostTime.setText(post.getCreateDate());
+            binding.txtPostTime.setText(Utils.dateDifferenceCalculate(post.getCreateDate()));
 
             Glide.with(binding.txtPostAuthorName.getContext())
                     .load(getBitmapFromBase64String(post.getImageContent()))

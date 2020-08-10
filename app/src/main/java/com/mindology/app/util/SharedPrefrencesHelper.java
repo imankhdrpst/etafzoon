@@ -7,7 +7,6 @@ import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.mindology.app.models.Inspection;
 import com.mindology.app.models.TokenResponse;
 
 import java.util.ArrayList;
@@ -35,62 +34,62 @@ public class SharedPrefrencesHelper {
         return instance;
     }
 
-    public static synchronized Inspection getPersistedInspectionById(String id) {
-//        if (TextUtils.isEmpty(id)) {
-//            return getPersistedCreatingNewInspection();
+//    public static synchronized Inspection getPersistedInspectionById(String id) {
+////        if (TextUtils.isEmpty(id)) {
+////            return getPersistedCreatingNewInspection();
+////        }
+//        for (Inspection item : getPersistedInspectionList()) {
+//            if (item.getId().equals(id)) {
+//                return item;
+//            }
 //        }
-        for (Inspection item : getPersistedInspectionList()) {
-            if (item.getId().equals(id)) {
-                return item;
-            }
-        }
-        return null;
-    }
-
-    public static synchronized List<Inspection> getPersistedInspectionList() {
-        String str = sharedPreferences.getString(KEY_LIST_INSPECTION, "");
-        List<Inspection> list = (new Gson()).fromJson(str, new TypeToken<List<Inspection>>() {}.getType());
-        if (list == null) {
-            list = new ArrayList<>();
-        }
-        return list;
-    }
-
-    public static synchronized void addInspectionToDrafts(Inspection inspection) {
-        if (TextUtils.isEmpty(inspection.getId())) {
-//            persistNewCreatingInspection(inspection);
-            return;
-        }
-        List<Inspection> list = getPersistedInspectionList();
-        for (Inspection item : list) {
-            if (item.getId().equals(inspection.getId())) {
-                list.remove(item);
-                list.add(inspection);
-                persistInspectionList(list);
-                return;
-            }
-        }
-        list.add(inspection);
-        persistInspectionList(list);
-    }
-
-    public static synchronized void removeInspectionFromPersistedList(Inspection inspection) {
-        if (inspection == null) {
-//            persistNewCreatingInspection(null);
-            return;
-        }
-        List<Inspection> list = getPersistedInspectionList();
-        for (Inspection item : list) {
-            if (item.getId().equals(inspection.getId())) {
-                list.remove(item);
-            }
-        }
-        persistInspectionList(list);
-    }
-
-    private static synchronized void persistInspectionList(List<Inspection> persistedInspectionList) {
-        sharedPreferences.edit().putString(KEY_LIST_INSPECTION, (new Gson()).toJson(persistedInspectionList)).commit();
-    }
+//        return null;
+//    }
+//
+//    public static synchronized List<Inspection> getPersistedInspectionList() {
+//        String str = sharedPreferences.getString(KEY_LIST_INSPECTION, "");
+//        List<Inspection> list = (new Gson()).fromJson(str, new TypeToken<List<Inspection>>() {}.getType());
+//        if (list == null) {
+//            list = new ArrayList<>();
+//        }
+//        return list;
+//    }
+//
+//    public static synchronized void addInspectionToDrafts(Inspection inspection) {
+//        if (TextUtils.isEmpty(inspection.getId())) {
+////            persistNewCreatingInspection(inspection);
+//            return;
+//        }
+//        List<Inspection> list = getPersistedInspectionList();
+//        for (Inspection item : list) {
+//            if (item.getId().equals(inspection.getId())) {
+//                list.remove(item);
+//                list.add(inspection);
+//                persistInspectionList(list);
+//                return;
+//            }
+//        }
+//        list.add(inspection);
+//        persistInspectionList(list);
+//    }
+//
+//    public static synchronized void removeInspectionFromPersistedList(Inspection inspection) {
+//        if (inspection == null) {
+////            persistNewCreatingInspection(null);
+//            return;
+//        }
+//        List<Inspection> list = getPersistedInspectionList();
+//        for (Inspection item : list) {
+//            if (item.getId().equals(inspection.getId())) {
+//                list.remove(item);
+//            }
+//        }
+//        persistInspectionList(list);
+//    }
+//
+//    private static synchronized void persistInspectionList(List<Inspection> persistedInspectionList) {
+//        sharedPreferences.edit().putString(KEY_LIST_INSPECTION, (new Gson()).toJson(persistedInspectionList)).commit();
+//    }
 
     public static synchronized String getToken() {
         return sharedPreferences.getString(KEY_TOKEN, "");

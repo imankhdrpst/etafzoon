@@ -3,6 +3,7 @@ package com.mindology.app.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
 import java.util.List;
 
 public class Post extends BaseModel {
@@ -16,11 +17,11 @@ public class Post extends BaseModel {
 
     @SerializedName("commentList")
     @Expose
-    private List<Comment> commentList;
+    private List<CommentDTO> commentList;
 
     @SerializedName("createDate")
     @Expose
-    private String createDate;
+    private Date createDate;
 
     @SerializedName("description")
     @Expose
@@ -69,19 +70,19 @@ public class Post extends BaseModel {
         this.authorProfilePicture = authorProfilePicture;
     }
 
-    public List<Comment> getCommentList() {
+    public List<CommentDTO> getCommentList() {
         return commentList;
     }
 
-    public void setCommentList(List<Comment> commentList) {
+    public void setCommentList(List<CommentDTO> commentList) {
         this.commentList = commentList;
     }
 
-    public String getCreateDate() {
+    public Date getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(String createDate) {
+    public void setCreateDate(Date createDate) {
         this.createDate = createDate;
     }
 

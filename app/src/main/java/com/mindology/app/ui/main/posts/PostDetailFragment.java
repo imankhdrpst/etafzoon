@@ -20,6 +20,7 @@ import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.Post;
 import com.mindology.app.repo.TempDataHolder;
 import com.mindology.app.ui.main.Resource;
+import com.mindology.app.util.Utils;
 
 import static com.mindology.app.util.Utils.getBitmapFromBase64String;
 
@@ -184,7 +185,7 @@ public class PostDetailFragment extends BaseFragment {
         txtAuthorName.setText(data.getAuthor());
         txtAuthorStarCount.setText("5");
         txtPostContent.setText(data.getDescription());
-        txtPostDateTime.setText(data.getCreateDate());
+        txtPostDateTime.setText(Utils.dateDifferenceCalculate(data.getCreateDate()));
         Glide.with(getContext())
                 .load(getBitmapFromBase64String(data.getAuthorProfilePicture()))
                 .into(imgAuthorPicture);

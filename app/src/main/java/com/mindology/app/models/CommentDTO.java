@@ -3,7 +3,7 @@ package com.mindology.app.models;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Comment extends BaseModel {
+public class CommentDTO extends BaseModel {
 
     @SerializedName("comment")
     @Expose
