@@ -6,7 +6,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,6 +33,9 @@ import com.github.mikephil.charting.formatter.IFillFormatter;
 import com.github.mikephil.charting.formatter.ValueFormatter;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.textfield.TextInputLayout;
+import com.jaredrummler.materialspinner.MaterialSpinner;
 import com.mindology.app.BaseFragment;
 import com.mindology.app.R;
 import com.mindology.app.models.Post;
@@ -63,6 +70,12 @@ public class MainFragment extends BaseFragment implements OnPostListener {
     private MaterialProgressBar prgLatestPosts;
     private TextView txtName;
     private TextView txtShowAllPosts;
+    private LinearLayout layPeriodSpinner;
+    private Spinner txtPeriodSpinner;
+    private ArrayAdapter<String> periodAdapter;
+//    private LinearLayout layPeriodSpinner;
+//    private AutoCompleteTextView txtPeriodSpinner;
+//    private ArrayAdapter<String> periodAdapter;
 
 
     @Nullable
@@ -95,7 +108,35 @@ public class MainFragment extends BaseFragment implements OnPostListener {
         sliderView.setScrollTimeInSec(4); //set scroll delay in seconds :
         sliderView.startAutoCycle();
 
+        layPeriodSpinner = view.findViewById(R.id.lay_period_spinner);
+        txtPeriodSpinner = view.findViewById(R.id.input_period_spinner);
+        txtPeriodSpinner.setFocusable(false);
+        txtPeriodSpinner.setFocusableInTouchMode(false);
+        String[] periodArray = new String[]{"هفته", "ماه", "سال"};
+        periodAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, periodArray);
+        txtPeriodSpinner.setAdapter(periodAdapter);
+        layPeriodSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+            }
+        });
+//        spinner = view.findViewById(R.id.spinner);
+//        spinner.setItems("هفته", "ماه", "سال");
+//        spinner.setOnItemSelectedListener(new MaterialSpinner.OnItemSelectedListener<String>() {
+//
+//            @Override public void onItemSelected(MaterialSpinner view, int position, long id, String item) {
+//                Snackbar.make(view, "Clicked " + item, Snackbar.LENGTH_LONG).show();
+//            }
+//        });
+
         chart = view.findViewById(R.id.chart1);
+        chart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(getActivity(), R.id.nav_host_fragment).navigate(R.id.moodListScreen);
+            }
+        });
         chart.setViewPortOffsets(0, 0, 0, 50);
         chart.setBackgroundColor(getResources().getColor(R.color.white));
 

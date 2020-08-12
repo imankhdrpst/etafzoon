@@ -7,7 +7,10 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -67,6 +70,9 @@ public class MoodListFragment extends BaseFragment implements OnMoodTypeClickLis
     private TextInputLayout txtLayoutDescription;
     private MoodsAdapter moodsAdapter;
     private List<MoodType> moodTypes = new ArrayList<>();
+    private LinearLayout layPeriodSpinner;
+    private Spinner txtPeriodSpinner;
+    private ArrayAdapter<String> periodAdapter;
 
 
     @Nullable
@@ -88,6 +94,20 @@ public class MoodListFragment extends BaseFragment implements OnMoodTypeClickLis
             @Override
             public void onClick(View view) {
                 expandableAddMood.expand(true);
+            }
+        });
+
+        layPeriodSpinner = view.findViewById(R.id.lay_period_spinner);
+        txtPeriodSpinner = view.findViewById(R.id.input_period_spinner);
+        txtPeriodSpinner.setFocusable(false);
+        txtPeriodSpinner.setFocusableInTouchMode(false);
+        String[] periodArray = new String[]{"هفته", "ماه", "سال"};
+        periodAdapter = new ArrayAdapter<String>(getContext(),
+                android.R.layout.simple_list_item_1, periodArray);
+        txtPeriodSpinner.setAdapter(periodAdapter);
+        layPeriodSpinner.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
             }
         });
 

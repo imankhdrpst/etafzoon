@@ -3,6 +3,7 @@ package cn.pedant.SweetAlert;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -152,6 +153,14 @@ public class SweetAlertDialog extends Dialog implements View.OnClickListener {
         mProgressHelper.setProgressWheel((ProgressWheel) findViewById(R.id.progressWheel));
         mConfirmButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
+
+        Typeface sansTf = Typeface.createFromAsset(getContext().getAssets(), "fonts/sans.ttf");
+        mTitleTextView.setTypeface(sansTf);
+        mContentTextView.setTypeface(sansTf);
+        mConfirmButton.setBackgroundColor(getContext().getResources().getColor(R.color.text_blue));
+        mConfirmButton.setTypeface(sansTf);
+        mCancelButton.setBackgroundColor(getContext().getResources().getColor(R.color.text_blue));
+        mCancelButton.setTypeface(sansTf);
 
         setTitleText(mTitleText);
         setContentText(mContentText);

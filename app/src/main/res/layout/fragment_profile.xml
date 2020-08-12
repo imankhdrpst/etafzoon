@@ -146,6 +146,7 @@
                             android:id="@+id/lay_vaghte_molaghat"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:paddingEnd="30dp"
                             android:paddingStart="30dp">
 
@@ -236,6 +237,7 @@
                             android:id="@+id/lay_kife_pool"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:visibility="gone"
                             android:layout_marginTop="32dp"
                             android:paddingEnd="30dp"
                             android:paddingStart="30dp">
@@ -279,6 +281,7 @@
                         <!-- porsesh o pasokh -->
                         <RelativeLayout
                             android:id="@+id/lay_porsesh_o_pasokh"
+                            android:visibility="gone"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="32dp"

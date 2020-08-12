@@ -236,7 +236,12 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private void onBtnNextClicked() {
         if (TextUtils.isEmpty(inputPhoneNumber.getText().toString())) {
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_empty));
-        } else {
+        }
+        else if (inputPhoneNumber.getText().toString().trim().length() != 11)
+        {
+            layInputPhoneNumber.setError(getString(R.string.error_phone_number_not_valid));
+        }
+        else {
             layInputPhoneNumber.setError("");
             attemptPhoneNumber();
         }

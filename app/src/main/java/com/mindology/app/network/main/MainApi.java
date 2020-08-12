@@ -26,7 +26,7 @@ public interface MainApi {
     Flowable<List<PostGroup>> getPostGroups();
 
     // posts
-    @POST(ServicePath.POSTS + "?postIds=1")
+    @POST(ServicePath.POSTS + "?postIds=1,2,3,4,5,6,7,8,9")
     Flowable<List<Post>> getPosts();
 
     // post detials

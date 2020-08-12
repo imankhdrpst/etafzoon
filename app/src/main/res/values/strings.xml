@@ -46,5 +46,6 @@
     <string name="why_not_in_mood">چرا خوب نیستی؟</string>
     <string name="sad">ناراحت</string>
     <string name="describe_your_mood">حالتو توصیف کن</string>
+    <string name="error_phone_number_not_valid">شماره همراه را به درستی وارد کنید</string>
 
 </resources>

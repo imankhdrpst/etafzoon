@@ -44,7 +44,7 @@ public class PostsFragment extends BaseFragment implements OnPostListener {
         progressBar = view.findViewById(R.id.prg_latest_posts);
 
         rvPosts = view.findViewById(R.id.rv_latest_posts);
-        rvPosts.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.HORIZONTAL, true));
+        rvPosts.setLayoutManager(new GridLayoutManager(getContext(), 2, RecyclerView.VERTICAL, false));
         postsAdapter = new PostsAdapter(this);
         rvPosts.setAdapter(postsAdapter);
 

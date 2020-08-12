@@ -97,28 +97,24 @@ public class PostDetailViewModel extends ViewModel {
 
     }
 
-    public LiveData<Resource<HelpfulPostDTO>> observerHelpful()
-    {
+    public LiveData<Resource<HelpfulPostDTO>> observerHelpful() {
         if (helpfulLiveData == null) {
             helpfulLiveData = new MediatorLiveData<>();
         }
         return helpfulLiveData;
     }
 
-    public LiveData<Resource<Object>> observerBookmark()
-    {
+    public LiveData<Resource<Object>> observerBookmark() {
         if (bookmarkLiveData == null) {
             bookmarkLiveData = new MediatorLiveData<>();
         }
         return bookmarkLiveData;
     }
 
-    public void setBookmark(String mobileNumber, boolean add)
-    {
+    public void setBookmark(String mobileNumber, boolean add) {
         if (post == null) return;
 
-        if (bookmarkLiveData == null)
-        {
+        if (bookmarkLiveData == null) {
             bookmarkLiveData = new MediatorLiveData<>();
         }
 
@@ -158,9 +154,7 @@ public class PostDetailViewModel extends ViewModel {
 
                             .subscribeOn(Schedulers.io())
             );
-        }
-        else
-        {
+        } else {
             source = LiveDataReactiveStreams.fromPublisher(
 
                     mainApi.deleteBookmark(dto)
@@ -199,20 +193,19 @@ public class PostDetailViewModel extends ViewModel {
         });
     }
 
-    public void sharePost()
-    {
+    public void sharePost() {
         if (post == null) return;
 
         mainApi.sharePost(post.getId()).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Consumer<Object>() {
             @Override
             public void accept(Object o) throws Exception {
-                int a  =0;
+                int a = 0;
                 a++;
             }
         }, new Consumer<Throwable>() {
             @Override
             public void accept(Throwable throwable) throws Exception {
-                int a  =0;
+                int a = 0;
                 a++;
 
             }
@@ -265,7 +258,8 @@ public class PostDetailViewModel extends ViewModel {
             public void onChanged(Resource<HelpfulPostDTO> listResource) {
                 helpfulLiveData.setValue(listResource);
                 helpfulLiveData.removeSource(source);
-                postDetailsLiveData.setValue(Resource.updated(post));
+                if (listResource.status == Resource.Status.SUCCESS || listResource.status == Resource.Status.UPDATED)
+                    postDetailsLiveData.setValue(Resource.updated(post));
             }
         });
     }

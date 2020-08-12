@@ -5,6 +5,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -17,7 +18,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -53,6 +53,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private TextView txtToolbarTitle;
     private RelativeLayout layToolbar;
     private TextView txtName, txtHello;
+    private ImageView imgProfile, imgNotification;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,6 +98,23 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         txtToolbarTitle = findViewById(R.id.txt_toolbar_title);
         txtName = findViewById(R.id.txt_name);
         txtHello = findViewById(R.id.txt_hello);
+        imgNotification = findViewById(R.id.img_notifications);
+        imgProfile = findViewById(R.id.img_profile);
+
+        imgNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+        imgProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.profileScreen);
+            }
+        });
+
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) layToolbar.getLayoutParams();
         params.setMargins(0, getStatusBarHeight(), 0, 0);
         setSupportActionBar(toolbar);
@@ -154,13 +173,16 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void showWelcome() {
-        txtName.setVisibility(View.VISIBLE);
-        txtHello.setVisibility(View.VISIBLE);
+//        txtName.setVisibility(View.VISIBLE);
+//        txtHello.setVisibility(View.VISIBLE);
+        imgProfile.setVisibility(View.VISIBLE);
+
     }
 
     private void hideWelcome() {
         txtName.setVisibility(View.GONE);
         txtHello.setVisibility(View.GONE);
+        imgProfile.setVisibility(View.GONE);
     }
 
 
@@ -190,6 +212,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     case R.id.postDetailScreen:
                     case R.id.postsScreen:
                     case R.id.profileScreen:
+                    case R.id.moodListScreen:
+                    case R.id.editProfileScreen:
                         hideWelcome();
                         break;
                     default:

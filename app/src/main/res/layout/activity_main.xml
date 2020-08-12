@@ -74,6 +74,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="18dp"
+                    android:visibility="gone"
                     android:layout_marginStart="18dp"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentTop="true"
@@ -89,6 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
+                    android:visibility="gone"
                     android:gravity="start"
                     android:textStyle="normal"
                     android:layout_marginTop="24dp"
@@ -96,6 +98,16 @@
                     android:textSize="13sp"
                     android:font='@{"sans"}'
                     android:textColor="@color/text_blue"/>
+
+                <!-- profile icon -->
+                <ImageView
+                    android:id="@+id/img_profile"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_height="24dp"
+                    android:layout_marginStart="18dp"
+                    android:layout_width="24dp"
+                    android:src="@drawable/ic_profile" />
             </RelativeLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

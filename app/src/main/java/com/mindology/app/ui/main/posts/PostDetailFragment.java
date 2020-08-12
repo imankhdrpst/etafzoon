@@ -19,8 +19,11 @@ import com.mindology.app.R;
 import com.mindology.app.models.HelpfulPostDTO;
 import com.mindology.app.models.Post;
 import com.mindology.app.repo.TempDataHolder;
+import com.mindology.app.ui.auth.AuthActivity;
 import com.mindology.app.ui.main.Resource;
 import com.mindology.app.util.Utils;
+
+import cn.pedant.SweetAlert.SweetAlertDialog;
 
 import static com.mindology.app.util.Utils.getBitmapFromBase64String;
 
@@ -145,6 +148,16 @@ public class PostDetailFragment extends BaseFragment {
                             progressBar.setVisibility(View.VISIBLE);
                             break;
                         case ERROR:
+                            progressBar.setVisibility(View.GONE);
+                            new SweetAlertDialog(getActivity(), SweetAlertDialog.ERROR_TYPE)
+                                    .setTitleText(getString(R.string.excepttion))
+                                    .setContentText(listResource.message)
+                                    .setConfirmText(getString(R.string.ok))
+                                    .setCancelText(null)
+                                    .setCancelClickListener(null)
+                                    .setConfirmClickListener(null)
+                                    .show();
+                            break;
                         case UPDATED:
                         case SUCCESS:
                             progressBar.setVisibility(View.GONE);
@@ -197,11 +210,11 @@ public class PostDetailFragment extends BaseFragment {
         {
             txtUsefulYes.setTextColor(getResources().getColor(R.color.text_dark_gray));
             txtUsefulYes.setTag(true);
-            txtUsefulNo.setTextColor(getResources().getColor(R.color.gray));
+            txtUsefulNo.setTextColor(getResources().getColor(R.color.green));
             txtUsefulNo.setTag(false);
         } else if (data.getHelpful().equals("1")) // post has been set as useful
         {
-            txtUsefulYes.setTextColor(getResources().getColor(R.color.gray));
+            txtUsefulYes.setTextColor(getResources().getColor(R.color.green));
             txtUsefulYes.setTag(false);
             txtUsefulNo.setTextColor(getResources().getColor(R.color.text_dark_gray));
             txtUsefulNo.setTag(true);
