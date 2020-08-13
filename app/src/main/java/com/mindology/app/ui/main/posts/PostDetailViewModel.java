@@ -30,6 +30,7 @@ public class PostDetailViewModel extends ViewModel {
     private MediatorLiveData<Resource<Post>> postDetailsLiveData;
     private MediatorLiveData<Resource<HelpfulPostDTO>> helpfulLiveData;
     private MediatorLiveData<Resource<Object>> bookmarkLiveData;
+    private MediatorLiveData<Resource<Object>> shareLiveData;
     private Post post;
 
 
@@ -196,20 +197,50 @@ public class PostDetailViewModel extends ViewModel {
     public void sharePost() {
         if (post == null) return;
 
-        mainApi.sharePost(post.getId()).subscribeOn(Schedulers.io()).observeOn(Schedulers.newThread()).subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) throws Exception {
-                int a = 0;
-                a++;
-            }
-        }, new Consumer<Throwable>() {
-            @Override
-            public void accept(Throwable throwable) throws Exception {
-                int a = 0;
-                a++;
+        if (shareLiveData == null) {
+            shareLiveData = new MediatorLiveData<>();
+        }
 
+        shareLiveData.setValue(Resource.loading(null));
+
+
+        final LiveData<Resource<Object>> source;
+
+        source = LiveDataReactiveStreams.fromPublisher(
+
+                mainApi.sharePost(post.getId())
+                        .onErrorReturn(new Function<Throwable, BookmarkPostDTO>() {
+                            @Override
+                            public BookmarkPostDTO apply(Throwable throwable) throws Exception {
+                                BookmarkPostDTO res = new BookmarkPostDTO();
+                                res.setMessage("خطا در بازیابی اطلاعات");
+                                return res;
+                            }
+                        })
+
+                        .map(new Function<Object, Resource<Object>>() {
+                            @Override
+                            public Resource<Object> apply(Object response) throws Exception {
+
+                                if (response instanceof BookmarkPostDTO && !TextUtils.isEmpty(((BookmarkPostDTO) response).getMessage()))
+                                    return Resource.error(((BookmarkPostDTO) response).getMessage(), response);
+                                return Resource.success(response);
+                            }
+                        })
+
+                        .subscribeOn(Schedulers.io())
+        );
+
+
+        shareLiveData.addSource(source, new Observer<Resource<Object>>() {
+            @Override
+            public void onChanged(Resource<Object> listResource) {
+                shareLiveData.setValue(listResource);
+                shareLiveData.removeSource(source);
+                postDetailsLiveData.setValue(Resource.updated(post));
             }
         });
+
     }
 
     public void setHelpful(String mobile, boolean helpful) {

@@ -47,5 +47,6 @@
     <string name="sad">ناراحت</string>
     <string name="describe_your_mood">حالتو توصیف کن</string>
     <string name="error_phone_number_not_valid">شماره همراه را به درستی وارد کنید</string>
+    <string name="notifications">هشدارها</string>
 
 </resources>

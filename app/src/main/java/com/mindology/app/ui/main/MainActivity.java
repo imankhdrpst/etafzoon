@@ -104,7 +104,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         imgNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Navigation.findNavController(MainActivity.this, R.id.nav_host_fragment).navigate(R.id.notificationsScreen);
             }
         });
 
@@ -214,6 +214,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     case R.id.profileScreen:
                     case R.id.moodListScreen:
                     case R.id.editProfileScreen:
+                    case R.id.notificationsScreen:
                         hideWelcome();
                         break;
                     default:

@@ -3,6 +3,7 @@ package com.mindology.app.di.main;
 
 import com.mindology.app.ui.main.main.MainFragment;
 import com.mindology.app.ui.main.mood.MoodListFragment;
+import com.mindology.app.ui.main.notifications.NotificationsFragment;
 import com.mindology.app.ui.main.posts.PostDetailFragment;
 import com.mindology.app.ui.main.posts.PostsFragment;
 import com.mindology.app.ui.main.profile.EditProfileFragment;
@@ -31,4 +32,7 @@ public abstract class MainFragmentBuildersModule {
 
     @ContributesAndroidInjector
     abstract EditProfileFragment contributeEditProfileFragment();
+
+    @ContributesAndroidInjector
+    abstract NotificationsFragment contributeNotificationsFragment();
 }

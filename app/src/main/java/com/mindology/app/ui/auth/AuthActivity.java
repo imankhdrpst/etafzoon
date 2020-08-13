@@ -236,12 +236,13 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private void onBtnNextClicked() {
         if (TextUtils.isEmpty(inputPhoneNumber.getText().toString())) {
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_empty));
-        }
-        else if (inputPhoneNumber.getText().toString().trim().length() != 11)
-        {
+        } else if (inputPhoneNumber.getText().toString().trim().length() != 11) {
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_not_valid));
-        }
-        else {
+        } else if (viewModel.observeAuthState().getValue() != null
+                && viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_NUMBER_VALID
+                && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
+            changeStateOfLogin(LoginState.ACTIVATION_CODE);
+        } else {
             layInputPhoneNumber.setError("");
             attemptPhoneNumber();
         }
@@ -288,25 +289,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                         case PHONE_NUMBER_VALID: {
                             showProgressBar(false);
                             changeStateOfLogin(LoginState.ACTIVATION_CODE);
-                            resendEnabled = false;
-                            txtResendCode.setTextColor(getResources().getColor(R.color.gray));
-                            myPhoneNumber = inputPhoneNumber.getText().toString();
-                            txtBannerActivationDescription.setText("یک کد به شماره " +  myPhoneNumber + " ارسال شده است. لطفا کد را در باکس زیر وارد کنید");
-                            resendTimer = new CountDownTimer(120000, 1000) {
-
-                                public void onTick(long millisUntilFinished) {
-                                    String time = String.valueOf(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)) + ":" +
-                                            String.valueOf(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
-                                    txtActivationCodeDescription.setText("پس از " + time + " دقیقه می توانید دوباره درخواست ارسال کد کنید");
-                                }
-
-                                public void onFinish() {
-                                    txtResendCode.setTextColor(getResources().getColor(R.color.green));
-                                    txtActivationCodeDescription.setText("در صورتی که هنوز کد را دریافت نکرده اید ارسال دوباره را بزنید");
-                                    resendEnabled = true;
-                                }
-
-                            }.start();
                             break;
                         }
 
@@ -328,10 +310,18 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                                     .setTitleText(getString(R.string.excepttion))
                                     .setContentText(userAuthResource.message)
                                     .setConfirmText(getString(R.string.ok))
-                                    .setCancelText(null)
-                                    .setCancelClickListener(null)
-                                    .setConfirmClickListener(null)
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sweetAlertDialog) {
+                                            sweetAlertDialog.dismissWithAnimation();
+                                            if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_NUMBER_VALID
+                                                    && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
+                                                changeStateOfLogin(LoginState.ACTIVATION_CODE);
+                                            }
+                                        }
+                                    })
                                     .show();
+
                             break;
                         }
 
@@ -426,13 +416,13 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
     private void attemptPhoneNumber() {
         if (!TextUtils.isEmpty(inputPhoneNumber.getText().toString()) && TextUtils.isEmpty(layInputPhoneNumber.getError())) {
-            viewModel.authenticateWithPhoneNumber( inputPhoneNumber.getText().toString());
+            viewModel.authenticateWithPhoneNumber(inputPhoneNumber.getText().toString());
         }
     }
 
     private void attemptActivationCode() {
         if (!TextUtils.isEmpty(inputPhoneNumber.getText().toString()) && TextUtils.isEmpty(layInputPhoneNumber.getError())) {
-            viewModel.authenticateWithActivationCode( inputPhoneNumber.getText().toString(), inputActivationCode.getText().toString());
+            viewModel.authenticateWithActivationCode(inputPhoneNumber.getText().toString(), inputActivationCode.getText().toString());
         }
     }
 
@@ -471,6 +461,25 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                 if (resendTimer != null) {
                     resendTimer.cancel();
                 }
+                resendEnabled = false;
+                txtResendCode.setTextColor(getResources().getColor(R.color.gray));
+                myPhoneNumber = inputPhoneNumber.getText().toString();
+                txtBannerActivationDescription.setText("یک کد به شماره " + myPhoneNumber + " ارسال شده است. لطفا کد را در باکس زیر وارد کنید");
+                resendTimer = new CountDownTimer(120000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        String time = String.valueOf(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)) + ":" +
+                                String.valueOf(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                        txtActivationCodeDescription.setText("پس از " + time + " دقیقه می توانید دوباره درخواست ارسال کد کنید");
+                    }
+
+                    public void onFinish() {
+                        txtResendCode.setTextColor(getResources().getColor(R.color.green));
+                        txtActivationCodeDescription.setText("در صورتی که هنوز کد را دریافت نکرده اید ارسال دوباره را بزنید");
+                        resendEnabled = true;
+                    }
+
+                }.start();
                 imgBtnBack.setVisibility(View.VISIBLE);
                 imgMindology.setVisibility(View.GONE);
                 layBannerPhoneNumber.setVisibility(View.GONE);

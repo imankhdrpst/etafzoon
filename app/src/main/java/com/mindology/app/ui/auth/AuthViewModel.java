@@ -24,6 +24,7 @@ public class AuthViewModel extends ViewModel {
     private final AuthApi authApi;
     private String tokenReceived = "";
     private boolean userAlreadyRegisteredAndNoNeedToRegister = false;
+    private String latestMobileAttempted = "";
 
 
     @Inject
@@ -70,6 +71,7 @@ public class AuthViewModel extends ViewModel {
                                 } else if (tokenResponse.getAuthenticated() != null && tokenResponse.getAuthenticated().equals("1")) {
                                     userAlreadyRegisteredAndNoNeedToRegister = true;
                                 }
+                                latestMobileAttempted = mobileNumber;
                                 return AuthResource.phoneNumberValid(new ClientUserDTO());
                             }
                         })
@@ -149,6 +151,11 @@ public class AuthViewModel extends ViewModel {
 
     public void authenticateWithPhoneNumber(String phone) {
         sessionManager.authenticateWithId(queryUserPhoneNumber(phone));
+    }
+
+    public String getLatestMobileAttempted()
+    {
+        return latestMobileAttempted;
     }
 
     public void authenticateWithProfile(String name, String family, String mobileNumber, String age, String city) {

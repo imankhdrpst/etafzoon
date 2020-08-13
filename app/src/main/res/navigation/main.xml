@@ -51,4 +51,11 @@
         android:label="@string/mood_status"
         tools:layout="@layout/fragment_vaziate_roohi"/>
 
+    <fragment
+        android:id="@+id/notificationsScreen"
+        android:name="com.mindology.app.ui.main.notifications.NotificationsFragment"
+        android:label="@string/notifications"
+        tools:layout="@layout/fragment_notifications"/>
+
+
 </navigation>
