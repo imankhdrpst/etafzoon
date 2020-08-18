@@ -227,7 +227,13 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     private void onBtnActivateClicked() {
         if (TextUtils.isEmpty(inputActivationCode.getText().toString())) {
             layInputActivationCode.setError("کد فعال سازی را وارد نمایید");
-        } else {
+        }
+        else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.AUTHENTICATED)
+        {
+            layInputActivationCode.setError("");
+            changeStateOfLogin(LoginState.PROFILE);
+        }
+        else {
             layInputActivationCode.setError("");
             attemptActivationCode();
         }
@@ -241,6 +247,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         } else if (viewModel.observeAuthState().getValue() != null
                 && viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_NUMBER_VALID
                 && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
+            layInputPhoneNumber.setError("");
             changeStateOfLogin(LoginState.ACTIVATION_CODE);
         } else {
             layInputPhoneNumber.setError("");
