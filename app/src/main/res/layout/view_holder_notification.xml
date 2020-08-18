@@ -1,63 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:layout_width="wrap_content"
-        android:layout_marginBottom="19dp"
-        android:layout_height="wrap_content">
 
-        <RelativeLayout
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="19dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="88dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
-            android:background="@drawable/background_box_notif">
+            android:background="@drawable/background_box_notif"
+            android:gravity="top|end"
+            android:orientation="vertical">
 
             <!-- text view date -->
             <TextView
                 android:id="@+id/txt_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="23dp"
+                android:layout_marginEnd="20dp"
                 android:font='@{"sans"}'
                 android:textColor="@color/gray"
-                android:textSize="12sp"
-                android:layout_marginEnd="20dp"
-                android:layout_marginTop="23dp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                 />
+                android:textSize="12sp" />
 
             <!-- text view content -->
             <TextView
                 android:id="@+id/txt_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
                 android:layout_alignParentTop="true"
-                android:font='@{"sans"}'
+                android:layout_alignParentEnd="true"
                 android:layout_marginTop="4dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="17dp"
+                android:font='@{"sans"}'
                 android:textColor="#383456"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
 
         <View
+            android:id="@+id/view_unread_indicator"
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:id="@+id/view_unread_indicator"
-            android:background="@drawable/oval_blue_background"
             android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"/>
-
-
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/oval_blue_background" />
 
 
     </RelativeLayout>
-
 
 
 </layout>

@@ -92,10 +92,10 @@ public class Utils {
         different = different % minutesInMilli;
 
         long elapsedSeconds = different / secondsInMilli;
-
-        System.out.printf(
-                "%d days, %d hours, %d minutes, %d seconds%n",
-                elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
+//
+//        System.out.printf(
+//                "%d days, %d hours, %d minutes, %d seconds%n",
+//                elapsedDays, elapsedHours, elapsedMinutes, elapsedSeconds);
         if (elapsedDays > 0) {
             return String.valueOf(elapsedDays) + " روز پیش";
         } else if (elapsedHours > 0) {
@@ -106,7 +106,7 @@ public class Utils {
             return String.valueOf(elapsedSeconds) + " ثانیه پیش";
         }
 
-        return "";
+        return "لحظاتی پیش";
 
     }
 
