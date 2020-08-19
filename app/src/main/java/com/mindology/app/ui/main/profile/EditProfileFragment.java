@@ -36,6 +36,8 @@ import com.mindology.app.util.Enums;
 import com.mindology.app.util.Utils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
+import net.cachapa.expandablelayout.ExpandableLayout;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -69,6 +71,11 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     private ImageView imgEditPicture;
     private MaterialButton btnSave;
+    private ExpandableLayout expandableChangePhoto;
+    private View handleExpandToggle;
+    private View layTakePhoto;
+    private View layFromGallery;
+    private View layDeletePhoto;
 
     @Nullable
     @Override
@@ -86,6 +93,16 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
         viewModel = ViewModelProviders.of(this, providerFactory).get(EditProfileViewModel.class);
 
         progressBar = view.findViewById(R.id.progress_bar);
+
+        expandableChangePhoto = view.findViewById(R.id.expandable_layout_edit_profile_options);
+        handleExpandToggle = view.findViewById(R.id.handle_bottom_sheet);
+        handleExpandToggle.setOnClickListener(this);
+        layTakePhoto = view.findViewById(R.id.lay_take_photo);
+        layTakePhoto.setOnClickListener(this);
+        layFromGallery = view.findViewById(R.id.lay_choose_from_gallery);
+        layFromGallery.setOnClickListener(this);
+        layDeletePhoto = view.findViewById(R.id.lay_delete_photo);
+        layDeletePhoto.setOnClickListener(this);
 
         imgProfilePicture = view.findViewById(R.id.img_profile_picture);
 
@@ -258,6 +275,7 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
                             break;
 
                         case SUCCESS:
+                        case UPDATED:
                             progressBar.setVisibility(View.GONE);
                             fillWithData(userResource.data);
                             break;
@@ -282,32 +300,14 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
         txtFamily.setText(currentUser.getLastName());
         txtAge.setText(currentUser.getAge());
         txtCity.setText(currentUser.getLivingCity());
-        txtMarriageStatus.setText(currentUser.getMarriageStatus().name());
+        if (currentUser.getMarriageStatus() != null)
+            txtMarriageStatus.setText(currentUser.getMarriageStatus().name());
 
     }
 
 
     public void onChangePhotoClicked() {
-        RxPermissions rxPermissions = new RxPermissions(getActivity());
-        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                .subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean aBoolean) throws Exception {
-                        if (aBoolean) {
-                            ImagePicker.create(EditProfileFragment.this)
-                                    .showCamera(true)
-                                    .single()
-                                    .start();
-                        } else {
-                            // ermission is not granted
-                        }
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable throwable) throws Exception {
-                        throwable.printStackTrace();
-                    }
-                });
+        expandableChangePhoto.expand(true);
     }
 
     @Override
@@ -345,7 +345,69 @@ public class EditProfileFragment extends BaseFragment implements View.OnClickLis
             case R.id.btn_save:
                 onConfirmChanges();
                 break;
+            case R.id.handle_bottom_sheet:
+                expandableChangePhoto.toggle(true);
+                break;
+            case R.id.lay_take_photo:
+                onTakePhotoClicked();
+                break;
+            case R.id.lay_choose_from_gallery:
+                onChooseFromGalleryClicked();
+                break;
+            case R.id.lay_delete_photo:
+                onDeletePhotoClicked();
+                break;
         }
+    }
+
+    private void onDeletePhotoClicked() {
+        mainViewModel.deletePhoto();
+    }
+
+    private void onChooseFromGalleryClicked() {
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            ImagePicker.create(EditProfileFragment.this)
+                                    .showCamera(false)
+                                    .single()
+                                    .start();
+                        } else {
+                            // ermission is not granted
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+
+    private void onTakePhotoClicked() {
+        RxPermissions rxPermissions = new RxPermissions(getActivity());
+        rxPermissions.request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean aBoolean) throws Exception {
+                        if (aBoolean) {
+                            ImagePicker.create(EditProfileFragment.this)
+                                    .showCamera(true)
+                                    .single()
+                                    .start();
+                        } else {
+                            // ermission is not granted
+                        }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                    }
+                });
     }
 }
 

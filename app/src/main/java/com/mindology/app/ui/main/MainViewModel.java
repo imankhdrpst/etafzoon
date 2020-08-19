@@ -101,6 +101,11 @@ public class MainViewModel extends ViewModel {
 
     }
 
+    public void deletePhoto() {
+        myProfile.setProfilePicture("");
+        profileLiveData.setValue(Resource.updated(myProfile));
+    }
+
     public void saveProfile(ClientUserDTO user) {
         profileLiveData.setValue(Resource.loading((ClientUserDTO) null));
 

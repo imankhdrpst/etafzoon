@@ -391,6 +391,195 @@
         </ScrollView>
 
 
+        <!-- expandable view options -->
+        <net.cachapa.expandablelayout.ExpandableLayout
+            android:id="@+id/expandable_layout_edit_profile_options"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            app:el_duration="500"
+            app:el_expanded="false"
+            app:el_parallax="0">
+
+            <!-- layout shadow container for bottom sheet options -->
+            <com.loopeer.shadow.ShadowView
+                android:id="@+id/shadow_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                app:cornerRadiusTL="40dp"
+                app:cornerRadiusTR="40dp"
+                app:shadowMarginTop="9dp"
+                app:shadowRadius="8dp">
+
+                <LinearLayout
+                    android:id="@+id/lay_edit_profile_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/background_bottom_sheet"
+                    android:orientation="vertical"
+                    android:paddingTop="12dp"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp"
+                    android:paddingBottom="24dp">
+
+                    <!-- handle toggle bottom sheet -->
+                    <LinearLayout
+                        android:id="@+id/handle_bottom_sheet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="20dp">
+                        <View
+                            android:layout_width="70dp"
+                            android:layout_height="4dp"
+                            android:layout_gravity="center_horizontal"
+                            android:padding="20dp"
+                            android:background="@drawable/background_box_gray"
+                            />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/select_profile_picture"
+                        android:font='@{"sans"}'
+                        android:textColor="#383456"
+                        android:gravity="center"
+                        android:layout_gravity="center"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginBottom="35dp"
+                        android:background="#40707070"/>
+
+                    <!-- take photo -->
+                    <RelativeLayout
+                        android:id="@+id/lay_take_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#eee8ff"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_photo"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/take_new_photo"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+                    <!-- choose from gallery -->
+                    <RelativeLayout
+                        android:id="@+id/lay_choose_from_gallery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#fff3e1"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_gallery"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/choose_from_gallery"
+                            android:font='@{"sans"}'
+                            android:textColor="@color/text_dark_gray"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+                    </RelativeLayout>
+
+                    <!-- delete photo -->
+                    <RelativeLayout
+                        android:id="@+id/lay_delete_photo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp"
+                        android:paddingEnd="30dp"
+                        android:paddingStart="30dp">
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:layout_width="37dp"
+                            android:layout_height="37dp"
+                            android:layout_alignParentEnd="true"
+                            app:cardBackgroundColor="#fef9f6"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp">
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="center"
+                                android:src="@drawable/ic_trash"/>
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentEnd="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginTop="11dp"
+                            android:text="@string/delete_photo"
+                            android:font='@{"sans"}'
+                            android:textColor="#db7e6c"
+                            android:layout_marginEnd="55dp"
+                            android:textSize="14sp"
+                            android:textStyle="bold" />
+
+
+                    </RelativeLayout>
+
+                </LinearLayout>
+
+            </com.loopeer.shadow.ShadowView>
+
+        </net.cachapa.expandablelayout.ExpandableLayout>
+
         <RelativeLayout
             android:id="@+id/progress_bar"
             android:layout_width="match_parent"
