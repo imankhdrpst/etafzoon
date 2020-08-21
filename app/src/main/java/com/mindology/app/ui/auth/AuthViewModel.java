@@ -12,6 +12,7 @@ import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.TokenResponse;
 import com.mindology.app.models.VerificationRequestDTO;
 import com.mindology.app.network.auth.AuthApi;
+import com.mindology.app.util.Enums;
 
 import javax.inject.Inject;
 
@@ -23,8 +24,6 @@ public class AuthViewModel extends ViewModel {
     private final SessionManager sessionManager;
     private final AuthApi authApi;
     private String tokenReceived = "";
-    private boolean userAlreadyRegisteredAndNoNeedToRegister = false;
-    private String latestMobileAttempted = "";
 
 
     @Inject
@@ -68,11 +67,19 @@ public class AuthViewModel extends ViewModel {
 
                                 if (!TextUtils.isEmpty(tokenResponse.getMessage())) {
                                     return AuthResource.error(tokenResponse.getMessage(), null);
-                                } else if (tokenResponse.getAuthenticated() != null && tokenResponse.getAuthenticated().equals("1")) {
-                                    userAlreadyRegisteredAndNoNeedToRegister = true;
                                 }
-                                latestMobileAttempted = mobileNumber;
-                                return AuthResource.phoneNumberValid(new ClientUserDTO());
+                                ClientUserDTO response = sessionManager.getAuthUser().getValue().data;
+                                if (response == null)
+                                {
+                                    response = new ClientUserDTO();
+                                }
+                                response.setMobileNumber(mobileNumber);
+
+                                if (tokenResponse.getAuthenticated() != null && tokenResponse.getAuthenticated().equals("1")) {
+                                    return AuthResource.phoneNumberValidRegistered(response);
+                                } else {
+                                    return AuthResource.phoneNumberValidNotRegistered(response);
+                                }
                             }
                         })
                         .subscribeOn(Schedulers.io()));
@@ -102,12 +109,12 @@ public class AuthViewModel extends ViewModel {
                                     return AuthResource.error(tokenResponse.getMessage(), null);
                                 }
                                 tokenReceived = tokenResponse.getToken();
-                                if (userAlreadyRegisteredAndNoNeedToRegister) {
+                                if (sessionManager.getAuthUser().getValue().status == AuthResource.AuthStatus.PHONE_VALID_REGISTERED) {
                                     sessionManager.saveToken(tokenResponse.getToken());
                                     sessionManager.saveMobileNumber(verificationRequestDTO.getMobileNumber());
-                                    return AuthResource.profileFilled(new ClientUserDTO());
+                                    return AuthResource.codeEntered(sessionManager.getAuthUser().getValue().data);
                                 } else {
-                                    return AuthResource.authenticated(new ClientUserDTO());
+                                    return AuthResource.activated(sessionManager.getAuthUser().getValue().data);
                                 }
                             }
                         })
@@ -153,11 +160,6 @@ public class AuthViewModel extends ViewModel {
         sessionManager.authenticateWithId(queryUserPhoneNumber(phone));
     }
 
-    public String getLatestMobileAttempted()
-    {
-        return latestMobileAttempted;
-    }
-
     public void authenticateWithProfile(String name, String family, String mobileNumber, String age, String city) {
         ClientUserDTO dto = new ClientUserDTO();
         dto.setFirstName(name);
@@ -168,6 +170,9 @@ public class AuthViewModel extends ViewModel {
         sessionManager.authenticateWithId(fillProfile(dto));
     }
 
+    public String getLatestMobileAttempted() {
+        return sessionManager.getAuthUser().getValue().data.getMobileNumber();
+    }
 }
 
 

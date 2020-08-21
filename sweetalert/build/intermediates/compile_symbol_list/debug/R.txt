@@ -418,6 +418,7 @@ int color switch_thumb_material_dark 0x0
 int color switch_thumb_material_light 0x0
 int color switch_thumb_normal_material_dark 0x0
 int color switch_thumb_normal_material_light 0x0
+int color text_blue 0x0
 int color text_color 0x0
 int color tooltip_background_dark 0x0
 int color tooltip_background_light 0x0

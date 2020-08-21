@@ -61,15 +61,15 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
                             break;
                         }
 
-                        case AUTHENTICATED:{
-                            break;
-                        }
+//                        case AUTHENTICATED:{
+//                            break;
+//                        }
 
                         case ERROR:{
                             break;
                         }
 
-                        case NOT_AUTHENTICATED:{
+                        case PHONE_NOT_VALID:{
                             navLoginScreen();
                             break;
                         }

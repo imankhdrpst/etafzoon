@@ -27,6 +27,7 @@ color red_btn_bg_color
 color red_btn_bg_pressed_color
 color success_stroke_color
 color sweet_dialog_bg_color
+color text_blue
 color text_color
 color trans_success_stroke_color
 color warning_stroke_color

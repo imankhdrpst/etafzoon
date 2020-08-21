@@ -141,7 +141,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         txtResendCode = findViewById(R.id.txt_resend_code);
         txtResendCode.setOnClickListener(this);
 
-        inputActivationCode.setHint(getString(R.string.activation_code));
 
         inputName = findViewById(R.id.input_name);
         layInputName = findViewById(R.id.txt_layout_name);
@@ -228,11 +227,10 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         if (TextUtils.isEmpty(inputActivationCode.getText().toString())) {
             layInputActivationCode.setError("کد فعال سازی را وارد نمایید");
         }
-        else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.AUTHENTICATED)
-        {
-            layInputActivationCode.setError("");
-            changeStateOfLogin(LoginState.PROFILE);
-        }
+//        else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.AUTHENTICATED) {
+//            layInputActivationCode.setError("");
+//            changeStateOfLogin(LoginState.PROFILE);
+//        }
         else {
             layInputActivationCode.setError("");
             attemptActivationCode();
@@ -244,11 +242,15 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_empty));
         } else if (inputPhoneNumber.getText().toString().trim().length() != 11) {
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_not_valid));
-        } else if (viewModel.observeAuthState().getValue() != null
-                && viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_NUMBER_VALID
+        } else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_VALID_NOT_REGISTERED
                 && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
             layInputPhoneNumber.setError("");
             changeStateOfLogin(LoginState.ACTIVATION_CODE);
+        }
+        else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_VALID_REGISTERED
+                && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
+            layInputPhoneNumber.setError("");
+            changeStateOfLogin(LoginState.ENTER_CODE);
         } else {
             layInputPhoneNumber.setError("");
             attemptPhoneNumber();
@@ -292,25 +294,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                             showProgressBar(true);
                             break;
                         }
-
-                        case PHONE_NUMBER_VALID: {
-                            showProgressBar(false);
-                            changeStateOfLogin(LoginState.ACTIVATION_CODE);
-                            break;
-                        }
-
-                        case AUTHENTICATED: {
-                            showProgressBar(false);
-                            changeStateOfLogin(LoginState.PROFILE);
-                            break;
-                        }
-
-                        case PROFILE_FILLED: {
-                            showProgressBar(false);
-                            onLoginSuccess();
-                            break;
-                        }
-
                         case ERROR: {
                             showProgressBar(false);
                             new SweetAlertDialog(AuthActivity.this, SweetAlertDialog.ERROR_TYPE)
@@ -321,7 +304,8 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                                         @Override
                                         public void onClick(SweetAlertDialog sweetAlertDialog) {
                                             sweetAlertDialog.dismissWithAnimation();
-                                            if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_NUMBER_VALID
+                                            if ((viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_VALID_NOT_REGISTERED
+                                                    || viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_VALID_REGISTERED)
                                                     && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
                                                 changeStateOfLogin(LoginState.ACTIVATION_CODE);
                                             }
@@ -332,8 +316,28 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                             break;
                         }
 
-                        case NOT_AUTHENTICATED: {
+                        case PHONE_VALID_REGISTERED: {
                             showProgressBar(false);
+                            changeStateOfLogin(LoginState.ENTER_CODE);
+                            break;
+                        }
+
+                        case PHONE_VALID_NOT_REGISTERED: {
+                            showProgressBar(false);
+                            changeStateOfLogin(LoginState.ACTIVATION_CODE);
+                            break;
+                        }
+
+                        case PROFILE_FILLED:
+                        case CODE_ENTERED: {
+                            showProgressBar(false);
+                            onLoginSuccess();
+                            break;
+                        }
+
+                        case ACTIVATED: {
+                            showProgressBar(false);
+                            changeStateOfLogin(LoginState.PROFILE);
                             break;
                         }
                     }
@@ -464,11 +468,49 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
                 layExpandActivationCode.collapse();
                 layExpandProfile.collapse();
                 break;
+            case ENTER_CODE:
+                if (resendTimer != null) {
+                    resendTimer.cancel();
+                }
+                resendEnabled = false;
+                inputActivationCode.setHint(getString(R.string.enter_code));
+                btnActivate.setText(getString(R.string.login));
+                txtResendCode.setTextColor(getResources().getColor(R.color.gray));
+                myPhoneNumber = inputPhoneNumber.getText().toString();
+                txtBannerActivationDescription.setText("یک کد به شماره " + myPhoneNumber + " ارسال شده است. لطفا کد را در باکس زیر وارد کنید");
+                resendTimer = new CountDownTimer(120000, 1000) {
+
+                    public void onTick(long millisUntilFinished) {
+                        String time = String.valueOf(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)) + ":" +
+                                String.valueOf(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished) - TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished)));
+                        txtActivationCodeDescription.setText("پس از " + time + " دقیقه می توانید دوباره درخواست ارسال کد کنید");
+                    }
+
+                    public void onFinish() {
+                        txtResendCode.setTextColor(getResources().getColor(R.color.green));
+                        txtActivationCodeDescription.setText("در صورتی که هنوز کد را دریافت نکرده اید ارسال دوباره را بزنید");
+                        resendEnabled = true;
+                    }
+
+                }.start();
+                imgBtnBack.setVisibility(View.VISIBLE);
+                imgMindology.setVisibility(View.GONE);
+                layBannerPhoneNumber.setVisibility(View.GONE);
+                layBannerActivationCode.setVisibility(View.VISIBLE);
+                layBannerProfile.setVisibility(View.GONE);
+                layExpandPhoneNumber.collapse();
+                layExpandActivationCode.expand(true);
+                layExpandProfile.collapse();
+                inputActivationCode.setText("");
+                txtActivationCodeDescription.setText("");
+                break;
             case ACTIVATION_CODE:
                 if (resendTimer != null) {
                     resendTimer.cancel();
                 }
                 resendEnabled = false;
+                inputActivationCode.setHint(getString(R.string.activation_code));
+                btnActivate.setText(getString(R.string.activate));
                 txtResendCode.setTextColor(getResources().getColor(R.color.gray));
                 myPhoneNumber = inputPhoneNumber.getText().toString();
                 txtBannerActivationDescription.setText("یک کد به شماره " + myPhoneNumber + " ارسال شده است. لطفا کد را در باکس زیر وارد کنید");
@@ -516,6 +558,7 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         SPLASH,
         PHONE_NUMBER,
         ACTIVATION_CODE,
+        ENTER_CODE,
         PROFILE,
     }
 }
