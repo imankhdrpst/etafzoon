@@ -198,19 +198,26 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
 
         changeStateOfLogin(LoginState.SPLASH);
 
+        if (viewModel.authenticateWithSavedToken()) {
+            onLoginSuccess();
+        }
+
     }
 
-    private void onBackButtonClicked() {
+    private boolean onBackButtonClicked() {
         switch (currentState) {
-            case SPLASH:
             case PHONE_NUMBER:
-                return;
+            case SPLASH:
+                return false;
             case ACTIVATION_CODE:
+            case ENTER_CODE:
                 changeStateOfLogin(LoginState.PHONE_NUMBER);
-                break;
+                return true;
             case PROFILE:
                 changeStateOfLogin(LoginState.ACTIVATION_CODE);
+                return true;
         }
+        return false;
     }
 
     private void onBtnSaveProfileClicked() {
@@ -237,17 +244,22 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        if (!onBackButtonClicked())
+            super.onBackPressed();
+    }
+
     private void onBtnNextClicked() {
         if (TextUtils.isEmpty(inputPhoneNumber.getText().toString())) {
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_empty));
         } else if (inputPhoneNumber.getText().toString().trim().length() != 11) {
             layInputPhoneNumber.setError(getString(R.string.error_phone_number_not_valid));
-        } else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_VALID_NOT_REGISTERED
+        } else if (viewModel.getUserCurrentAuthState() == AuthResource.AuthStatus.PHONE_VALID_NOT_REGISTERED
                 && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
             layInputPhoneNumber.setError("");
             changeStateOfLogin(LoginState.ACTIVATION_CODE);
-        }
-        else if (viewModel.observeAuthState().getValue().status == AuthResource.AuthStatus.PHONE_VALID_REGISTERED
+        } else if (viewModel.getUserCurrentAuthState() == AuthResource.AuthStatus.PHONE_VALID_REGISTERED
                 && inputPhoneNumber.getText().toString().equals(viewModel.getLatestMobileAttempted())) {
             layInputPhoneNumber.setError("");
             changeStateOfLogin(LoginState.ENTER_CODE);
@@ -350,8 +362,6 @@ public class AuthActivity extends DaggerAppCompatActivity implements View.OnClic
     protected void onResume() {
         super.onResume();
         softInputAssist.onResume();
-        if (viewModel.authenticateWithSavedToken())
-            onLoginSuccess();
     }
 
     @Override

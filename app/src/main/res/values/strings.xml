@@ -50,5 +50,9 @@
     <string name="notifications">هشدارها</string>
     <string name="enter_code">کد تایید حساب</string>
     <string name="login">ورود</string>
+    <string name="select_profile_picture">انتخاب تصویر پروفایل</string>
+    <string name="take_new_photo">گرفتن عکس جدید</string>
+    <string name="choose_from_gallery">انتخاب از گالری</string>
+    <string name="delete_photo">حذف تصویر</string>
 
 </resources>

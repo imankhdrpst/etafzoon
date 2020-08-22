@@ -21,6 +21,7 @@ import androidx.navigation.NavDestination;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.navigation.NavigationView;
@@ -28,6 +29,7 @@ import com.mindology.app.BaseActivity;
 import com.mindology.app.R;
 import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.util.SoftInputAssist;
+import com.mindology.app.util.Utils;
 import com.mindology.app.viewmodels.ViewModelProviderFactory;
 
 import javax.inject.Inject;
@@ -150,6 +152,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 if (profileResource != null) {
                     if (profileResource.status == Resource.Status.SUCCESS) {
                         txtName.setText(profileResource.data.getFirstName() + " " + profileResource.data.getLastName());
+                        Glide
+                                .with(MainActivity.this)
+                                .load(Utils.getBitmapFromBase64String(profileResource.data.getProfilePicture()))
+                                .into(imgProfile);
                     }
                 }
             }

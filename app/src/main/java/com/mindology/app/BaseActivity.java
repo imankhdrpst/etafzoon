@@ -69,7 +69,7 @@ public abstract class BaseActivity extends DaggerAppCompatActivity {
                             break;
                         }
 
-                        case PHONE_NOT_VALID:{
+                        case LOG_OUT:{
                             navLoginScreen();
                             break;
                         }

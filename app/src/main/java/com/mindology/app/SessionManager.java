@@ -20,10 +20,12 @@ public class SessionManager {
 
     // data
     private MediatorLiveData<AuthResource<ClientUserDTO>> cachedUser = new MediatorLiveData<>();
+    private AuthResource.AuthStatus currentAuthState = AuthResource.AuthStatus.PHONE_NOT_VALID;
 
     @Inject
     public SessionManager(SharedPrefrencesHelper helper) {
         this.preferences = helper;
+        this.cachedUser.setValue(AuthResource.init(new ClientUserDTO()));
     }
 
     public void authenticateWithId(final LiveData<AuthResource<ClientUserDTO>> source) {
@@ -54,6 +56,15 @@ public class SessionManager {
 
     public LiveData<AuthResource<ClientUserDTO>> getAuthUser() {
         return cachedUser;
+    }
+
+    public AuthResource.AuthStatus getCurrentAuthState()
+    {
+        return currentAuthState;
+    }
+
+    public void setCurrentAuthState(AuthResource.AuthStatus state) {
+        currentAuthState = state;
     }
 
 

@@ -12,7 +12,6 @@ import com.mindology.app.models.ClientUserDTO;
 import com.mindology.app.models.TokenResponse;
 import com.mindology.app.models.VerificationRequestDTO;
 import com.mindology.app.network.auth.AuthApi;
-import com.mindology.app.util.Enums;
 
 import javax.inject.Inject;
 
@@ -38,7 +37,12 @@ public class AuthViewModel extends ViewModel {
 
     public boolean authenticateWithSavedToken() {
         try {
-            return !TextUtils.isEmpty(sessionManager.getSavedToken());
+            boolean res = !TextUtils.isEmpty(sessionManager.getSavedToken());
+            if (res)
+            {
+                sessionManager.setCurrentAuthState(AuthResource.AuthStatus.PROFILE_FILLED);
+            }
+            return res;
         } catch (SessionManager.TokenNotSaved tokenNotSaved) {
             tokenNotSaved.printStackTrace();
             return false;
@@ -76,8 +80,10 @@ public class AuthViewModel extends ViewModel {
                                 response.setMobileNumber(mobileNumber);
 
                                 if (tokenResponse.getAuthenticated() != null && tokenResponse.getAuthenticated().equals("1")) {
+                                    sessionManager.setCurrentAuthState(AuthResource.AuthStatus.PHONE_VALID_REGISTERED);
                                     return AuthResource.phoneNumberValidRegistered(response);
                                 } else {
+                                    sessionManager.setCurrentAuthState(AuthResource.AuthStatus.PHONE_VALID_NOT_REGISTERED);
                                     return AuthResource.phoneNumberValidNotRegistered(response);
                                 }
                             }
@@ -109,11 +115,13 @@ public class AuthViewModel extends ViewModel {
                                     return AuthResource.error(tokenResponse.getMessage(), null);
                                 }
                                 tokenReceived = tokenResponse.getToken();
-                                if (sessionManager.getAuthUser().getValue().status == AuthResource.AuthStatus.PHONE_VALID_REGISTERED) {
-                                    sessionManager.saveToken(tokenResponse.getToken());
-                                    sessionManager.saveMobileNumber(verificationRequestDTO.getMobileNumber());
+                                sessionManager.saveToken(tokenResponse.getToken());
+                                sessionManager.saveMobileNumber(verificationRequestDTO.getMobileNumber());
+                                if (sessionManager.getCurrentAuthState() == AuthResource.AuthStatus.PHONE_VALID_REGISTERED) {
+                                    sessionManager.setCurrentAuthState(AuthResource.AuthStatus.CODE_ENTERED);
                                     return AuthResource.codeEntered(sessionManager.getAuthUser().getValue().data);
                                 } else {
+                                    sessionManager.setCurrentAuthState(AuthResource.AuthStatus.ACTIVATED);
                                     return AuthResource.activated(sessionManager.getAuthUser().getValue().data);
                                 }
                             }
@@ -145,6 +153,7 @@ public class AuthViewModel extends ViewModel {
                                 }
                                 sessionManager.saveToken(tokenReceived);
                                 sessionManager.saveMobileNumber(dto.getMobileNumber());
+                                sessionManager.setCurrentAuthState(AuthResource.AuthStatus.PROFILE_FILLED);
                                 return AuthResource.profileFilled(new ClientUserDTO());
                             }
                         })
@@ -172,6 +181,10 @@ public class AuthViewModel extends ViewModel {
 
     public String getLatestMobileAttempted() {
         return sessionManager.getAuthUser().getValue().data.getMobileNumber();
+    }
+
+    public AuthResource.AuthStatus getUserCurrentAuthState() {
+        return sessionManager.getCurrentAuthState();
     }
 }
 

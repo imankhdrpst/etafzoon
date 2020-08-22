@@ -3,6 +3,8 @@ package com.mindology.app.ui.auth;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.mindology.app.models.ClientUserDTO;
+
 public class AuthResource<T> {
 
     @NonNull
@@ -50,7 +52,11 @@ public class AuthResource<T> {
     }
 
     public static <T> AuthResource<T> logout() {
-        return new AuthResource<>(AuthStatus.PHONE_NOT_VALID, null, null);
+        return new AuthResource<>(AuthStatus.LOG_OUT, null, null);
+    }
+
+    public static <T> AuthResource<T> init(@Nullable T  data) {
+        return new AuthResource<>(AuthStatus.PHONE_NOT_VALID, data, null);
     }
 
     public enum AuthStatus {
@@ -61,7 +67,8 @@ public class AuthResource<T> {
         PHONE_VALID_NOT_REGISTERED,
         CODE_ENTERED,
         ACTIVATED,
-        PROFILE_FILLED
+        PROFILE_FILLED,
+        LOG_OUT
     }
 
 }
